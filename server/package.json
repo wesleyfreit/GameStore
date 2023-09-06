@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsup src",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "db": "tsx src/db/migration.ts && tsx src/db/seeder.ts"
   },
   "keywords": [],
   "author": "Richard Wesley",
