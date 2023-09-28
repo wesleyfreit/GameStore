@@ -1,41 +1,7 @@
-import { DataTypes } from 'sequelize';
-import database from '../db/database';
-import Genre from './Genre';
+import { PrismaClient } from '@prisma/client';
 
-const Game = database.define('games', {
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  slug: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  year: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  price: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-  imageUrl: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  disponibility: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-  },
-});
+const prisma = new PrismaClient();
 
-Game.belongsTo(Genre);
-Genre.hasMany(Game);
+const Game = prisma.game;
 
 export default Game;

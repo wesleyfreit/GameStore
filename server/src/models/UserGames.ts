@@ -2,6 +2,6 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const Genre = prisma.genre;
+const UserGames = prisma.userGames;
 
-export default Genre;
+export default UserGames;

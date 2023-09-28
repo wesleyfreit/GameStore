@@ -1,31 +1,7 @@
-import { DataTypes } from 'sequelize';
-import database from '../db/database';
-import Game from './Game';
+import { PrismaClient } from '@prisma/client';
 
-const User = database.define('users', {
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  isAdmin: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-  },
-});
+const prisma = new PrismaClient();
 
-User.belongsToMany(Game, {
-  through: 'userGames'
-});
+const User = prisma.user;
 
 export default User;
