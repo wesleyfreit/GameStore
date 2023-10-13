@@ -1,0 +1,8 @@
+import React from 'react';
+import { Text } from 'react-native';
+import { TitleGuideFunctionProps } from '../interfaces';
+import { titleStyle } from '../styles';
+
+export const TitleGuide = ({ text }: TitleGuideFunctionProps) => (
+  <Text style={{ ...titleStyle.textMode }}>{text}</Text>
+);
