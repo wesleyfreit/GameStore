@@ -2,8 +2,8 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { messages } from 'joi-translation-pt-br';
 
-import GenreController from '../controllers/GenreController';
-import adminAuth from '../middlewares/adminAuth';
+import { GenreController } from '../controllers/GenreController';
+import { adminAuth } from '../middlewares/adminAuth';
 
 const genre = new GenreController();
 const router = Router();
@@ -61,4 +61,4 @@ router.delete(
   genre.remove,
 );
 
-export default router;
+export { router };

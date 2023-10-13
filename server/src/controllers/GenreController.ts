@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import Genre from '../models/Genre';
+import { Genre } from '../models/Genre';
 
-class GenreController {
+export class GenreController {
   read = async (req: Request, res: Response) => {
     try {
       const genres = await Genre.findMany();
@@ -95,4 +95,3 @@ class GenreController {
     }
   };
 }
-export default GenreController;

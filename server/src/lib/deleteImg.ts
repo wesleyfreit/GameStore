@@ -1,18 +1,11 @@
-import { deleteObject, ref } from 'firebase/storage';
-import { storage } from '../db/firebase';
+import fs from 'fs';
+import path from 'path';
 
-const deleteImg = async (imageUrl: string) => {
+export const deleteImg = async (imageUrl: string) => {
   try {
-    const local: RegExpMatchArray | null = imageUrl
-      .replace('%', '/')
-      .match(/uploads.*?(jpg|jpeg|webp|png)/);
-    if (local) {
-      const storageRef = ref(storage, local[0]);
-      await deleteObject(storageRef);
-    }
+    const imagePath = path.join(__dirname, `../../public${imageUrl}`);
+    fs.unlinkSync(imagePath);
   } catch (error) {
     return error;
   }
 };
-
-export default deleteImg;

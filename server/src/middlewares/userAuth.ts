@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-const userAuthAPI = async (req: Request, res: Response, next: NextFunction) => {
+export const userAuth = async (req: Request, res: Response, next: NextFunction) => {
   const authorization = req.headers.authorization?.replace('Bearer ', '') as string;
   const secret = process.env.JWT_SECRET as string;
   try {
@@ -22,5 +22,3 @@ const userAuthAPI = async (req: Request, res: Response, next: NextFunction) => {
     res.sendStatus(500);
   }
 };
-
-export default userAuthAPI;

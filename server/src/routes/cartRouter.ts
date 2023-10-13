@@ -2,9 +2,9 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { messages } from 'joi-translation-pt-br';
 
-import CartController from '../controllers/CartController';
-import setCartItems from '../middlewares/setCartItems';
-import userAuth from '../middlewares/userAuth';
+import { CartController } from '../controllers/CartController';
+import { setCartItems } from '../middlewares/setCartItems';
+import { userAuth } from '../middlewares/userAuth';
 
 const cart = new CartController();
 const router = Router();
@@ -79,4 +79,4 @@ router.get(
 );
 router.get('/cart/clean', cart.clean);
 
-export default router;
+export { router };

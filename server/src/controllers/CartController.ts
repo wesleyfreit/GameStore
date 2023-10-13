@@ -1,19 +1,12 @@
 import { randomUUID } from 'crypto';
 import { Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import Game from '../models/Game';
-import User from '../models/User';
-import UserGames from '../models/UserGames';
 
-interface CartItem {
-  id: string;
-  title: string;
-  slug: string;
-  imageUrl: string;
-  price: number;
-}
+import { Game } from '../models/Game';
+import { User } from '../models/User';
+import { UserGames } from '../models/UserGames';
 
-class CartController {
+export class CartController {
   private secret;
 
   constructor() {
@@ -39,10 +32,10 @@ class CartController {
     try {
       const game = await Game.findUnique({ where: { id } });
       if (game) {
-        const cartItems: CartItem[] = [];
+        const cartItems: ICart[] = [];
         if (cart_items) {
           const decoded = jwt.decode(cart_items) as JwtPayload;
-          decoded.cartItems.map((item: CartItem) => cartItems.push(item));
+          decoded.cartItems.map((item: ICart) => cartItems.push(item));
         }
         const check = cartItems.some((item) => item.id === game.id);
         if (!check) {
@@ -80,9 +73,9 @@ class CartController {
       const { id } = req.params;
       if (cart_items) {
         const decoded = jwt.decode(cart_items) as JwtPayload;
-        const check = decoded.cartItems.some((item: CartItem) => item.id == id);
+        const check = decoded.cartItems.some((item: ICart) => item.id == id);
         if (check) {
-          const cartItems = decoded.cartItems.filter((item: CartItem) => item.id != id);
+          const cartItems = decoded.cartItems.filter((item: ICart) => item.id != id);
           const token = jwt.sign({ id: randomUUID(), cartItems: cartItems }, this.secret);
           return res.status(200).json({
             info: 'O item foi removido do carrinho',
@@ -108,7 +101,7 @@ class CartController {
         const userGames = await UserGames.findMany({ where: { userId: userBuying.id } });
         const decoded = jwt.decode(cart_items) as JwtPayload;
         await Promise.all(
-          decoded.cartItems.map(async (item: CartItem) => {
+          decoded.cartItems.map(async (item: ICart) => {
             const game = await Game.findUnique({ where: { id: item.id } });
             if (game) {
               const check = userGames.some((find) => find.gameId === game.id);
@@ -133,13 +126,9 @@ class CartController {
 
   clean = async (req: Request, res: Response) => {
     const token = jwt.sign({ id: randomUUID(), cartItems: [] }, this.secret);
-    res
-      .status(200)
-      .json({
-        info: 'O carrinho foi apagado, use o novo token para o carrinho.',
-        cart_items: token,
-      });
+    res.status(200).json({
+      info: 'O carrinho foi apagado, use o novo token para o carrinho.',
+      cart_items: token,
+    });
   };
 }
-
-export default CartController;

@@ -2,6 +2,4 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const Game = prisma.game;
-
-export default Game;
+export const Game = prisma.game;

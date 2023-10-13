@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import User from '../models/User';
 
-const adminAuthAPI = async (req: Request, res: Response, next: NextFunction) => {
+import { User } from '../models/User';
+
+export const adminAuth = async (req: Request, res: Response, next: NextFunction) => {
   const authorization = req.headers.authorization?.replace('Bearer ', '') as string;
   const secret = process.env.JWT_SECRET as string;
 
@@ -24,5 +25,3 @@ const adminAuthAPI = async (req: Request, res: Response, next: NextFunction) => 
     return res.status(404).send('Content not found');
   }
 };
-
-export default adminAuthAPI;

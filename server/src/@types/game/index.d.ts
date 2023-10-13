@@ -1,4 +1,4 @@
-export interface IGame {
+interface IGame {
   title: string;
   year: number;
   price: number;

@@ -1,8 +1,7 @@
 declare namespace Express {
   export interface Request {
-    id?: string;
-    username?: string;
-    imgUrl?: string;
-    cart_items?: string;
+    id: string;
+    username: string;
+    cart_items: string;
   }
 }

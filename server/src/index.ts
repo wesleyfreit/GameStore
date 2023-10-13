@@ -5,16 +5,19 @@ import { isCelebrateError } from 'celebrate';
 import express, { Errback, NextFunction, Request, Response } from 'express';
 import swaggerUi from 'swagger-ui-express';
 
+import cors from 'cors';
 import swaggerDocs from './config/swagger.json';
-import routes from './routes';
+import { router } from './routes';
 
 const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(express.json());
+app.use(express.static('public'));
+app.use(cors({ origin: '*' }));
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-app.use(routes);
+app.use(router);
 
 app.use((req, res, next) => {
   res.status(404).send('Content not found');

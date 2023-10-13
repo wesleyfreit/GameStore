@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
 import slugify from 'slugify';
-import deleteImg from '../lib/deleteImg';
-import Game from '../models/Game';
-import { IGame } from '../@types/game';
 
-class GameController {
+import { deleteImg } from '../lib/deleteImg';
+import { uploadImg } from '../lib/uploadImg';
+import { Game } from '../models/Game';
 
+export class GameController {
   index = async (req: Request, res: Response) => {
     try {
       const games = await Game.findMany({ where: { disponibility: true } });
+
       return res.status(200).json({ games });
     } catch (error) {
       return res.sendStatus(500);
@@ -18,6 +19,7 @@ class GameController {
   read = async (req: Request, res: Response) => {
     try {
       const games = await Game.findMany({ include: { genre: true } });
+
       return res.status(200).json({ games });
     } catch (error) {
       return res.sendStatus(500);
@@ -27,6 +29,7 @@ class GameController {
   find = async (req: Request, res: Response) => {
     try {
       const { slug } = req.params;
+
       const game = await Game.findFirst({
         where: {
           slug: {
@@ -36,6 +39,7 @@ class GameController {
         },
         include: { genre: true },
       });
+
       if (game) {
         return res.status(200).json({ game });
       } else return res.status(404).send('Content not found');
@@ -47,21 +51,19 @@ class GameController {
   create = async (req: Request, res: Response) => {
     try {
       const { title, year, price, description, disponibility, genre } = <IGame>req.body;
-      const imageUrl = `${req.imgUrl}`;
-      if (title != '' && year >= 1950 && price >= 0 && imageUrl != '' && genre) {
-        const game = await Game.findFirst({
-          where: { title: { equals: title, mode: 'insensitive' } },
-        });
-        if (game) {
-          const deletedImg = await deleteImg(imageUrl);
-          if (deletedImg) {
-            return res.sendStatus(500);
-          }
-          res.status(409).json({
-            error:
-              'O título que está tentando cadastrar já existe, por favor tente outro título diferente.',
-          });
-        } else {
+
+      const game = await Game.findFirst({
+        where: { title: { equals: title, mode: 'insensitive' } },
+      });
+
+      if (game) res.status(409).json({ error: 'Title already registered' });
+      else {
+        const imageUrl = (await uploadImg(req, res)) as string | undefined;
+
+        if (!imageUrl) return res.sendStatus(400).json({ error: 'File cannot be empty' });
+        else if (imageUrl === 'error')
+          return res.sendStatus(400).json({ error: 'Invalid file format' });
+        else {
           const newGame = {
             title,
             slug: slugify(title),
@@ -72,11 +74,11 @@ class GameController {
             disponibility: disponibility ? true : false,
             genreId: genre,
           };
+
           const game = await Game.create({ data: newGame });
+
           res.status(201).json({ gameId: game.id });
         }
-      } else {
-        res.status(401).json({ error: 'O formato dos dados atuais não parece estar correto.' });
       }
     } catch (error) {
       res.sendStatus(500);
@@ -111,35 +113,28 @@ class GameController {
 
   edit = async (req: Request, res: Response) => {
     try {
-      const { title, year, price, description, disponibility, originalImageUrl, genre } = <
-        IGame
-      >req.body;
-      const imageUrl = req.file ? req.imgUrl : originalImageUrl;
+      const { title, year, price, description, disponibility, genre } = <IGame>req.body;
       const { id } = req.params;
-      if (title != '' && year >= 1950 && price >= 0 && imageUrl) {
-        const gameName = await Game.findFirst({
-          where: { title: { equals: title, mode: 'insensitive' } },
-        });
-        const gameId = await Game.findUnique({ where: { id } });
-        if (gameId) {
-          if (gameName && gameId.id != gameName.id) {
-            if (req.file) {
-              const deletedImg = await deleteImg(imageUrl);
-              if (deletedImg) {
-                return res.sendStatus(500);
-              }
-            }
-            return res.status(409).json({
-              error:
-                'O novo nome que você quer salvar para o título do jogo atual já existe, tente outro nome.',
-            });
-          }
-          if (req.file) {
-            const deletedImg = await deleteImg(originalImageUrl);
-            if (deletedImg) {
-              return res.sendStatus(500);
-            }
-          }
+
+      const nameCheck = await Game.findFirst({
+        where: { title: { equals: title, mode: 'insensitive' } },
+      });
+
+      const idCheck = await Game.findUnique({ where: { id } });
+
+      if (idCheck) {
+        if (nameCheck && nameCheck.id != idCheck.id) {
+          res.status(409).json({ error: 'Title already registered' });
+        }
+
+        const imageUrl = req.file
+          ? ((await uploadImg(req, res)) as string | undefined)
+          : idCheck.imageUrl;
+
+        if (!imageUrl) return res.sendStatus(400).json({ error: 'File cannot be empty' });
+        else if (imageUrl === 'error')
+          return res.sendStatus(400).json({ error: 'Invalid file format' });
+        else {
           const updateGame = {
             title,
             slug: slugify(title),
@@ -147,23 +142,21 @@ class GameController {
             price,
             imageUrl,
             description,
-            disponibility,
+            disponibility: disponibility ? true : false,
             genreId: genre,
           };
+
           await Game.update({ where: { id }, data: { ...updateGame } });
-          return res.status(204).json({ info: 'O jogo foi atualizado com sucesso.' });
-        } else {
-          return res.status(404).json({
-            error: 'O jogo que você tentou acessar para atualizar provalvelmente não existe.',
-          });
+
+          if (req.file) await deleteImg(idCheck.imageUrl);
+
+          return res.json({ info: 'Game updated' });
         }
       } else {
-        return res.status(401).json({
-          error:
-            'Ocorreu um erro ao validar os dados, verifique se preencheu tudo corretamente e tente novamente.',
-        });
+        return res.status(404).json({ error: 'Game not found' });
       }
     } catch (error) {
+      console.log(error);
       return res.sendStatus(500);
     }
   };
@@ -172,12 +165,16 @@ class GameController {
     const { id } = req.params;
     try {
       const game = await Game.findUnique({ where: { id } });
+
       if (game) {
         const deletedImg = await deleteImg(game.imageUrl);
+
         if (deletedImg) {
           return res.sendStatus(500);
         }
+
         const destroy = await Game.delete({ where: { id } });
+
         if (destroy) {
           return res.status(204).json({ info: 'O jogo foi deletado.' });
         } else {
@@ -191,5 +188,3 @@ class GameController {
     }
   };
 }
-
-export default GameController;

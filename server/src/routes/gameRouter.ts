@@ -2,9 +2,9 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { messages } from 'joi-translation-pt-br';
 
-import GameController from '../controllers/GameController';
-import adminAuth from '../middlewares/adminAuth';
-import uploadImg from '../middlewares/uploadImg';
+import { GameController } from '../controllers/GameController';
+import { adminAuth } from '../middlewares/adminAuth';
+import { parserImg } from '../middlewares/parserImg';
 
 const game = new GameController();
 const router = Router();
@@ -42,10 +42,10 @@ router.get(
 );
 router.post(
   '/games',
-  uploadImg,
+  parserImg,
   celebrate({
     [Segments.BODY]: Joi.object().keys({
-      title: Joi.string().required(),
+      title: Joi.string().min(1).required(),
       year: Joi.number().integer().min(1950).max(2099).required(),
       price: Joi.number().precision(2).required(),
       description: Joi.string().required(),
@@ -58,12 +58,11 @@ router.post(
 );
 router.put(
   '/games/:id',
-  uploadImg,
+  parserImg,
   celebrate({
     [Segments.BODY]: Joi.object().keys({
       image: Joi.allow(),
-      originalImageUrl: Joi.string().required(),
-      title: Joi.string().required(),
+      title: Joi.string().min(1).required(),
       year: Joi.number().integer().min(1950).max(2099).required(),
       price: Joi.number().precision(2).required(),
       description: Joi.string().required(),
@@ -93,4 +92,4 @@ router.delete(
   game.remove,
 );
 
-export default router;
+export { router };

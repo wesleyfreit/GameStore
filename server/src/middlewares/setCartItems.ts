@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-const setCartItems = async (req: Request, res: Response, next: NextFunction) => {
+export const setCartItems = async (req: Request, res: Response, next: NextFunction) => {
   const cookie = req.headers.cookie;
   const cart_items = cookie
     ? cookie.replace('cart_items=', '')
@@ -8,5 +8,3 @@ const setCartItems = async (req: Request, res: Response, next: NextFunction) => 
   req.cart_items = cart_items;
   next();
 };
-
-export default setCartItems;
