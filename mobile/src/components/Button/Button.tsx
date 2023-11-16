@@ -1,6 +1,5 @@
 import { colors } from '@/styles/global';
 import { Text, TouchableOpacity } from 'react-native';
-import { ButtonFunctionProps } from './interfaces';
 import { buttonStyle } from './styles';
 
 export const Button = ({ text, bgColor, onClick }: ButtonFunctionProps) => {

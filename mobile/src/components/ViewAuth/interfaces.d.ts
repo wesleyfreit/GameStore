@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
 
-export interface ViewAuthFunctionProps {
+interface ViewAuthFunctionProps {
   children: ReactNode;
 }

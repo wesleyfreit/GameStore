@@ -1,8 +1,9 @@
-import { ParamListBase } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { DimensionValue } from "react-native";
+import { ClickableText } from '@/components/ClickableText';
+import { ParamListBase } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { DimensionValue } from 'react-native';
 
-export interface FunctionProps {
+interface ClickableTextFunctionProps {
   navigation: NativeStackNavigationProp<ParamListBase>;
   navigateLocation?: string;
   textDefault?: string;

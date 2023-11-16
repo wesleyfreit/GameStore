@@ -6,7 +6,9 @@ import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
+import { testIfNumber } from '../lib/testIfNumber';
 import { User } from '../models/User';
+
 
 export class UserAuthController {
   private secret;
@@ -18,28 +20,22 @@ export class UserAuthController {
   }
 
   signUp = async (req: Request, res: Response) => {
-    const { username, email, password, address } = req.body;
-
+    const { username, email, password, address } = <ISignUp>req.body;
     try {
-      const check = await Promise.all([
+      const [existingUserByUsername, existingUserByEmail] = await Promise.all([
         User.findFirst({ where: { username: { equals: username, mode: 'insensitive' } } }),
         User.findFirst({ where: { email: { equals: email, mode: 'insensitive' } } }),
       ]);
 
-      const usernameCheck = check[0];
-      const emailCheck = check[1];
+      if (existingUserByUsername) return res.status(409).json({ error: 'Username in use' });
 
-      if (usernameCheck && usernameCheck.username === username && req.id !== usernameCheck.id)
-        return res.status(409).json({ error: 'Username in use' });
-
-      if (emailCheck && emailCheck.email === email && req.id !== emailCheck.id)
-        return res.status(409).json({ error: 'Email in use' });
+      if (existingUserByEmail) return res.status(409).json({ error: 'Email in use' });
 
       const hash = await bcrypt.hash(password, 10);
       const newUser = {
         avatarUrl: '/assets/avatar-default-icon.png',
-        username,
-        email,
+        username: username.toLowerCase(),
+        email: email.toLowerCase(),
         password: hash,
         address,
       };
@@ -83,9 +79,16 @@ export class UserAuthController {
       const data = request.data;
 
       //OBS: checar o array de várias latlng diferentes
-      console.log(data);
+      // console.log(data);
 
-      const address = data.results[1].formatted_address;
+      const address1 = data.results[0].formatted_address;
+      const address2 = data.results[1].formatted_address;
+
+      // console.log(address1)
+      // console.log(address2)
+
+      const address = testIfNumber(address2) ? address1 : address2;
+
       if (address) return res.json({ address });
       else return res.json({ error: 'Address not found' });
     } catch (error) {

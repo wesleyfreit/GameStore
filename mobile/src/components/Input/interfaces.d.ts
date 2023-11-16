@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Control, FieldErrors } from 'react-hook-form';
 import { InputModeOptions } from 'react-native';
 
-export interface InputFunctionProps {
+interface InputFunctionProps {
   iconName?: string;
   name: string;
   secure?: boolean;
@@ -17,6 +17,8 @@ export interface InputFunctionProps {
     password: string;
     repeatPassword?: any;
   }>;
+  errorAuth?: string;
+  changeMessage?: (value: string) => void;
   valueAddress?: string | null;
 
   navigation?: NativeStackNavigationProp<ParamListBase>;

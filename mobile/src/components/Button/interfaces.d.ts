@@ -1,4 +1,4 @@
-export interface ButtonFunctionProps {
+interface ButtonFunctionProps {
   text: string;
   bgColor?: string;
   onClick: () => void;

@@ -32,7 +32,7 @@ CREATE TABLE "Game" (
 CREATE TABLE "Genre" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "purchaseDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Genre_pkey" PRIMARY KEY ("id")
 );
@@ -41,7 +41,7 @@ CREATE TABLE "Genre" (
 CREATE TABLE "UserGames" (
     "userId" TEXT NOT NULL,
     "gameId" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "purchaseDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "UserGames_pkey" PRIMARY KEY ("userId","gameId")
 );

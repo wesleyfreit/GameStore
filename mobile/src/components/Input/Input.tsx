@@ -3,6 +3,7 @@ import { Controller } from 'react-hook-form';
 import { Text, TextInput, View } from 'react-native';
 
 import { colors } from '@/styles/global';
+import { useState } from 'react';
 import { InputFunctionProps } from './interfaces';
 import { inputStyle } from './styles';
 
@@ -16,7 +17,11 @@ export const Input = ({
   errors,
   valueAddress,
   navigation,
+  errorAuth,
+  changeMessage,
 }: InputFunctionProps) => {
+  const [focus, setFocus] = useState(false);
+
   const errorsArray = [
     { name: 'username', error: errors.username },
     { name: 'email', error: errors.email },
@@ -27,7 +32,13 @@ export const Input = ({
 
   const errorMessage = errorsArray.find((error) => error.name === name);
 
-  const selectColor = !errorMessage?.error?.message ? colors.border.color : colors.danger.color;
+  const selectColor = !errorMessage?.error?.message
+    ? !errorAuth
+      ? focus
+        ? colors.primary.color
+        : colors.border.color
+      : colors.danger.color
+    : colors.danger.color;
 
   const iconsArray = [
     { name: 'mail', icon: <Mail size={24} color={selectColor} /> },
@@ -40,7 +51,12 @@ export const Input = ({
 
   return (
     <View>
-      <View style={{ ...inputStyle.inputBackground, borderColor: selectColor }}>
+      <View
+        style={{
+          ...inputStyle.inputBackground,
+          borderColor: selectColor,
+        }}
+      >
         <View>{componentIcon?.icon}</View>
         <Controller
           control={control}
@@ -52,17 +68,30 @@ export const Input = ({
               style={inputStyle.inputProps}
               secureTextEntry={secure}
               inputMode={type}
-              onBlur={onBlur}
-              onChangeText={onChange}
+              onBlur={() => {
+                setFocus(false);
+                onBlur;
+              }}
+              onChangeText={(value) => {
+                onChange(value);
+                changeMessage && changeMessage('');
+              }}
               value={!valueAddress ? value : valueAddress}
-              onFocus={() => (name === 'address' ? navigation?.push('SetAddress') : null)}
+              onFocus={() => {
+                setFocus(true);
+                name === 'address' ? navigation?.push('SetAddress') : <></>;
+              }}
               focusable={true}
             />
           )}
         />
       </View>
-      {errorMessage?.error?.message && (
-        <Text style={{ color: selectColor }}>{errorMessage?.error?.message as string}</Text>
+      {errorMessage?.error?.message || errorAuth ? (
+        <Text style={{ color: selectColor }}>
+          {errorAuth ? errorAuth : (errorMessage?.error?.message as string)}
+        </Text>
+      ) : (
+        <></>
       )}
     </View>
   );

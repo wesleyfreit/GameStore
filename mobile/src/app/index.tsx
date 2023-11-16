@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { StatusBar } from 'react-native';
 import { enableLatestRenderer } from 'react-native-maps';
 
-import { RecoverPassword } from '@/app/auth/RecoverPassword';
 import { SetAdress } from '@/app/auth/SetAddress';
 import { SignIn } from '@/app/auth/SignIn';
 import { SignUp } from '@/app/auth/SignUp';
@@ -41,18 +40,6 @@ export default () => {
               component={SignUp}
               options={{
                 title: 'Criar Conta',
-                animation: 'slide_from_right',
-                animationDuration: 300,
-                headerTitleAlign: 'center',
-                headerShadowVisible: false,
-              }}
-            />
-
-            <Stack.Screen
-              name="RecoverPassword"
-              component={RecoverPassword}
-              options={{
-                title: 'Recuperar Conta',
                 animation: 'slide_from_right',
                 animationDuration: 300,
                 headerTitleAlign: 'center',

@@ -156,7 +156,6 @@ export class GameController {
         return res.status(404).json({ error: 'Game not found' });
       }
     } catch (error) {
-      console.log(error);
       return res.sendStatus(500);
     }
   };

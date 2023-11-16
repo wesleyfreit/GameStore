@@ -1,5 +1,5 @@
 import { Region } from 'react-native-maps';
 
-export interface GoogleMapsProviderProps {
+interface GoogleMapsProviderProps {
   coords: Region | undefined;
 }

@@ -1,10 +1,10 @@
+import Geolocation from '@react-native-community/geolocation';
 import { useContext, useEffect, useState } from 'react';
 import { PermissionsAndroid, Platform, View } from 'react-native';
-import MapView, { Marker, Region,  } from 'react-native-maps';
+import MapView, { Marker, Region } from 'react-native-maps';
 
 import { GoogleMapsContext } from '@/contexts/GoogleMaps/GoogleMapsContext';
 import { colors } from '@/styles/global';
-import Geolocation from '@react-native-community/geolocation';
 import { GoogleMapsFunctionProps } from './interfaces';
 import { googleMapsStyles } from './styles';
 

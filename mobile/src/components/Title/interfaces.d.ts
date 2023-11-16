@@ -1,3 +1,3 @@
-export interface TitleGuideFunctionProps {
+interface TitleGuideFunctionProps {
   text: string;
 }

@@ -8,7 +8,7 @@ const getAPIClient = () => {
   const api = axios.create({
     baseURL: URL_API,
   });
-  
+
   // if (token) {
   //   api.defaults.headers['Authorization'] = token;
   // }
@@ -17,5 +17,5 @@ const getAPIClient = () => {
 };
 
 export const api = axios.create({
-    baseURL: URL_API.concat('/api/v1'),
-  });;
+  baseURL: URL_API.concat('/api/v1'),
+});

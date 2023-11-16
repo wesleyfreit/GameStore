@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity } from 'react-native';
 
 import { colors } from '@/styles/global';
-import { FunctionProps } from './interfaces';
+import { ClickableTextFunctionProps } from './interfaces';
 import { clickableStyle } from './styles';
 
 export const ClickableText = ({
@@ -11,7 +11,7 @@ export const ClickableText = ({
   textClickable,
   marginLeft,
   color,
-}: FunctionProps) => {
+}: ClickableTextFunctionProps) => {
   const selectColor =
     color == 'success'
       ? colors.success.color

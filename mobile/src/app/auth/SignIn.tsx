@@ -19,7 +19,7 @@ export const SignIn = ({ navigation }: AuthFunctionProps) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(signInSchema) });
 
-  const handleSignIn = (data: any) => {
+  const handleSignIn = (data: SignInUser) => {
     console.log(data);
   };
 
