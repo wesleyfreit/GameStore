@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../styles/global';
+import { colors } from '../../../styles/global';
 
 export const titleStyle = StyleSheet.create({
   titleGuide: {
@@ -7,9 +7,4 @@ export const titleStyle = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.primary.color,
   },
-  titleModal: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: colors.text.color
-  }
 });

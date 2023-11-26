@@ -1,35 +1,36 @@
+import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
-import { colors } from '@/styles/global';
-import { ClickableTextFunctionProps } from './interfaces';
-import { clickableStyle } from './styles';
+import { selectColor } from '@/lib/selectColor';
+import { type ClickableTextComponentProps } from './interfaces';
+import { clickableTextStyle } from './styles';
 
 export const ClickableText = ({
   navigation,
   navigateLocation,
-  textDefault,
+  onClick,
+  textNotClickable,
   textClickable,
   marginLeft,
   color,
-}: ClickableTextFunctionProps) => {
-  const selectColor =
-    color == 'success'
-      ? colors.success.color
-      : color === 'warning'
-      ? colors.warning.color
-      : color === 'danger'
-      ? colors.danger.color
-      : colors.primary.color;
-
+}: ClickableTextComponentProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={() => (navigateLocation ? navigation.push(navigateLocation) : navigation.goBack())}
+      onPress={() =>
+        navigateLocation
+          ? navigation.push(navigateLocation)
+          : onClick
+            ? onClick()
+            : navigation.goBack()
+      }
       style={{ alignItems: 'center', marginLeft: marginLeft }}
     >
       <Text>
-        {textDefault}
-        <Text style={{ color: selectColor, ...clickableStyle.clickableMode }}>{textClickable}</Text>
+        {textNotClickable}
+        <Text style={{ color: selectColor(color), ...clickableTextStyle }}>
+          {textClickable}
+        </Text>
       </Text>
     </TouchableOpacity>
   );

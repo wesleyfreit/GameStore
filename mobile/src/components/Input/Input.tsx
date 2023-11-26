@@ -1,10 +1,10 @@
-import { Lock, Mail, MapPin, User } from 'lucide-react-native';
+import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { Text, TextInput, View } from 'react-native';
 
 import { colors } from '@/styles/global';
-import { useState } from 'react';
-import { InputFunctionProps } from './interfaces';
+import { Icon } from '../Icon/Icon';
+import { type InputComponentProps } from './interfaces';
 import { inputStyle } from './styles';
 
 export const Input = ({
@@ -19,7 +19,7 @@ export const Input = ({
   navigation,
   errorAuth,
   changeMessage,
-}: InputFunctionProps) => {
+}: InputComponentProps) => {
   const [focus, setFocus] = useState(false);
 
   const errorsArray = [
@@ -40,15 +40,6 @@ export const Input = ({
       : colors.danger.color
     : colors.danger.color;
 
-  const iconsArray = [
-    { name: 'mail', icon: <Mail size={24} color={selectColor} /> },
-    { name: 'password', icon: <Lock size={24} color={selectColor} /> },
-    { name: 'point', icon: <MapPin size={24} color={selectColor} /> },
-    { name: 'user', icon: <User size={24} color={selectColor} /> },
-  ];
-
-  const componentIcon = iconsArray.find((component) => component.name === iconName);
-
   return (
     <View>
       <View
@@ -57,7 +48,8 @@ export const Input = ({
           borderColor: selectColor,
         }}
       >
-        <View>{componentIcon?.icon}</View>
+        {iconName ? <Icon iconName={iconName} size={24} color={selectColor} /> : <></>}
+
         <Controller
           control={control}
           name={name}

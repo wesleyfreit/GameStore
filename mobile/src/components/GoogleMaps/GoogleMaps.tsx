@@ -1,14 +1,14 @@
 import Geolocation from '@react-native-community/geolocation';
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { PermissionsAndroid, Platform, View } from 'react-native';
 import MapView, { Marker, Region } from 'react-native-maps';
 
 import { GoogleMapsContext } from '@/contexts/GoogleMaps/GoogleMapsContext';
 import { colors } from '@/styles/global';
-import { GoogleMapsFunctionProps } from './interfaces';
-import { googleMapsStyles } from './styles';
+import { type GoogleMapsComponentProps } from './interfaces';
+import { mapContainerStyle, mapStyle } from './styles';
 
-export const GoogleMaps = ({ navigation }: GoogleMapsFunctionProps) => {
+export const GoogleMaps = ({ navigation }: GoogleMapsComponentProps) => {
   const { setCoords } = useContext(GoogleMapsContext);
   const [userLocation, setUserLocation] = useState<Region | undefined>(undefined);
   const [point, setPoint] = useState<Region | undefined>(undefined);
@@ -45,16 +45,16 @@ export const GoogleMaps = ({ navigation }: GoogleMapsFunctionProps) => {
   };
 
   return (
-    <View style={googleMapsStyles.container}>
+    <View style={mapContainerStyle}>
       <MapView
         onMapReady={() =>
           Platform.OS === 'android'
-            ? PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then(
-                () => {},
-              )
+            ? PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              ).then(() => {})
             : null
         }
-        style={googleMapsStyles.map}
+        style={mapStyle}
         zoomEnabled={true}
         minZoomLevel={3}
         zoomControlEnabled={true}

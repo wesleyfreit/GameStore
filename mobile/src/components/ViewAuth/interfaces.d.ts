@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
-interface ViewAuthFunctionProps {
+interface ViewAuthComponentProps {
   children: ReactNode;
 }

@@ -1,0 +1,3 @@
+interface TitleGuideComponentProps {
+  text: string;
+}

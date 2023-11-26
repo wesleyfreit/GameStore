@@ -1,9 +1,10 @@
-import { ParamListBase } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Control, FieldErrors } from 'react-hook-form';
-import { InputModeOptions } from 'react-native';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { type ParamListBase } from '@react-navigation/native';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type FieldErrors } from 'react-hook-form';
+import { type InputModeOptions } from 'react-native';
 
-interface InputFunctionProps {
+interface InputComponentProps {
   iconName?: string;
   name: string;
   secure?: boolean;

@@ -1,16 +1,18 @@
+import { colors } from '@/styles/global';
 import { StyleSheet } from 'react-native';
-import { colors } from '../../styles/global';
 
-export const buttonStyle = StyleSheet.create({
-  buttonBackground: {
+const styles = StyleSheet.create({
+  buttonBackgroundStyle: {
     height: 53,
     borderRadius: 10,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
-  buttonTitle: {
+  buttonTextStyle: {
     fontWeight: 'bold',
     fontSize: 14,
     color: colors.text.color,
   },
 });
+
+export const { buttonBackgroundStyle, buttonTextStyle } = styles;

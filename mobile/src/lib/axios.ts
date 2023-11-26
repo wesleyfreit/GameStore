@@ -2,6 +2,7 @@ import { URL_API } from '@env';
 import axios from 'axios';
 // import { parseCookies } from 'nookies';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getAPIClient = () => {
   // const { 'academic_maps.auth': token } = parseCookies(ctx);
 

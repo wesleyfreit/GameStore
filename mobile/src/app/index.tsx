@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useState } from 'react';
+import React from 'react';
 import { StatusBar } from 'react-native';
 import { enableLatestRenderer } from 'react-native-maps';
 
@@ -13,8 +13,8 @@ import { colors } from '@/styles/global';
 const Stack = createNativeStackNavigator();
 enableLatestRenderer();
 
-export default () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+export const App = () => {
+  // const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   return (
     <>
       <StatusBar backgroundColor={colors.theme.color} barStyle={'light-content'} />
@@ -33,7 +33,11 @@ export default () => {
       >
         <GoogleMapsProvider>
           <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
+            <Stack.Screen
+              name="SignIn"
+              component={SignIn}
+              options={{ headerShown: false }}
+            />
 
             <Stack.Screen
               name="SignUp"

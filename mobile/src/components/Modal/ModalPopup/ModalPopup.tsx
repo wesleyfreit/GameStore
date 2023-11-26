@@ -1,21 +1,20 @@
+import React, { useEffect, useRef } from 'react';
+import { Animated, Modal, View } from 'react-native';
+
 import { Button } from '@/components/Button';
 import { TitleModal } from '@/components/Title/TitleModal/TitleModal';
-import { colors } from '@/styles/global';
-import { ParamListBase } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { CheckCircle } from 'lucide-react-native';
-import { useEffect, useRef } from 'react';
-import { Animated, Modal, StyleSheet, View } from 'react-native';
+import { type ModalPopupComponentProps } from './interfaces';
+import { modalBackgroundStyle, modalContainerStyle } from './styles';
+import { Icon } from '@/components/Icon/Icon';
+import { selectColor } from '@/lib/selectColor';
 
 export const ModalPopup = ({
   visible,
   setVisible,
   navigation,
-}: {
-  visible: boolean;
-  setVisible: (value: boolean) => void;
-  navigation?: NativeStackNavigationProp<ParamListBase>;
-}) => {
+  iconName,
+  type,
+}: ModalPopupComponentProps) => {
   const scaleValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -30,7 +29,9 @@ export const ModalPopup = ({
   const handleSetVisible = () => {
     setTimeout(() => {
       setVisible(false);
-      navigation ? navigation.goBack() : null;
+      if (navigation) {
+        navigation.goBack();
+      }
     }, 50);
 
     Animated.spring(scaleValue, {
@@ -42,12 +43,15 @@ export const ModalPopup = ({
 
   return (
     <Modal transparent visible={visible}>
-      <View style={styles.modalBackgroundStyle}>
+      <View style={modalBackgroundStyle}>
         <Animated.View
-          style={{ ...styles.modalContainerStyle, transform: [{ scale: scaleValue }] }}
+          style={{
+            ...modalContainerStyle,
+            transform: [{ scale: scaleValue }],
+          }}
         >
           <View style={{ alignItems: 'center' }}>
-            <CheckCircle size={30} color={colors.success.color} />
+            <Icon color={selectColor(type)} iconName={iconName} size={30} />
           </View>
           <View style={{ alignItems: 'center' }}>
             <TitleModal text="Conta criada com sucesso!" />
@@ -58,21 +62,3 @@ export const ModalPopup = ({
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  modalBackgroundStyle: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.25)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContainerStyle: {
-    gap: 15,
-    width: '85%',
-    backgroundColor: colors.theme.color,
-    paddingHorizontal: 15,
-    paddingVertical: 20,
-    borderRadius: 10,
-    elevation: 3,
-  },
-});

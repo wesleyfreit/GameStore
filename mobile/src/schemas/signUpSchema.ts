@@ -15,7 +15,9 @@ export const signUpSchema = (address: string) => {
       .string()
       .email('Este email não é válido.')
       .required('Este campo deve ser preenchido.'),
-    address: address ? yup.string() : yup.string().required('Este campo deve ser preenchido.'),
+    address: address
+      ? yup.string()
+      : yup.string().required('Este campo deve ser preenchido.'),
     password: yup
       .string()
       .matches(

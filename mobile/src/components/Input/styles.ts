@@ -11,7 +11,7 @@ export const inputStyle = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     borderWidth: 2,
-    height: 53
+    height: 53,
   },
   inputProps: {
     width: 238,

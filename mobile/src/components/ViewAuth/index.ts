@@ -1,0 +1,1 @@
+export { ViewAuth } from './ViewAuth';

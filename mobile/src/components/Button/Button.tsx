@@ -1,24 +1,17 @@
-import { colors } from '@/styles/global';
+import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
-import { buttonStyle } from './styles';
 
-export const Button = ({ text, bgColor, onClick }: ButtonFunctionProps) => {
-  const selectColor =
-    bgColor == 'success'
-      ? colors.success.color
-      : bgColor === 'warning'
-      ? colors.warning.color
-      : bgColor === 'danger'
-      ? colors.danger.color
-      : colors.primary.color;
+import { selectColor } from '@/lib/selectColor';
+import { buttonBackgroundStyle, buttonTextStyle } from './styles';
 
+export const Button = ({ text, bgColor, onClick }: ButtonComponentProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      style={{ ...buttonStyle.buttonBackground, backgroundColor: selectColor }}
+      style={{ ...buttonBackgroundStyle, backgroundColor: selectColor(bgColor) }}
       onPress={() => onClick()}
     >
-      <Text style={buttonStyle.buttonTitle}>{text}</Text>
+      <Text style={buttonTextStyle}>{text}</Text>
     </TouchableOpacity>
   );
 };

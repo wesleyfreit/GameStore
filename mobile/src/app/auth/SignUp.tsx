@@ -1,24 +1,24 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, SafeAreaView, ScrollView } from 'react-native';
 
 import { Button } from '@/components/Button';
 import { ClickableText } from '@/components/ClickableText';
 import { Input } from '@/components/Input';
-import { ModalPopup } from '@/components/Modal/ModalPopup/ModalPopup';
-import { TitleGuide } from '@/components/Title';
+import { ModalPopup } from '@/components/Modal/ModalPopup';
+import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewAuth } from '@/components/ViewAuth';
 import { GoogleMapsContext } from '@/contexts/GoogleMaps/GoogleMapsContext';
 import { api } from '@/lib/axios';
 import { signUpSchema } from '@/schemas/signUpSchema';
-import { AuthFunctionProps } from '@/types/auth';
-import { AxiosError } from 'axios';
+import { type AuthFunctionProps } from '@/types/auth';
+import { isAxiosError } from 'axios';
 
 export const SignUp = ({ navigation }: AuthFunctionProps) => {
   const [address, setAddress] = useState('');
   const [authError, setAuthError] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
 
   const {
     control,
@@ -58,16 +58,18 @@ export const SignUp = ({ navigation }: AuthFunctionProps) => {
       });
 
       setModalVisible(true);
-    } catch (error: AxiosError | any) {
-      const status = error.response.status;
-      const message = error.response.data;
-      switch (status) {
-        case 409:
-          setAuthError(message.error);
-          break;
-        default:
-          Alert.alert(`A tentativa gerou o seguinte erro: ${message}`);
-          break;
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const status = error.response?.status;
+        const message = error.response?.data;
+        switch (status) {
+          case 409:
+            setAuthError(message.error);
+            break;
+          default:
+            Alert.alert(`A tentativa gerou o seguinte erro: ${message}`);
+            break;
+        }
       }
     }
   };
@@ -85,7 +87,9 @@ export const SignUp = ({ navigation }: AuthFunctionProps) => {
             control={control}
             errors={errors}
             errorAuth={
-              authError === 'Username in use' ? 'Este nome de usuário já está em uso.' : undefined
+              authError === 'Username in use'
+                ? 'Este nome de usuário já está em uso.'
+                : undefined
             }
             changeMessage={setAuthError}
           />
@@ -97,7 +101,9 @@ export const SignUp = ({ navigation }: AuthFunctionProps) => {
             text={'Email*'}
             control={control}
             errors={errors}
-            errorAuth={authError === 'Email in use' ? 'Este email já está em uso.' : undefined}
+            errorAuth={
+              authError === 'Email in use' ? 'Este email já está em uso.' : undefined
+            }
             changeMessage={setAuthError}
           />
 
@@ -129,7 +135,13 @@ export const SignUp = ({ navigation }: AuthFunctionProps) => {
             errors={errors}
           />
 
-          <ModalPopup visible={modalVisible} setVisible={setModalVisible} navigation={navigation} />
+          <ModalPopup
+            visible={modalVisible}
+            setVisible={setModalVisible}
+            navigation={navigation}
+            iconName={'success'}
+            type={'success'}
+          />
 
           <Button text={'Criar conta'} onClick={handleSubmit(handleSignUp)} />
 
