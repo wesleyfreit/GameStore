@@ -1,18 +1,19 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useState } from 'react';
 
-import { GameEditorScreen } from '@/app/admin/games/GameEditorScreen';
-import { GamesScreen } from '@/app/admin/games/GamesScreen';
-import { GenreEditorScreen } from '@/app/admin/genres/GenreEditorScreen';
-import { GenresScreen } from '@/app/admin/genres/GenresScreen';
-import { UsersScreen } from '@/app/admin/users/UsersScreen';
-import { CartScreen } from '@/app/home/CartScreen';
-import { GameScreen } from '@/app/home/GameScreen';
-import { HomeScreen } from '@/app/home/HomeScreen';
-import { SearchScreen } from '@/app/home/SearchScreen';
-import { EditProfileScreen } from '@/app/profile/EditProfileScreen';
-import { EditUserAddressScreen } from '@/app/profile/EditUserAddressScreen';
-import { ProfileScreen } from '@/app/profile/ProfileScreen';
+import { GameEditorScreen } from '@/screens/admin/games/GameEditorScreen';
+import { GamesScreen } from '@/screens/admin/games/GamesScreen';
+import { GenreEditorScreen } from '@/screens/admin/genres/GenreEditorScreen';
+import { GenresScreen } from '@/screens/admin/genres/GenresScreen';
+import { UsersScreen } from '@/screens/admin/users/UsersScreen';
+import { CartScreen } from '@/screens/home/CartScreen';
+import { GameScreen } from '@/screens/home/GameScreen';
+import { HomeScreen } from '@/screens/home/HomeScreen';
+import { SearchScreen } from '@/screens/home/SearchScreen';
+import { EditProfileScreen } from '@/screens/profile/EditProfileScreen';
+import { EditUserAddressScreen } from '@/screens/profile/EditUserAddressScreen';
+import { ProfileScreen } from '@/screens/profile/ProfileScreen';
+
 import DefaultAvatar from '@/assets/svgs/avatar-default-icon.png';
 import { Icon } from '@/components/Icon';
 import { Image } from 'react-native';
