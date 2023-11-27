@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { isAxiosError } from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, SafeAreaView, ScrollView } from 'react-native';
@@ -13,7 +14,6 @@ import { GoogleMapsContext } from '@/contexts/GoogleMaps/GoogleMapsContext';
 import { api } from '@/lib/axios';
 import { signUpSchema } from '@/schemas/signUpSchema';
 import { type AuthFunctionProps } from '@/types/auth';
-import { isAxiosError } from 'axios';
 
 export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
   const [address, setAddress] = useState('');
@@ -63,6 +63,9 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
         const status = error.response?.status;
         const message = error.response?.data;
         switch (status) {
+          case 400:
+            setAuthError(message.error);
+            break;
           case 409:
             setAuthError(message.error);
             break;
@@ -115,6 +118,10 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
             errors={errors}
             valueAddress={address}
             navigation={navigation}
+            errorAuth={
+              authError === 'Address not found' ? 'Endereço não encontrado.' : undefined
+            }
+            changeMessage={setAuthError}
           />
 
           <Input
@@ -140,7 +147,8 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
             setVisible={setModalVisible}
             navigation={navigation}
             iconName={'success'}
-            type={'success'}
+            title={'Conta criada com sucesso!'}
+            buttonTitle={'Entrar na conta'}
           />
 
           <Button text={'Criar conta'} onClick={handleSubmit(handleSignUp)} />

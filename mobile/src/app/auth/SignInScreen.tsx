@@ -1,19 +1,24 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { isAxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native';
 
 import Logo from '@/assets/svgs/logo.svg';
 import { Button } from '@/components/Button';
 import { ClickableText } from '@/components/ClickableText';
 import { Input } from '@/components/Input';
+import { ModalPopup } from '@/components/Modal/ModalPopup';
 import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewAuth } from '@/components/ViewAuth';
+import { api } from '@/lib/axios';
 import { signInSchema } from '@/schemas/signInSchema';
 import { colors } from '@/styles/global';
 import { type AuthFunctionProps } from '@/types/auth';
 
 export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
+  const [authError, setAuthError] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
@@ -29,8 +34,31 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
     }
   }, [isAuthenticated, navigation]);
 
-  const handleSignIn = (data: SignInUser) => {
-    console.log(data);
+  const handleSignIn = async (data: SignInUser) => {
+    try {
+      await api.post('/users/signin', {
+        email: data.email,
+        password: data.password,
+      });
+
+      // setModalVisible(true);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const status = error.response?.status;
+        const message = error.response?.data;
+        switch (status) {
+          case 401:
+            setAuthError(message.error);
+            break;
+          case 404:
+            setAuthError(message.error);
+            break;
+          default:
+            Alert.alert(`A tentativa gerou o seguinte erro: ${message}`);
+            break;
+        }
+      }
+    }
   };
 
   return (
@@ -59,6 +87,12 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
             text={'Email'}
             control={control}
             errors={errors}
+            errorAuth={
+              authError === 'Account not found'
+                ? 'Este email não pertence a nenhuma conta.'
+                : undefined
+            }
+            changeMessage={setAuthError}
           />
           <Input
             iconName={'password'}
@@ -67,13 +101,24 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
             text={'Senha'}
             control={control}
             errors={errors}
+            errorAuth={
+              authError === 'Invalid password' ? 'A senha está incorreta.' : undefined
+            }
+            changeMessage={setAuthError}
           />
 
           <ClickableText
-            navigation={navigation}
-            navigateLocation={'RecoverPassword'}
             textClickable={'Esqueceu a sua senha?'}
             marginLeft={'auto'}
+            onClick={() => setModalVisible(true)}
+          />
+
+          <ModalPopup
+            visible={modalVisible}
+            setVisible={setModalVisible}
+            iconName={'danger'}
+            title={'Esta opção está temporariamente indisponível'}
+            buttonTitle={'Fechar'}
           />
 
           <Button text={'Entrar'} onClick={handleSubmit(handleSignIn)} />

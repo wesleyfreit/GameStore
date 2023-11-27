@@ -78,19 +78,13 @@ export class UserAuthController {
       );
       const data = request.data;
 
-      //OBS: checar o array de várias latlng diferentes
-      // console.log(data);
-
       const address1 = data.results[0].formatted_address;
       const address2 = data.results[1].formatted_address;
-
-      // console.log(address1)
-      // console.log(address2)
 
       const address = testIfNumber(address2) ? address1 : address2;
 
       if (address) return res.json({ address });
-      else return res.json({ error: 'Address not found' });
+      else return res.status(400).json({ error: 'Address not found' });
     } catch (error) {
       return res.sendStatus(500);
     }
