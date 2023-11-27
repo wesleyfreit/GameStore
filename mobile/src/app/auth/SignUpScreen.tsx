@@ -15,10 +15,10 @@ import { signUpSchema } from '@/schemas/signUpSchema';
 import { type AuthFunctionProps } from '@/types/auth';
 import { isAxiosError } from 'axios';
 
-export const SignUp = ({ navigation }: AuthFunctionProps) => {
+export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
   const [address, setAddress] = useState('');
   const [authError, setAuthError] = useState('');
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const {
     control,

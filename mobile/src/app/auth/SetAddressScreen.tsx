@@ -7,7 +7,7 @@ import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewAuth } from '@/components/ViewAuth';
 import { type AuthFunctionProps } from '@/types/auth';
 
-export const SetAdress = ({ navigation }: AuthFunctionProps) => {
+export const SetAdressScreen = ({ navigation }: AuthFunctionProps) => {
   const [save, setSave] = useState(false);
 
   return (
