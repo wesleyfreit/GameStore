@@ -41,7 +41,10 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
           setAddress(request.data.address);
           setCoords(undefined);
         } catch (error) {
-          Alert.alert('Ocorreu um erro, tente novamente');
+          if (isAxiosError(error)) {
+            const message = error.response?.data;
+            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message}`);
+          }
         }
       })();
     }
@@ -70,7 +73,7 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
             setAuthError(message.error);
             break;
           default:
-            Alert.alert(`A tentativa gerou o seguinte erro: ${message}`);
+            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message}`);
             break;
         }
       }

@@ -36,12 +36,13 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
 
   const handleSignIn = async (data: SignInUser) => {
     try {
-      await api.post('/users/signin', {
+      const response = await api.post('/users/signin', {
         email: data.email,
         password: data.password,
       });
 
-      // setModalVisible(true);
+      const token = response.data.token;
+      console.log(token);
     } catch (error) {
       if (isAxiosError(error)) {
         const status = error.response?.status;
@@ -54,7 +55,7 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
             setAuthError(message.error);
             break;
           default:
-            Alert.alert(`A tentativa gerou o seguinte erro: ${message}`);
+            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message}`);
             break;
         }
       }
