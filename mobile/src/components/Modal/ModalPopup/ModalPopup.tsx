@@ -13,7 +13,8 @@ export const ModalPopup = ({
   setVisible,
   navigation,
   iconName,
-  type,
+  title,
+  buttonTitle
 }: ModalPopupComponentProps) => {
   const scaleValue = useRef(new Animated.Value(0)).current;
 
@@ -51,12 +52,12 @@ export const ModalPopup = ({
           }}
         >
           <View style={{ alignItems: 'center' }}>
-            <Icon color={selectColor(type)} iconName={iconName} size={30} />
+            <Icon color={selectColor(iconName)} iconName={iconName} size={35} />
           </View>
           <View style={{ alignItems: 'center' }}>
-            <TitleModal text="Conta criada com sucesso!" />
+            <TitleModal text={title} />
           </View>
-          <Button text={'Entrar na conta'} onClick={handleSetVisible} />
+          <Button text={buttonTitle} onClick={handleSetVisible} />
         </Animated.View>
       </View>
     </Modal>

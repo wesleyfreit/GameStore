@@ -6,5 +6,6 @@ interface ModalPopupComponentProps {
   setVisible: (value: boolean) => void;
   navigation?: NativeStackNavigationProp<ParamListBase>;
   iconName: string;
-  type: string;
+  title: string;
+  buttonTitle: string;
 }

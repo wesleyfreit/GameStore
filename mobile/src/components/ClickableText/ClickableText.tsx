@@ -18,11 +18,11 @@ export const ClickableText = ({
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={() =>
-        navigateLocation
+        navigateLocation && navigation
           ? navigation.push(navigateLocation)
-          : onClick
-            ? onClick()
-            : navigation.goBack()
+          : navigation
+            ? navigation.goBack()
+            : onClick && onClick()
       }
       style={{ alignItems: 'center', marginLeft: marginLeft }}
     >
