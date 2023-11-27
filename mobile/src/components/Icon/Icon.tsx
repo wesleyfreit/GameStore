@@ -1,10 +1,14 @@
 import {
   AlertCircle,
+  ArrowUpNarrowWide,
   CheckCircle,
+  Gamepad2,
+  Home,
   Lock,
   Mail,
   MapPin,
   User,
+  Users2,
   XCircle,
 } from 'lucide-react-native';
 import React from 'react';
@@ -19,6 +23,10 @@ export const Icon = ({ iconName, size, color }: IconComponentProps) => {
     { name: 'success', icon: <CheckCircle size={size} color={color} /> },
     { name: 'danger', icon: <XCircle size={size} color={color} /> },
     { name: 'warning', icon: <AlertCircle size={size} color={color} /> },
+    { name: 'home', icon: <Home size={size} color={color} /> },
+    { name: 'games', icon: <Gamepad2 size={size} color={color} /> },
+    { name: 'genres', icon: <ArrowUpNarrowWide size={size} color={color} /> },
+    { name: 'users', icon: <Users2 size={size} color={color} /> },
   ];
 
   const componentIcon = iconsArray.find((component) => component.name === iconName);

@@ -8,7 +8,7 @@ import { GoogleMapsProvider } from '@/providers/GoogleMaps/GoogleMapsProvider';
 
 const Stack = createNativeStackNavigator();
 
-export const AuthNavigator = () => {
+export const AuthRoutes = () => {
   return (
     <GoogleMapsProvider>
       <Stack.Navigator>

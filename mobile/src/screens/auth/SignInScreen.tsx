@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isAxiosError } from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native';
 
@@ -19,20 +19,12 @@ import { type AuthFunctionProps } from '@/types/auth';
 export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
   const [authError, setAuthError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(signInSchema) });
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigation.navigate('Dashboard');
-    }
-  }, [isAuthenticated, navigation]);
 
   const handleSignIn = async (data: SignInUser) => {
     try {

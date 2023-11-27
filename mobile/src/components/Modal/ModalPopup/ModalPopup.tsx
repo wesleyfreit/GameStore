@@ -14,7 +14,7 @@ export const ModalPopup = ({
   navigation,
   iconName,
   title,
-  buttonTitle
+  buttonTitle,
 }: ModalPopupComponentProps) => {
   const scaleValue = useRef(new Animated.Value(0)).current;
 
