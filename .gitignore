@@ -193,4 +193,5 @@ yarn-error.log
 
 # testing
 /coverage
-*.jpg
+
+public/
