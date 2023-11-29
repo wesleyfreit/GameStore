@@ -17,8 +17,10 @@ import { ProfileScreen } from '@/screens/profile/ProfileScreen';
 import DefaultAvatar from '@/assets/svgs/avatar-default-icon.png';
 import { Icon } from '@/components/Icon';
 import { Image } from 'react-native';
+import { AppRoutesType } from './interfaces';
+import { tabBarIconStyle } from './styles';
 
-const { Navigator, Screen } = createBottomTabNavigator();
+const { Navigator, Screen } = createBottomTabNavigator<AppRoutesType>();
 
 export const AppRoutes = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -78,7 +80,7 @@ export const AppRoutes = () => {
           />
 
           <Screen
-            name="GamesEditor"
+            name="GameEditor"
             component={GameEditorScreen}
             options={{ tabBarButton: () => null }}
           />
@@ -101,13 +103,7 @@ export const AppRoutes = () => {
           tabBarIcon: ({ color }) => (
             <Image
               source={DefaultAvatar}
-              style={{
-                width: 30,
-                height: 30,
-                borderWidth: 2,
-                borderColor: color,
-                borderRadius: 30,
-              }}
+              style={{ ...tabBarIconStyle, borderColor: color }}
             />
           ),
         }}

@@ -1,24 +1,21 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
+import { GoogleMapsProvider } from '@/providers/GoogleMaps/GoogleMapsProvider';
 import { SetAdressScreen } from '@/screens/auth/SetAddressScreen';
 import { SignInScreen } from '@/screens/auth/SignInScreen';
 import { SignUpScreen } from '@/screens/auth/SignUpScreen';
-import { GoogleMapsProvider } from '@/providers/GoogleMaps/GoogleMapsProvider';
+import { AuthRoutesType } from './interfaces';
 
-const Stack = createNativeStackNavigator();
+const { Navigator, Screen } = createNativeStackNavigator<AuthRoutesType>();
 
 export const AuthRoutes = () => {
   return (
     <GoogleMapsProvider>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="SignIn"
-          component={SignInScreen}
-          options={{ headerShown: false }}
-        />
+      <Navigator>
+        <Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
 
-        <Stack.Screen
+        <Screen
           name="SignUp"
           component={SignUpScreen}
           options={{
@@ -30,7 +27,7 @@ export const AuthRoutes = () => {
           }}
         />
 
-        <Stack.Screen
+        <Screen
           name="SetAddress"
           component={SetAdressScreen}
           options={{
@@ -41,7 +38,7 @@ export const AuthRoutes = () => {
             headerShadowVisible: false,
           }}
         />
-      </Stack.Navigator>
+      </Navigator>
     </GoogleMapsProvider>
   );
 };
