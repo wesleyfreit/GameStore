@@ -1,0 +1,3 @@
+interface CardComponentProps {
+  game: IGame;
+}

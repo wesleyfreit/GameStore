@@ -7,6 +7,7 @@ import {
   Lock,
   Mail,
   MapPin,
+  ShoppingCart,
   User,
   Users2,
   XCircle,
@@ -27,6 +28,7 @@ export const Icon = ({ iconName, size, color }: IconComponentProps) => {
     { name: 'games', icon: <Gamepad2 size={size} color={color} /> },
     { name: 'genres', icon: <ArrowUpNarrowWide size={size} color={color} /> },
     { name: 'users', icon: <Users2 size={size} color={color} /> },
+    { name: 'cart', icon: <ShoppingCart size={size} color={color} strokeWidth={2.8}/> },
   ];
 
   const componentIcon = iconsArray.find((component) => component.name === iconName);
