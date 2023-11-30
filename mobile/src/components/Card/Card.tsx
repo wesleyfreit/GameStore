@@ -15,7 +15,7 @@ import {
   cardYearStyle,
 } from './styles';
 
-export const Card = ({ game }: CardComponentProps) => {
+export const Card = ({ game, toGame }: CardComponentProps) => {
   const formatCurrency = (value: number) => {
     const formattedValue = new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -42,8 +42,12 @@ export const Card = ({ game }: CardComponentProps) => {
         <Text style={cardYearStyle}>{game.year}</Text>
       </View>
       <View style={cardViewButtonStyle}>
-        <TouchableOpacity activeOpacity={0.7} style={cardButtonStyle}>
-          <Icon iconName="cart" size={15} color={colors.text.color} />
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={cardButtonStyle}
+          onPress={() => toGame(game.id)}
+        >
+          <Icon iconName="cart" size={15} color={colors.text.color} strokeWidth={'2.8'} />
           <Text style={cardButtonTextStyle}>{formatCurrency(game.price)}</Text>
         </TouchableOpacity>
       </View>

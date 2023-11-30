@@ -7,6 +7,7 @@ import {
   Lock,
   Mail,
   MapPin,
+  Search,
   ShoppingCart,
   User,
   Users2,
@@ -15,7 +16,7 @@ import {
 import React from 'react';
 import { View } from 'react-native';
 
-export const Icon = ({ iconName, size, color }: IconComponentProps) => {
+export const Icon = ({ iconName, size, color, strokeWidth }: IconComponentProps) => {
   const iconsArray = [
     { name: 'mail', icon: <Mail size={size} color={color} /> },
     { name: 'password', icon: <Lock size={size} color={color} /> },
@@ -28,7 +29,8 @@ export const Icon = ({ iconName, size, color }: IconComponentProps) => {
     { name: 'games', icon: <Gamepad2 size={size} color={color} /> },
     { name: 'genres', icon: <ArrowUpNarrowWide size={size} color={color} /> },
     { name: 'users', icon: <Users2 size={size} color={color} /> },
-    { name: 'cart', icon: <ShoppingCart size={size} color={color} strokeWidth={2.8}/> },
+    { name: 'cart', icon: <ShoppingCart size={size} color={color} strokeWidth={strokeWidth} /> },
+    { name: 'search', icon: <Search size={size} color={color} /> },
   ];
 
   const componentIcon = iconsArray.find((component) => component.name === iconName);

@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
   cardImgStyle: {
     width: screenWidth <= 410 ? screenWidth / 2.2 : 187,
-    height: 75,
+    height: 100,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
