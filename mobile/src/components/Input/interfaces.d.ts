@@ -3,7 +3,7 @@ import { type FieldErrors } from 'react-hook-form';
 import { type InputModeOptions } from 'react-native';
 
 interface InputComponentProps {
-  iconName?: string;
+  iconName?: keyof IconName;
   name: string;
   secure?: boolean;
   type?: InputModeOptions;
@@ -21,3 +21,10 @@ interface InputComponentProps {
   valueAddress?: string | null;
   onClick?: () => void;
 }
+
+type IconName = {
+  mail: undefined;
+  password: undefined;
+  point: undefined;
+  user: undefined;
+};

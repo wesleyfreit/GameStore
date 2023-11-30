@@ -1,3 +1,3 @@
-import { ClickableText } from './ClickableText';
+export { ClickableText } from './ClickableText';
 
-export { ClickableText };
+

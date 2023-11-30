@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../styles/global';
 
-export const inputStyle = StyleSheet.create({
-  inputBackground: {
+const styles = StyleSheet.create({
+  inputBackgroundStyle: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -13,7 +13,10 @@ export const inputStyle = StyleSheet.create({
     borderWidth: 2,
     height: 53,
   },
-  inputProps: {
+  inputPropsStyle: {
     width: 238,
+    color: colors.text.color,
   },
 });
+
+export const { inputBackgroundStyle, inputPropsStyle } = styles;

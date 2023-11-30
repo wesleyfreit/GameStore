@@ -1,3 +1,1 @@
-import { GoogleMaps } from './GoogleMaps';
-
-export { GoogleMaps };
+export { GoogleMaps } from './GoogleMaps';

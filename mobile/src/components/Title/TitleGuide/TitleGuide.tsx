@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { titleStyle } from './styles';
+import { titleGuideStyle } from './styles';
 
 export const TitleGuide = ({ text }: TitleGuideComponentProps) => (
-  <Text style={{ ...titleStyle.titleGuide }}>{text}</Text>
+  <Text style={{ ...titleGuideStyle }}>{text}</Text>
 );

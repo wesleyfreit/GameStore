@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { Icon } from '../Icon';
 
+import { Icon } from '@/components/Icon';
 import Logo from '@/assets/svgs/logo.svg';
 import { colors } from '@/styles/global';
 import {

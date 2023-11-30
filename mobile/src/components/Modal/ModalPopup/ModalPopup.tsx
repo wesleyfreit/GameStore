@@ -3,7 +3,7 @@ import { Animated, Modal, View } from 'react-native';
 
 import { Button } from '@/components/Button';
 import { Icon } from '@/components/Icon/Icon';
-import { TitleModal } from '@/components/Title/TitleModal/TitleModal';
+import { TitleModal } from '@/components/Title/TitleModal';
 import { selectColor } from '@/lib/selectColor';
 import { modalBackgroundStyle, modalContainerStyle } from './styles';
 

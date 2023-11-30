@@ -1,6 +1,10 @@
+import { colors } from '@/styles/global';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+  defaultTextStyle: {
+    color: colors.text.color,
+  },
   clickableTextStyle: {
     textDecorationLine: 'underline',
     fontWeight: 'bold',
@@ -8,4 +12,4 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const { clickableTextStyle } = styles;
+export const { defaultTextStyle, clickableTextStyle } = styles;

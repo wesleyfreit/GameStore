@@ -3,7 +3,7 @@ import { Text, TouchableOpacity } from 'react-native';
 
 import { selectColor } from '@/lib/selectColor';
 import { type ClickableTextComponentProps } from './interfaces';
-import { clickableTextStyle } from './styles';
+import { clickableTextStyle, defaultTextStyle } from './styles';
 
 export const ClickableText = ({
   textNotClickable,
@@ -18,7 +18,7 @@ export const ClickableText = ({
       onPress={onClick}
       style={{ alignItems: 'center', marginLeft: marginLeft }}
     >
-      <Text>
+      <Text style={defaultTextStyle}>
         {textNotClickable}
         <Text style={{ color: selectColor(color), ...clickableTextStyle }}>
           {textClickable}

@@ -3,9 +3,9 @@ import { Controller } from 'react-hook-form';
 import { Text, TextInput, View } from 'react-native';
 
 import { colors } from '@/styles/global';
-import { Icon } from '../Icon/Icon';
+import { Icon } from '@/components/Icon';
 import { type InputComponentProps } from './interfaces';
-import { inputStyle } from './styles';
+import { inputBackgroundStyle, inputPropsStyle } from './styles';
 
 export const Input = ({
   iconName,
@@ -44,7 +44,7 @@ export const Input = ({
     <View>
       <View
         style={{
-          ...inputStyle.inputBackground,
+          ...inputBackgroundStyle,
           borderColor: selectColor,
         }}
       >
@@ -57,7 +57,7 @@ export const Input = ({
             <TextInput
               placeholder={text}
               placeholderTextColor={selectColor}
-              style={inputStyle.inputProps}
+              style={inputPropsStyle}
               secureTextEntry={secure}
               inputMode={type}
               onBlur={() => {

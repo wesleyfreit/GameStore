@@ -1,7 +1,7 @@
 import Geolocation from '@react-native-community/geolocation';
 import React, { useEffect, useState } from 'react';
 import { PermissionsAndroid, Platform, View } from 'react-native';
-import MapView, { MapPressEvent, Marker, Region } from 'react-native-maps';
+import MapView, { MapPressEvent, Marker, type Region } from 'react-native-maps';
 
 import { colors } from '@/styles/global';
 import { GoogleMapsComponentProps } from './interfaces';
