@@ -1,11 +1,14 @@
-import { type ParamListBase } from '@react-navigation/native';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
-
 interface ModalPopupComponentProps {
   visible: boolean;
-  setVisible: (value: boolean) => void;
-  navigation?: NativeStackNavigationProp<ParamListBase>;
-  iconName: string;
+  iconName: keyof IconName;
   title: string;
   buttonTitle: string;
+  setVisible: (value: boolean) => void;
+  navigateTo?: () => void;
 }
+
+type IconName = {
+  success: undefined;
+  danger: undefined;
+  warning: undefined;
+};

@@ -32,23 +32,26 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
 
   useEffect(() => {
     if (coords) {
-      (async () => {
-        try {
-          const request = await api.post('/users/getaddress', {
-            lat: coords.latitude,
-            lng: coords.longitude,
-          });
-          setAddress(request.data.address);
-          setCoords(undefined);
-        } catch (error) {
-          if (isAxiosError(error)) {
-            const message = error.response?.data;
-            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message}`);
-          }
-        }
-      })();
+      getAddress();
     }
   }, [coords]);
+
+  const getAddress = async () => {
+    try {
+      console.log(api.defaults)
+      const request = await api.post('/users/getaddress', {
+        lat: coords?.latitude,
+        lng: coords?.longitude,
+      });
+      setAddress(request.data.address);
+      setCoords(undefined);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const message = error.response?.data;
+        Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message}`);
+      }
+    }
+  };
 
   const handleSignUp = async (data: SignUpUser) => {
     try {
@@ -79,8 +82,6 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
       }
     }
   };
-
-  const navigateToSetAddress = () => navigation?.push('SetAddress');
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
@@ -122,7 +123,7 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
             control={control}
             errors={errors}
             valueAddress={address}
-            onClick={navigateToSetAddress}
+            onClick={() => navigation.push('SetAddress')}
             errorAuth={
               authError === 'Address not found' ? 'Endereço não encontrado.' : undefined
             }
@@ -150,7 +151,7 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
           <ModalPopup
             visible={modalVisible}
             setVisible={setModalVisible}
-            navigation={navigation}
+            navigateTo={() => navigation.goBack()}
             iconName={'success'}
             title={'Conta criada com sucesso!'}
             buttonTitle={'Entrar na conta'}
@@ -158,7 +159,10 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
 
           <Button text={'Criar conta'} onClick={handleSubmit(handleSignUp)} />
 
-          <ClickableText navigation={navigation} textClickable={'Já tenho uma conta'} />
+          <ClickableText
+            onClick={() => navigation.goBack()}
+            textClickable={'Já tenho uma conta'}
+          />
         </ViewAuth>
       </ScrollView>
     </SafeAreaView>

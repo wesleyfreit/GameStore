@@ -3,6 +3,7 @@ import { isAxiosError } from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { URL_API } from '@env';
 
 import Logo from '@/assets/svgs/logo.svg';
 import { Button } from '@/components/Button';
@@ -20,6 +21,7 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
   const [authError, setAuthError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
+  console.log(URL_API)
   const {
     control,
     handleSubmit,
@@ -53,6 +55,8 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
       }
     }
   };
+
+  console.log(api.defaults)
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
@@ -117,8 +121,7 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
           <Button text={'Entrar'} onClick={handleSubmit(handleSignIn)} />
 
           <ClickableText
-            navigation={navigation}
-            navigateLocation={'SignUp'}
+            onClick={() => navigation.push('SignUp')}
             textNotClickable={'Não tem uma conta? '}
             textClickable={'Criar conta.'}
           />

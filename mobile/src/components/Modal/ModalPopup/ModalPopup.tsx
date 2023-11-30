@@ -2,19 +2,18 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, Modal, View } from 'react-native';
 
 import { Button } from '@/components/Button';
-import { TitleModal } from '@/components/Title/TitleModal/TitleModal';
-import { type ModalPopupComponentProps } from './interfaces';
-import { modalBackgroundStyle, modalContainerStyle } from './styles';
 import { Icon } from '@/components/Icon/Icon';
+import { TitleModal } from '@/components/Title/TitleModal/TitleModal';
 import { selectColor } from '@/lib/selectColor';
+import { modalBackgroundStyle, modalContainerStyle } from './styles';
 
 export const ModalPopup = ({
   visible,
-  setVisible,
-  navigation,
   iconName,
   title,
   buttonTitle,
+  setVisible,
+  navigateTo,
 }: ModalPopupComponentProps) => {
   const scaleValue = useRef(new Animated.Value(0)).current;
 
@@ -30,9 +29,7 @@ export const ModalPopup = ({
   const handleSetVisible = () => {
     setTimeout(() => {
       setVisible(false);
-      if (navigation) {
-        navigation.goBack();
-      }
+      if (navigateTo) navigateTo();
     }, 50);
 
     Animated.spring(scaleValue, {

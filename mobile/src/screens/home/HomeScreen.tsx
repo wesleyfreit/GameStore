@@ -24,20 +24,29 @@ export const HomeScreen = ({ navigation }: AppFunctionProps) => {
     })();
   }, []);
 
-  const navigateToSearch = () => navigation.navigate('Search');
-  const navigateToCart = () => navigation.navigate('Cart');
-  const navigateToGame = (id: string) => navigation.navigate('Game', { id });
+  const addToCart = (id: string) => {
+    console.log(id);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center', marginTop: 15 }}>
-      <HomeHeader toSearch={navigateToSearch} toCart={navigateToCart} />
+      <HomeHeader
+        toSearch={() => navigation.navigate('Search')}
+        toCart={() => navigation.navigate('Cart')}
+      />
       <FlatList
         data={games}
         showsVerticalScrollIndicator={false}
         numColumns={2}
         columnWrapperStyle={{ gap: 8 }}
         contentContainerStyle={{ gap: 8 }}
-        renderItem={({ item }) => <Card game={item} toGame={navigateToGame} />}
+        renderItem={({ item }) => (
+          <Card
+            game={item}
+            toGame={() => navigation.navigate('Game', { id: item.id })}
+            addToCart={() => addToCart(item.id)}
+          />
+        )}
       />
     </SafeAreaView>
   );

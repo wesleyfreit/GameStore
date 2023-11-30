@@ -71,7 +71,7 @@ export const Input = ({
               value={!valueAddress ? value : valueAddress}
               onFocus={() => {
                 setFocus(true);
-                name === 'address' ? onClick : <></>;
+                name === 'address' && onClick ? onClick() : undefined;
               }}
               focusable={true}
             />

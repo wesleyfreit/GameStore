@@ -6,24 +6,16 @@ import { type ClickableTextComponentProps } from './interfaces';
 import { clickableTextStyle } from './styles';
 
 export const ClickableText = ({
-  navigation,
-  navigateLocation,
-  onClick,
   textNotClickable,
   textClickable,
   marginLeft,
   color,
+  onClick,
 }: ClickableTextComponentProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={() =>
-        navigateLocation && navigation
-          ? navigation.push(navigateLocation)
-          : navigation
-            ? navigation.goBack()
-            : onClick && onClick()
-      }
+      onPress={onClick}
       style={{ alignItems: 'center', marginLeft: marginLeft }}
     >
       <Text>

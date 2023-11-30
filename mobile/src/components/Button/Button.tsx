@@ -9,7 +9,7 @@ export const Button = ({ text, bgColor, onClick }: ButtonComponentProps) => {
     <TouchableOpacity
       activeOpacity={0.7}
       style={{ ...buttonBackgroundStyle, backgroundColor: selectColor(bgColor) }}
-      onPress={() => onClick()}
+      onPress={onClick}
     >
       <Text style={buttonTextStyle}>{text}</Text>
     </TouchableOpacity>

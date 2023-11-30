@@ -1,24 +1,22 @@
 import Geolocation from '@react-native-community/geolocation';
 import React, { useContext, useEffect, useState } from 'react';
 import { PermissionsAndroid, Platform, View } from 'react-native';
-import MapView, { Marker, Region } from 'react-native-maps';
+import MapView, { MapPressEvent, Marker, Region } from 'react-native-maps';
 
 import { GoogleMapsContext } from '@/contexts/GoogleMaps/GoogleMapsContext';
 import { colors } from '@/styles/global';
-import { type GoogleMapsComponentProps } from './interfaces';
 import { mapContainerStyle, mapStyle } from './styles';
 
-export const GoogleMaps = ({ navigation }: GoogleMapsComponentProps) => {
-  const { setCoords } = useContext(GoogleMapsContext);
+export const GoogleMaps = () => {
+  const { coords, setCoords } = useContext(GoogleMapsContext);
   const [userLocation, setUserLocation] = useState<Region | undefined>(undefined);
-  const [point, setPoint] = useState<Region | undefined>(undefined);
 
-  useEffect(() => {
-    if (navigation) {
-      setCoords(point);
-      navigation.goBack();
-    }
-  }, [navigation]);
+  // useEffect(() => {
+  //   if (navigation) {
+  //     setCoords(point);
+  //     navigation.goBack();
+  //   }
+  // }, [navigation]);
 
   useEffect(() => {
     getMyLocation();
@@ -44,6 +42,15 @@ export const GoogleMaps = ({ navigation }: GoogleMapsComponentProps) => {
     });
   };
 
+  const handleSetCoords = (e: MapPressEvent) => {
+    setCoords({
+      latitude: e.nativeEvent.coordinate.latitude,
+      longitude: e.nativeEvent.coordinate.longitude,
+      latitudeDelta: 0.000949,
+      longitudeDelta: 0.000952,
+    });
+  };
+
   return (
     <View style={mapContainerStyle}>
       <MapView
@@ -61,19 +68,12 @@ export const GoogleMaps = ({ navigation }: GoogleMapsComponentProps) => {
         loadingEnabled={true}
         showsUserLocation={true}
         region={userLocation}
-        onPress={(e) =>
-          setPoint({
-            latitude: e.nativeEvent.coordinate.latitude,
-            longitude: e.nativeEvent.coordinate.longitude,
-            latitudeDelta: 0.000949,
-            longitudeDelta: 0.000952,
-          })
-        }
+        onPress={handleSetCoords}
       >
-        {point && (
+        {coords && (
           <Marker
             pinColor={colors.primary.color}
-            coordinate={{ latitude: point?.latitude, longitude: point?.longitude }}
+            coordinate={{ latitude: coords?.latitude, longitude: coords?.longitude }}
           />
         )}
       </MapView>
