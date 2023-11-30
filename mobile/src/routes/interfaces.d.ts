@@ -1,4 +1,6 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { ParamListBase } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type AuthRoutesType = {
   SignIn: undefined;
@@ -6,12 +8,12 @@ type AuthRoutesType = {
   SetAddress: undefined;
 };
 
-export type AuthNavigatorRoutesProps = BottomTabNavigationProp<AuthRoutesType>;
+export type AuthNavigatorRoutesProps = NativeStackNavigationProp<AuthRoutesType>;
 
 type AppRoutesType = {
   Home: undefined;
   Games: undefined;
-  Game: undefined;
+  Game: RouteProp<ParamListBase>;
   Genres: undefined;
   Users: undefined;
   GameEditor: undefined;

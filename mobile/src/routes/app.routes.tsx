@@ -37,6 +37,7 @@ export const AppRoutes = () => {
         name="Home"
         component={HomeScreen}
         options={{
+          headerShadowVisible: false,
           title: 'Início',
           freezeOnBlur: true,
           headerShown: false,
@@ -82,13 +83,13 @@ export const AppRoutes = () => {
           <Screen
             name="GameEditor"
             component={GameEditorScreen}
-            options={{ tabBarButton: () => null }}
+            options={{ tabBarButton: () => null, tabBarStyle: { display: 'none' } }}
           />
 
           <Screen
             name="GenreEditor"
             component={GenreEditorScreen}
-            options={{ tabBarButton: () => null }}
+            options={{ tabBarButton: () => null, tabBarStyle: { display: 'none' } }}
           />
         </>
       ) : (
@@ -112,23 +113,31 @@ export const AppRoutes = () => {
       <Screen
         name="Search"
         component={SearchScreen}
-        options={{ tabBarButton: () => null }}
+        options={{ tabBarButton: () => null, tabBarStyle: { display: 'none' } }}
       />
 
-      <Screen name="Cart" component={CartScreen} options={{ tabBarButton: () => null }} />
+      <Screen
+        name="Cart"
+        component={CartScreen}
+        options={{ tabBarButton: () => null, tabBarStyle: { display: 'none' } }}
+      />
 
-      <Screen name="Game" component={GameScreen} options={{ tabBarButton: () => null }} />
+      <Screen
+        name="Game"
+        component={GameScreen}
+        options={{ tabBarButton: () => null, tabBarStyle: { display: 'none' } }}
+      />
 
       <Screen
         name="EditProfile"
         component={EditProfileScreen}
-        options={{ tabBarButton: () => null }}
+        options={{ tabBarButton: () => null, tabBarStyle: { display: 'none' } }}
       />
 
       <Screen
         name="EditUserAddress"
         component={EditUserAddressScreen}
-        options={{ tabBarButton: () => null }}
+        options={{ tabBarButton: () => null, tabBarStyle: { display: 'none' } }}
       />
     </Navigator>
   );

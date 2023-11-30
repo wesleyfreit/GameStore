@@ -16,9 +16,9 @@ export const Input = ({
   control,
   errors,
   valueAddress,
-  navigation,
   errorAuth,
   changeMessage,
+  onClick,
 }: InputComponentProps) => {
   const [focus, setFocus] = useState(false);
 
@@ -71,7 +71,7 @@ export const Input = ({
               value={!valueAddress ? value : valueAddress}
               onFocus={() => {
                 setFocus(true);
-                name === 'address' ? navigation?.push('SetAddress') : <></>;
+                name === 'address' ? onClick : <></>;
               }}
               focusable={true}
             />

@@ -1,6 +1,6 @@
-import { type ParamListBase } from '@react-navigation/native';
+import { type AuthRoutesType } from '@/routes/interfaces';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface AuthFunctionProps {
-  navigation: NativeStackNavigationProp<ParamListBase>;
+  navigation: NativeStackNavigationProp<AuthRoutesType>;
 }

@@ -5,7 +5,7 @@ import { Button } from '@/components/Button';
 import { GoogleMaps } from '@/components/GoogleMaps/GoogleMaps';
 import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewAuth } from '@/components/ViewAuth';
-import { type AuthFunctionProps } from '@/types/auth';
+import { AuthFunctionProps } from '@/types/auth';
 
 export const SetAdressScreen = ({ navigation }: AuthFunctionProps) => {
   const [save, setSave] = useState(false);

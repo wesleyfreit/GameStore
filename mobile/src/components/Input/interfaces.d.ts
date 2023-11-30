@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { type ParamListBase } from '@react-navigation/native';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { type FieldErrors } from 'react-hook-form';
 import { type InputModeOptions } from 'react-native';
 
@@ -21,6 +19,5 @@ interface InputComponentProps {
   errorAuth?: string;
   changeMessage?: (value: string) => void;
   valueAddress?: string | null;
-
-  navigation?: NativeStackNavigationProp<ParamListBase>;
+  onClick?: () => void;
 }

@@ -14,7 +14,7 @@ import { ViewAuth } from '@/components/ViewAuth';
 import { api } from '@/lib/axios';
 import { signInSchema } from '@/schemas/signInSchema';
 import { colors } from '@/styles/global';
-import { type AuthFunctionProps } from '@/types/auth';
+import { AuthFunctionProps } from '@/types/auth';
 
 export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
   const [authError, setAuthError] = useState('');

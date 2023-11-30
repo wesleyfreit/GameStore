@@ -13,7 +13,7 @@ import { ViewAuth } from '@/components/ViewAuth';
 import { GoogleMapsContext } from '@/contexts/GoogleMaps/GoogleMapsContext';
 import { api } from '@/lib/axios';
 import { signUpSchema } from '@/schemas/signUpSchema';
-import { type AuthFunctionProps } from '@/types/auth';
+import { AuthFunctionProps } from '@/types/auth';
 
 export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
   const [address, setAddress] = useState('');
@@ -80,6 +80,8 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
     }
   };
 
+  const navigateToSetAddress = () => navigation?.push('SetAddress');
+
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
       <ScrollView>
@@ -120,7 +122,7 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
             control={control}
             errors={errors}
             valueAddress={address}
-            navigation={navigation}
+            onClick={navigateToSetAddress}
             errorAuth={
               authError === 'Address not found' ? 'Endereço não encontrado.' : undefined
             }
