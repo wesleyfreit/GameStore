@@ -11,7 +11,7 @@ import { ModalPopup } from '@/components/Modal/ModalPopup';
 import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewAuth } from '@/components/ViewAuth';
 import { GoogleMapsContext } from '@/contexts/GoogleMaps/GoogleMapsContext';
-import { api } from '@/lib/axios';
+import { api } from '@/lib/api';
 import { signUpSchema } from '@/schemas/signUpSchema';
 import { AuthFunctionProps } from '@/types/auth';
 
@@ -38,7 +38,6 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
 
   const getAddress = async () => {
     try {
-      console.log(api.defaults)
       const request = await api.post('/users/getaddress', {
         lat: coords?.latitude,
         lng: coords?.longitude,
@@ -63,6 +62,8 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
         confirm_password: data.repeatPassword,
       });
 
+
+      
       setModalVisible(true);
     } catch (error) {
       if (isAxiosError(error)) {

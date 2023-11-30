@@ -3,7 +3,6 @@ import { isAxiosError } from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native';
-import { URL_API } from '@env';
 
 import Logo from '@/assets/svgs/logo.svg';
 import { Button } from '@/components/Button';
@@ -12,7 +11,7 @@ import { Input } from '@/components/Input';
 import { ModalPopup } from '@/components/Modal/ModalPopup';
 import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewAuth } from '@/components/ViewAuth';
-import { api } from '@/lib/axios';
+import { api } from '@/lib/api';
 import { signInSchema } from '@/schemas/signInSchema';
 import { colors } from '@/styles/global';
 import { AuthFunctionProps } from '@/types/auth';
@@ -21,7 +20,6 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
   const [authError, setAuthError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
-  console.log(URL_API)
   const {
     control,
     handleSubmit,
@@ -56,7 +54,7 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
     }
   };
 
-  console.log(api.defaults)
+  console.log(api.defaults);
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>

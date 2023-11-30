@@ -1,4 +1,4 @@
-import { api } from '@/lib/axios';
+import { api } from '@/lib/api';
 import { isAxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, SafeAreaView } from 'react-native';

@@ -1,22 +1,14 @@
 import Geolocation from '@react-native-community/geolocation';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PermissionsAndroid, Platform, View } from 'react-native';
 import MapView, { MapPressEvent, Marker, Region } from 'react-native-maps';
 
-import { GoogleMapsContext } from '@/contexts/GoogleMaps/GoogleMapsContext';
 import { colors } from '@/styles/global';
+import { GoogleMapsComponentProps } from './interfaces';
 import { mapContainerStyle, mapStyle } from './styles';
 
-export const GoogleMaps = () => {
-  const { coords, setCoords } = useContext(GoogleMapsContext);
+export const GoogleMaps = ({ point, setPoint }: GoogleMapsComponentProps) => {
   const [userLocation, setUserLocation] = useState<Region | undefined>(undefined);
-
-  // useEffect(() => {
-  //   if (navigation) {
-  //     setCoords(point);
-  //     navigation.goBack();
-  //   }
-  // }, [navigation]);
 
   useEffect(() => {
     getMyLocation();
@@ -42,8 +34,8 @@ export const GoogleMaps = () => {
     });
   };
 
-  const handleSetCoords = (e: MapPressEvent) => {
-    setCoords({
+  const handleSetPoint = (e: MapPressEvent) => {
+    setPoint({
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
       latitudeDelta: 0.000949,
@@ -68,12 +60,12 @@ export const GoogleMaps = () => {
         loadingEnabled={true}
         showsUserLocation={true}
         region={userLocation}
-        onPress={handleSetCoords}
+        onPress={handleSetPoint}
       >
-        {coords && (
+        {point && (
           <Marker
             pinColor={colors.primary.color}
-            coordinate={{ latitude: coords?.latitude, longitude: coords?.longitude }}
+            coordinate={{ latitude: point?.latitude, longitude: point?.longitude }}
           />
         )}
       </MapView>

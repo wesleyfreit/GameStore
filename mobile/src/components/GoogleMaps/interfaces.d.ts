@@ -1,6 +1,6 @@
-import { type ParamListBase } from '@react-navigation/native';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Region } from 'react-native-maps';
 
 interface GoogleMapsComponentProps {
-  navigation: NativeStackNavigationProp<ParamListBase> | undefined;
+  setPoint: (e: Region) => void;
+  point: Region | undefined;
 }
