@@ -49,7 +49,7 @@ router.post(
       year: Joi.number().integer().min(1950).max(2099).required(),
       price: Joi.number().precision(2).required(),
       description: Joi.string().required(),
-      disponibility: Joi.string(),
+      disponibility: Joi.boolean(),
       genre: Joi.string().uuid().required(),
     }),
   }),
@@ -66,7 +66,7 @@ router.put(
       year: Joi.number().integer().min(1950).max(2099).required(),
       price: Joi.number().precision(2).required(),
       description: Joi.string().required(),
-      disponibility: Joi.string(),
+      disponibility: Joi.boolean(),
       genre: Joi.string().uuid().required(),
     }),
     [Segments.PARAMS]: {

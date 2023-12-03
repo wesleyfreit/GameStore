@@ -71,7 +71,7 @@ export class GameController {
             price,
             imageUrl,
             description,
-            disponibility: disponibility ? true : false,
+            disponibility,
             genreId: genre,
           };
 
@@ -142,7 +142,7 @@ export class GameController {
             price,
             imageUrl,
             description,
-            disponibility: disponibility ? true : false,
+            disponibility,
             genreId: genre,
           };
 
