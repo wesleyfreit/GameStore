@@ -9,7 +9,6 @@ import jwt from 'jsonwebtoken';
 import { testIfNumber } from '../lib/testIfNumber';
 import { User } from '../models/User';
 
-
 export class UserAuthController {
   private secret;
   private mapKey;
@@ -23,11 +22,16 @@ export class UserAuthController {
     const { username, email, password, address } = <ISignUp>req.body;
     try {
       const [existingUserByUsername, existingUserByEmail] = await Promise.all([
-        User.findFirst({ where: { username: { equals: username, mode: 'insensitive' } } }),
-        User.findFirst({ where: { email: { equals: email, mode: 'insensitive' } } }),
+        User.findFirst({
+          where: { username: { equals: username, mode: 'insensitive' } },
+        }),
+        User.findFirst({
+          where: { email: { equals: email, mode: 'insensitive' } },
+        }),
       ]);
 
-      if (existingUserByUsername) return res.status(409).json({ error: 'Username in use' });
+      if (existingUserByUsername)
+        return res.status(409).json({ error: 'Username in use' });
 
       if (existingUserByEmail) return res.status(409).json({ error: 'Email in use' });
 
@@ -58,11 +62,17 @@ export class UserAuthController {
         const checkPassword = await bcrypt.compare(password, userCheck.password);
 
         if (checkPassword) {
-          const token = jwt.sign({ id: userCheck.id, username: userCheck.username }, this.secret, {
+          const token = jwt.sign({ id: userCheck.id }, this.secret, {
             expiresIn: 3600,
           });
 
-          return res.json({ token, id: userCheck.id, username: userCheck.username });
+          return res.json({
+            token,
+            id: userCheck.id,
+            avatar: userCheck.avatarUrl,
+            username: userCheck.username,
+            isAdmin: userCheck.isAdmin,
+          });
         } else return res.status(401).json({ error: 'Invalid password' });
       } else return res.status(404).json({ error: 'Account not found' });
     } catch (error) {
