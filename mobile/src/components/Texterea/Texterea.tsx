@@ -5,31 +5,25 @@ import { Text, TextInput, View } from 'react-native';
 import { Icon } from '@/components/Icon';
 import { colors } from '@/styles/global';
 import { type InputComponentProps } from './interfaces';
-import { inputBackgroundStyle, inputPropsStyle } from './styles';
+import { textereaBackgroundStyle, textereaPropsStyle } from './styles';
 
-export const Input = ({
+export const Texterea = ({
   iconName,
   name,
-  secure,
-  type,
   text,
   control,
   errors,
+  valueAddress,
   error,
+  height,
   changeMessage,
+  onClick,
 }: InputComponentProps) => {
   const [focus, setFocus] = useState(false);
 
   const errorsArray = [
-    { name: 'username', error: errors.username },
-    { name: 'email', error: errors.email },
-    { name: 'password', error: errors.password },
-    { name: 'repeatPassword', error: errors.repeatPassword },
-    { name: 'title', error: errors.title },
-    { name: 'year', error: errors.year },
-    { name: 'price', error: errors.price },
-    { name: 'genre', error: errors.genre },
-    { name: 'disponibility', error: errors.disponibility },
+    { name: 'address', error: errors.address },
+    { name: 'description', error: errors.description },
   ];
 
   const errorMessage = errorsArray.find((error) => error.name === name);
@@ -46,8 +40,9 @@ export const Input = ({
     <View>
       <View
         style={{
-          ...inputBackgroundStyle,
+          ...textereaBackgroundStyle,
           borderColor: selectColor,
+          minHeight: height,
         }}
       >
         {iconName ? <Icon iconName={iconName} size={24} color={selectColor} /> : <></>}
@@ -59,20 +54,26 @@ export const Input = ({
             <TextInput
               placeholder={text}
               placeholderTextColor={selectColor}
-              style={{ ...inputPropsStyle, width: iconName ? '90%' : '100%' }}
-              secureTextEntry={secure}
-              inputMode={type}
+              style={{ ...textereaPropsStyle, width: iconName ? '90%' : '100%' }}
               onBlur={() => {
                 setFocus(false);
-                onBlur;
+                onBlur();
               }}
               onChangeText={(value) => {
                 onChange(value);
                 changeMessage && changeMessage('');
               }}
-              value={typeof value == 'number' ? value.toString() : value}
-              onFocus={() => setFocus(true)}
+              value={
+                valueAddress && valueAddress != value
+                  ? valueAddress && onChange(valueAddress)
+                  : value
+              }
+              onFocus={() => {
+                setFocus(true);
+                name === 'address' && onClick ? onClick() : undefined;
+              }}
               focusable={true}
+              multiline
             />
           )}
         />

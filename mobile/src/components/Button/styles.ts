@@ -7,6 +7,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center',
+    width: '100%',
   },
   buttonTextStyle: {
     fontWeight: 'bold',

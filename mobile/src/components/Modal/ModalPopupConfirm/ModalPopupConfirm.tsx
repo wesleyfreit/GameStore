@@ -2,19 +2,18 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, Modal, View } from 'react-native';
 
 import { Button } from '@/components/Button';
-import { Icon } from '@/components/Icon/Icon';
+import { Icon } from '@/components/Icon';
 import { TitleDefault } from '@/components/Title/TitleDefault';
 import { selectColor } from '@/lib/selectColor';
 import { modalBackgroundStyle, modalContainerStyle } from './styles';
 
-export const ModalPopup = ({
-  visible,
+export const ModalPopupConfirm = ({
   iconName,
-  title,
-  buttonTitle,
   setVisible,
-  navigateTo,
-}: ModalPopupComponentProps) => {
+  title,
+  visible,
+  isTrue,
+}: ModalPopupConfirmComponentProps) => {
   const scaleValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -29,7 +28,6 @@ export const ModalPopup = ({
   const handleSetVisible = () => {
     setTimeout(() => {
       setVisible(false);
-      if (navigateTo) navigateTo();
     }, 50);
 
     Animated.spring(scaleValue, {
@@ -54,8 +52,24 @@ export const ModalPopup = ({
           <View style={{ alignItems: 'center' }}>
             <TitleDefault text={title} />
           </View>
-          <View>
-            <Button text={buttonTitle} onClick={handleSetVisible} />
+          <View
+            style={{
+              gap: 7,
+              flexDirection: 'row',
+            }}
+          >
+            <View style={{ flex: 1 }}>
+              <Button
+                text={'Sim'}
+                onClick={() => {
+                  handleSetVisible();
+                  isTrue();
+                }}
+              />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Button text={'Não'} onClick={handleSetVisible} bgColor="danger" />
+            </View>
           </View>
         </Animated.View>
       </View>

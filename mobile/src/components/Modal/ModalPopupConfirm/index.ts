@@ -1,0 +1,1 @@
+export { ModalPopupConfirm } from './ModalPopupConfirm';

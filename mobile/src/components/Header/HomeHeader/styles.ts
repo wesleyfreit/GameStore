@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 15,
-    marginBottom: 15,
+    marginBottom: 7,
   },
   homeHeaderLogoSideStyle: {
     flexDirection: 'row',

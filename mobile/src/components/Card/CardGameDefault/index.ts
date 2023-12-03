@@ -1,0 +1,1 @@
+export { CardGameDefault } from './CardGameDefault';

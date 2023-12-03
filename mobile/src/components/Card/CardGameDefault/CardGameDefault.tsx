@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { colors, screenWidth } from '@/styles/global';
-import { Icon } from '../Icon';
+import { Icon } from '../../Icon';
 import {
   cardButtonStyle,
   cardButtonTextStyle,
@@ -21,7 +21,11 @@ import {
   cardYearStyle,
 } from './styles';
 
-export const Card = ({ game, toGame, addToCart }: CardComponentProps) => {
+export const CardGameDefault = ({
+  game,
+  toGame,
+  addToCart,
+}: CardDefaultComponentProps) => {
   const formatCurrency = (value: number) => {
     const formattedValue = new Intl.NumberFormat('pt-BR', {
       style: 'currency',

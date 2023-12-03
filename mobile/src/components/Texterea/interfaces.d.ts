@@ -1,29 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { type FieldErrors } from 'react-hook-form';
-import { type InputModeOptions } from 'react-native';
+import { Control, type FieldErrors } from 'react-hook-form';
+import { type DimensionValue } from 'react-native';
 
 interface InputComponentProps {
   iconName?: keyof IconName;
   name: string;
-  secure?: boolean;
-  type?: InputModeOptions;
   text: string;
   control: Control<any>;
   errors: FieldErrors<{
-    username: string;
-    email: string;
     address: string;
-    password: string;
-    repeatPassword?: any;
-    title: string;
-    price: number;
-    year: number;
     description: string;
-    genre: string;
-    disponibility: string;
   }>;
   error?: string;
   changeMessage?: (value: string) => void;
+  valueAddress?: string | null;
+  onClick?: () => void;
+  height?: DimensionValue;
 }
 
 type IconName = {
