@@ -26,14 +26,22 @@ export class UserAccountController {
       const usernameCheck = await User.findFirst({
         where: { username: { equals: username, mode: 'insensitive' } },
       });
-      if (usernameCheck && usernameCheck.username === username && req.id !== usernameCheck.id)
-        return res.status(409).json({ error: 'Este usuário já foi cadastrado anteriormente.' });
+      if (
+        usernameCheck &&
+        usernameCheck.username === username &&
+        req.id !== usernameCheck.id
+      )
+        return res
+          .status(409)
+          .json({ error: 'Este usuário já foi cadastrado anteriormente.' });
 
       const emailCheck = await User.findFirst({
         where: { email: { equals: email, mode: 'insensitive' } },
       });
       if (emailCheck && emailCheck.email === email && req.id !== emailCheck.id)
-        return res.status(409).json({ error: 'Este email já foi cadastrado anteriormente.' });
+        return res
+          .status(409)
+          .json({ error: 'Este email já foi cadastrado anteriormente.' });
 
       const user = await User.findUnique({ where: { id } });
       if (user && user.id == req.id) {
@@ -73,7 +81,8 @@ export class UserAccountController {
         }
       } else if (user && user.isAdmin) {
         return res.status(401).json({
-          error: 'Você não pode apagar sua conta pois você é um admin, a operação foi abortada.',
+          error:
+            'Você não pode apagar sua conta pois você é um admin, a operação foi abortada.',
         });
       } else {
         return res.status(404).send('Content not found');

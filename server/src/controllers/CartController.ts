@@ -47,7 +47,9 @@ export class CartController {
             price: game.price,
           });
         }
-        let message = check ? 'O item já está no carrinho' : 'Item adicionado no carrinho.';
+        const message = check
+          ? 'O item já está no carrinho'
+          : 'Item adicionado no carrinho.';
 
         const token = check
           ? cart_items
@@ -59,7 +61,8 @@ export class CartController {
         });
       } else {
         return res.status(404).json({
-          error: 'Impossível adicionar este jogo no carrinho pois ele não está cadastrado.',
+          error:
+            'Impossível adicionar este jogo no carrinho pois ele não está cadastrado.',
         });
       }
     } catch (error) {
@@ -82,9 +85,9 @@ export class CartController {
             cart_items: token,
           });
         } else {
-          return res
-            .status(404)
-            .json({ error: 'O item que você está tentando remover não existe no carrinho.' });
+          return res.status(404).json({
+            error: 'O item que você está tentando remover não existe no carrinho.',
+          });
         }
       }
     } catch (error) {
@@ -106,7 +109,9 @@ export class CartController {
             if (game) {
               const check = userGames.some((find) => find.gameId === game.id);
               !check
-                ? await UserGames.create({ data: { userId: userBuying.id, gameId: game.id } })
+                ? await UserGames.create({
+                    data: { userId: userBuying.id, gameId: game.id },
+                  })
                 : (errorTitles = errorTitles.concat(` ${game.title},`));
             }
           }),
@@ -117,7 +122,9 @@ export class CartController {
           info: `Os títulos foram adicionados a sua conta, com exceção de ${errorTitles} pois esse(s) já existia(m) na sua conta.`,
         });
       } else {
-        return res.status(201).json({ info: 'Os títulos que foram comprados estão na sua conta!' });
+        return res
+          .status(201)
+          .json({ info: 'Os títulos que foram comprados estão na sua conta!' });
       }
     } catch (error) {
       return res.sendStatus(500);

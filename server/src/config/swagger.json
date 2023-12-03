@@ -1298,7 +1298,15 @@
             "example": "f107863e-41cf-4cb4-b07d-08b46b9e5d86"
           }
         },
-        "required": ["image", "title", "year", "price", "description", "disponibility", "genre"]
+        "required": [
+          "image",
+          "title",
+          "year",
+          "price",
+          "description",
+          "disponibility",
+          "genre"
+        ]
       },
       "EditGame": {
         "type": "object",

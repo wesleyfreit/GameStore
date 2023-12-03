@@ -9,7 +9,7 @@ const parser = multer({
 
 export const parserImg = async (req: Request, res: Response, next: NextFunction) => {
   parser.single('image')(req, res, async (err) => {
-    if (err) return res.status(400).json({error: 'Error with file'})
+    if (err) return res.status(400).json({ error: 'Error with file' });
     next();
   });
 };

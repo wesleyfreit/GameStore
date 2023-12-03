@@ -31,7 +31,8 @@ export class UserAdminController {
           });
         } else {
           return res.status(401).json({
-            error: 'Você não pode e não deve alterar a própria permissão, a operação foi abortada.',
+            error:
+              'Você não pode e não deve alterar a própria permissão, a operação foi abortada.',
           });
         }
       } else {

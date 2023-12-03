@@ -20,7 +20,8 @@ export class GenreController {
         });
         if (genre) {
           return res.status(409).json({
-            error: 'O gênero que está tentando cadastrar já existe, por favor tente outro.',
+            error:
+              'O gênero que está tentando cadastrar já existe, por favor tente outro.',
           });
         } else {
           await Genre.create({ data: { name } });
@@ -57,7 +58,8 @@ export class GenreController {
           return res.status(204).json({ info: 'O gênero foi atualizado com sucesso.' });
         } else {
           return res.status(404).json({
-            error: 'O gênero que você tentou acessar para alterar provavelmente não existe.',
+            error:
+              'O gênero que você tentou acessar para alterar provavelmente não existe.',
           });
         }
       } else {
@@ -87,7 +89,8 @@ export class GenreController {
         }
       } else {
         return res.status(404).json({
-          error: 'O gênero que você tentou acessar para remover provavelmente não existe.',
+          error:
+            'O gênero que você tentou acessar para remover provavelmente não existe.',
         });
       }
     } catch (error) {
