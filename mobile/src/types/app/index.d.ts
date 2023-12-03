@@ -1,6 +1,6 @@
-import { type AppRoutesType } from '@/routes/interfaces';
-import { type BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { type RoutesType } from '@/routes/interfaces';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface AppFunctionProps {
-  navigation: BottomTabNavigationProp<AppRoutesType>;
+  navigation: NativeStackNavigationProp<RoutesType>;
 }
