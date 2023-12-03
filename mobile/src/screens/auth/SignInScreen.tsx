@@ -8,9 +8,11 @@ import Logo from '@/assets/svgs/logo.svg';
 import { Button } from '@/components/Button';
 import { ClickableText } from '@/components/ClickableText';
 import { Input } from '@/components/Input';
+import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { ModalPopup } from '@/components/Modal/ModalPopup';
 import { TitleGuide } from '@/components/Title/TitleGuide';
-import { ViewAuth } from '@/components/ViewAuth';
+import { ViewDefault } from '@/components/ViewDefault';
+import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { signInSchema } from '@/schemas/signInSchema';
 import { colors } from '@/styles/global';
@@ -19,6 +21,9 @@ import { AuthFunctionProps } from '@/types/auth';
 export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
   const [authError, setAuthError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
+
+  const { setUser } = useAuth();
 
   const {
     control,
@@ -27,15 +32,23 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
   } = useForm({ resolver: yupResolver(signInSchema) });
 
   const handleSignIn = async (data: SignInUser) => {
+    setModalLoadingVisible(true);
+
     try {
       const response = await api.post('/users/signin', {
         email: data.email,
         password: data.password,
       });
+      setTimeout(() => {}, 1000);
+      const { token, id, avatar, username, isAdmin } = response.data;
 
-      const token = response.data.token;
+      setUser({ id, avatar, username, isAdmin });
+
       console.log(token);
+      setModalLoadingVisible(false);
     } catch (error) {
+      setModalLoadingVisible(false);
+
       if (isAxiosError(error)) {
         const status = error.response?.status;
         const message = error.response?.data;
@@ -54,11 +67,12 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
     }
   };
 
-  console.log(api.defaults);
-
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={{ alignItems: 'center', marginVertical: 15 }}>
           <Logo />
           <Text
@@ -72,7 +86,7 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
           </Text>
         </View>
 
-        <ViewAuth>
+        <ViewDefault>
           <TitleGuide text={'Entrar'} />
 
           <Input
@@ -82,7 +96,7 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
             text={'Email'}
             control={control}
             errors={errors}
-            errorAuth={
+            error={
               authError === 'Account not found'
                 ? 'Este email não pertence a nenhuma conta.'
                 : undefined
@@ -96,7 +110,7 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
             text={'Senha'}
             control={control}
             errors={errors}
-            errorAuth={
+            error={
               authError === 'Invalid password' ? 'A senha está incorreta.' : undefined
             }
             changeMessage={setAuthError}
@@ -116,6 +130,8 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
             buttonTitle={'Fechar'}
           />
 
+          {modalLoadingVisible ? <ModalLoading /> : <></>}
+
           <Button text={'Entrar'} onClick={handleSubmit(handleSignIn)} />
 
           <ClickableText
@@ -123,7 +139,7 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
             textNotClickable={'Não tem uma conta? '}
             textClickable={'Criar conta.'}
           />
-        </ViewAuth>
+        </ViewDefault>
       </ScrollView>
     </SafeAreaView>
   );

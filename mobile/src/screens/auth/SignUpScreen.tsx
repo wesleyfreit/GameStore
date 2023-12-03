@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isAxiosError } from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, SafeAreaView, ScrollView } from 'react-native';
 
@@ -8,17 +8,21 @@ import { Button } from '@/components/Button';
 import { ClickableText } from '@/components/ClickableText';
 import { Input } from '@/components/Input';
 import { ModalPopup } from '@/components/Modal/ModalPopup';
+import { Texterea } from '@/components/Texterea';
 import { TitleGuide } from '@/components/Title/TitleGuide';
-import { ViewAuth } from '@/components/ViewAuth';
-import { GoogleMapsContext } from '@/contexts/GoogleMaps/GoogleMapsContext';
+import { ViewDefault } from '@/components/ViewDefault';
+import { useCoords } from '@/hooks/useCoords';
 import { api } from '@/lib/api';
 import { signUpSchema } from '@/schemas/signUpSchema';
 import { AuthFunctionProps } from '@/types/auth';
+import { Region } from 'react-native-maps';
+import { ModalLoading } from '@/components/Modal/ModalLoading';
 
 export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
   const [address, setAddress] = useState('');
   const [authError, setAuthError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
 
   const {
     control,
@@ -28,31 +32,42 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
     resolver: yupResolver(signUpSchema(address)),
   });
 
-  const { coords, setCoords } = useContext(GoogleMapsContext);
+  const { coords, setCoords } = useCoords();
 
   useEffect(() => {
-    if (coords) {
+    if (coords.latitude) {
       getAddress();
     }
   }, [coords]);
 
   const getAddress = async () => {
+    setModalLoadingVisible(true);
+
     try {
       const request = await api.post('/users/getaddress', {
         lat: coords?.latitude,
         lng: coords?.longitude,
       });
+
       setAddress(request.data.address);
-      setCoords(undefined);
+      setCoords({} as Region);
+      setModalLoadingVisible(false);
     } catch (error) {
+      setModalLoadingVisible(false);
+
       if (isAxiosError(error)) {
+        const status = error.response?.status;
         const message = error.response?.data;
-        Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message}`);
+        if (status == 400) {
+          setAuthError(message.error);
+        } else Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message}`);
       }
     }
   };
 
   const handleSignUp = async (data: SignUpUser) => {
+    setModalLoadingVisible(true);
+
     try {
       await api.post('/users/signup', {
         username: data.username,
@@ -62,10 +77,11 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
         confirm_password: data.repeatPassword,
       });
 
-
-      
       setModalVisible(true);
+      setModalLoadingVisible(false);
     } catch (error) {
+      setModalLoadingVisible(false);
+
       if (isAxiosError(error)) {
         const status = error.response?.status;
         const message = error.response?.data;
@@ -86,8 +102,8 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
-      <ScrollView>
-        <ViewAuth>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <ViewDefault>
           <TitleGuide text={'Dados cadastrais'} />
 
           <Input
@@ -96,7 +112,7 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
             text={'Nick de usuário*'}
             control={control}
             errors={errors}
-            errorAuth={
+            error={
               authError === 'Username in use'
                 ? 'Este nome de usuário já está em uso.'
                 : undefined
@@ -111,13 +127,13 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
             text={'Email*'}
             control={control}
             errors={errors}
-            errorAuth={
+            error={
               authError === 'Email in use' ? 'Este email já está em uso.' : undefined
             }
             changeMessage={setAuthError}
           />
 
-          <Input
+          <Texterea
             iconName={'point'}
             name={'address'}
             text={'Endereço*'}
@@ -125,7 +141,7 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
             errors={errors}
             valueAddress={address}
             onClick={() => navigation.push('SetAddress')}
-            errorAuth={
+            error={
               authError === 'Address not found' ? 'Endereço não encontrado.' : undefined
             }
             changeMessage={setAuthError}
@@ -149,6 +165,8 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
             errors={errors}
           />
 
+          {modalLoadingVisible ? <ModalLoading /> : <></>}
+
           <ModalPopup
             visible={modalVisible}
             setVisible={setModalVisible}
@@ -164,7 +182,7 @@ export const SignUpScreen = ({ navigation }: AuthFunctionProps) => {
             onClick={() => navigation.goBack()}
             textClickable={'Já tenho uma conta'}
           />
-        </ViewAuth>
+        </ViewDefault>
       </ScrollView>
     </SafeAreaView>
   );

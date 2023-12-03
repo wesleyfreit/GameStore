@@ -1,20 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native';
 
 import { Button } from '@/components/Button';
 import { GoogleMaps } from '@/components/GoogleMaps/GoogleMaps';
 import { ModalPopup } from '@/components/Modal/ModalPopup';
 import { TitleGuide } from '@/components/Title/TitleGuide';
-import { ViewAuth } from '@/components/ViewAuth';
-import { GoogleMapsContext } from '@/contexts/GoogleMaps/GoogleMapsContext';
-import { AuthFunctionProps } from '@/types/auth';
-import { Region } from 'react-native-maps';
+import { ViewDefault } from '@/components/ViewDefault';
+import { useCoords } from '@/hooks/useCoords';
+import { type AuthFunctionProps } from '@/types/auth';
+import { type Region } from 'react-native-maps';
 
 export const SetAdressScreen = ({ navigation }: AuthFunctionProps) => {
   const [point, setPoint] = useState<Region | undefined>(undefined);
   const [visible, setVisible] = useState(false);
 
-  const { setCoords } = useContext(GoogleMapsContext);
+  const { setCoords } = useCoords();
 
   const handleSetSave = () => {
     if (point) {
@@ -25,7 +25,7 @@ export const SetAdressScreen = ({ navigation }: AuthFunctionProps) => {
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
-      <ViewAuth>
+      <ViewDefault>
         <TitleGuide text={'Selecione seu endereço no mapa.'} />
 
         <GoogleMaps point={point} setPoint={setPoint} />
@@ -38,7 +38,7 @@ export const SetAdressScreen = ({ navigation }: AuthFunctionProps) => {
           visible={visible}
         />
         <Button text={'Selecionar'} onClick={handleSetSave} />
-      </ViewAuth>
+      </ViewDefault>
     </SafeAreaView>
   );
 };
