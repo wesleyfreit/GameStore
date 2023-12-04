@@ -15,6 +15,7 @@ import { ViewDefault } from '@/components/ViewDefault';
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { signInSchema } from '@/schemas/signInSchema';
+import { storageUserSave } from '@/storage/storageUser';
 import { colors } from '@/styles/global';
 import { AuthFunctionProps } from '@/types/auth';
 
@@ -43,6 +44,7 @@ export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
       const { token, id, avatar, username, isAdmin } = response.data;
 
       setUser({ id, avatar, username, isAdmin });
+      storageUserSave({ id, avatar, username, isAdmin });
 
       console.log(token);
       setModalLoadingVisible(false);

@@ -1,8 +1,9 @@
 import { type ReactNode } from 'react';
 
 interface AuthContextProps {
-  user: UserAuth | undefined;
-  setUser: (value: UserAuth) => void;
+  user: IUser | undefined;
+  setUser: (value: IUser) => void;
+  isLoadingUserStorageData: boolean;
 }
 
 interface AuthProviderProps {

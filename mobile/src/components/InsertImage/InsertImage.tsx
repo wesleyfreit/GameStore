@@ -10,6 +10,7 @@ import {
   insertImageImageStyle,
   insertImageTextStyle,
 } from './styles';
+import { AppError } from '@/utils/AppError';
 
 export const InsertImage = ({
   control,
@@ -34,9 +35,10 @@ export const InsertImage = ({
         return image;
       }
       setImagErrorMessage({ didCancel: result.didCancel });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      setImagErrorMessage({ errorMessage: error.message });
+
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      if (isAppError) setImagErrorMessage({ errorMessage: error.message });
     }
   };
 

@@ -10,7 +10,7 @@ interface SignInUser {
   password: string;
 }
 
-interface UserAuth {
+interface IUser {
   id: string;
   avatar: string;
   username: string;

@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React from 'react';
 
+import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { useAuth } from '@/hooks/useAuth';
 import { colors } from '@/styles/global';
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,9 +12,11 @@ import { TabRoutes } from './home/tab.routes';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export const Routes = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
-  const { user } = useAuth();
+  const { user, isLoadingUserStorageData } = useAuth();
+
+  if (isLoadingUserStorageData) {
+    return <ModalLoading />;
+  }
 
   return (
     <NavigationContainer
