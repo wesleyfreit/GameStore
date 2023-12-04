@@ -1,5 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native';
+import { type Region } from 'react-native-maps';
 
 import { Button } from '@/components/Button';
 import { GoogleMaps } from '@/components/GoogleMaps/GoogleMaps';
@@ -7,12 +9,13 @@ import { ModalPopup } from '@/components/Modal/ModalPopup';
 import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewDefault } from '@/components/ViewDefault';
 import { useCoords } from '@/hooks/useCoords';
-import { type AuthFunctionProps } from '@/types/auth';
-import { type Region } from 'react-native-maps';
+import { type AuthNavigatorRoutesProps } from '@/types/routes';
 
-export const SetAdressScreen = ({ navigation }: AuthFunctionProps) => {
+export const SetAdressScreen = () => {
   const [point, setPoint] = useState<Region | undefined>(undefined);
   const [visible, setVisible] = useState(false);
+
+  const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
   const { setCoords } = useCoords();
 

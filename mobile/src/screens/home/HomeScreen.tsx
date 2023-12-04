@@ -1,4 +1,4 @@
-import { api } from '@/lib/api';
+import { useNavigation } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, SafeAreaView } from 'react-native';
@@ -6,12 +6,15 @@ import { Alert, FlatList, SafeAreaView } from 'react-native';
 import { CardGameDefault } from '@/components/Card/CardGameDefault';
 import { HomeHeader } from '@/components/Header/HomeHeader';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
-import { type AppFunctionProps } from '@/types/app';
+import { api } from '@/lib/api';
+import { type MainNavigatorRoutesProps } from '@/types/routes';
 
-export const HomeScreen = ({ navigation }: AppFunctionProps) => {
+export const HomeScreen = () => {
   const [games, setGames] = useState<IGame[]>([]);
   const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+
+  const navigation = useNavigation<MainNavigatorRoutesProps>();
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -50,8 +53,8 @@ export const HomeScreen = ({ navigation }: AppFunctionProps) => {
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center', marginTop: 15 }}>
       <HomeHeader
-        toSearch={() => navigation.navigate('Stack', { screen: 'Search' })}
-        toCart={() => navigation.navigate('Stack', { screen: 'Cart' })}
+        toSearch={() => navigation.navigate('Search')}
+        toCart={() => navigation.navigate('Cart')}
       />
 
       {modalLoadingVisible ? <ModalLoading /> : <></>}
@@ -67,9 +70,7 @@ export const HomeScreen = ({ navigation }: AppFunctionProps) => {
         renderItem={({ item }) => (
           <CardGameDefault
             game={item}
-            toGame={() =>
-              navigation.navigate('Stack', { screen: 'Game', params: { id: item.id } })
-            }
+            toGame={() => navigation.navigate('Game', { params: { id: item.id } })}
             addToCart={() => addToCart(item.id)}
           />
         )}

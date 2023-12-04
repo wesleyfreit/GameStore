@@ -1,4 +1,4 @@
-import { api } from '@/lib/api';
+import { useNavigation } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, SafeAreaView, Text, ToastAndroid, View } from 'react-native';
@@ -7,15 +7,18 @@ import { Button } from '@/components/Button';
 import { CardGameRectangle } from '@/components/Card/CardGameRetangle';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { ModalPopupConfirm } from '@/components/Modal/ModalPopupConfirm';
+import { api } from '@/lib/api';
 import { colors } from '@/styles/global';
-import { AppFunctionProps } from '@/types/app';
+import { type MainNavigatorRoutesProps } from '@/types/routes';
 
-export const GamesScreen = ({ navigation }: AppFunctionProps) => {
+export const GamesScreen = () => {
   const [modalConfirmVisible, setConfirmModalVisible] = useState(false);
   const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [idToRemove, setIdToRemove] = useState('');
   const [games, setGames] = useState<IGame[]>([]);
+
+  const navigation = useNavigation<MainNavigatorRoutesProps>();
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -47,7 +50,7 @@ export const GamesScreen = ({ navigation }: AppFunctionProps) => {
   };
 
   const editGame = (slug: string) => {
-    navigation.navigate('Stack', { screen: 'GameEditor', params: { slug } });
+    navigation.navigate('GameEditor', { params: { slug } });
   };
 
   const removeGame = async (id: string) => {
@@ -84,9 +87,7 @@ export const GamesScreen = ({ navigation }: AppFunctionProps) => {
         renderItem={({ item }) => (
           <CardGameRectangle
             game={item}
-            toGame={() =>
-              navigation.navigate('Stack', { screen: 'Game', params: { id: item.id } })
-            }
+            toGame={() => navigation.navigate('Game', { params: { id: item.id } })}
             toEdit={() => editGame(item.slug)}
             toRemove={() => {
               setConfirmModalVisible(true);
@@ -120,7 +121,7 @@ export const GamesScreen = ({ navigation }: AppFunctionProps) => {
       >
         <Button
           text={'Cadastrar jogo'}
-          onClick={() => navigation.navigate('Stack', { screen: 'GameEditor' })}
+          onClick={() => navigation.navigate('GameEditor')}
         />
       </View>
     </SafeAreaView>

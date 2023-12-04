@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigation } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,12 +18,14 @@ import { api } from '@/lib/api';
 import { signInSchema } from '@/schemas/signInSchema';
 import { storageUserSave } from '@/storage/storageUser';
 import { colors } from '@/styles/global';
-import { AuthFunctionProps } from '@/types/auth';
+import { type AuthNavigatorRoutesProps } from '@/types/routes';
 
-export const SignInScreen = ({ navigation }: AuthFunctionProps) => {
+export const SignInScreen = () => {
   const [authError, setAuthError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
+
+  const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
   const { setUser } = useAuth();
 

@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 
 import { GamesScreen } from '@/screens/admin/games/GamesScreen';
 import { GenresScreen } from '@/screens/admin/genres/GenresScreen';
@@ -10,23 +11,25 @@ import { ProfileScreen } from '@/screens/profile/ProfileScreen';
 
 import { Icon } from '@/components/Icon';
 import { useAuth } from '@/hooks/useAuth';
+import { colors } from '@/styles/global';
 import { URL_API } from '@env';
-import { type AppRoutesType } from '../interfaces';
-import { tabBarIconStyle } from '../styles';
+import { type MainNavigatorRoutesProps, type MainRoutesType } from '../types/routes';
 
-const Tab = createBottomTabNavigator<AppRoutesType>();
+const { Navigator, Screen } = createBottomTabNavigator<MainRoutesType>();
 
-export const TabRoutes = () => {
+export const MenuRoutes = () => {
   const { user } = useAuth();
 
+  const navigation = useNavigation<MainNavigatorRoutesProps>();
+
   return (
-    <Tab.Navigator
+    <Navigator
       screenOptions={{
         tabBarShowLabel: true,
         tabBarStyle: { height: 70, paddingBottom: 10 },
       }}
     >
-      <Tab.Screen
+      <Screen
         name="Home"
         component={HomeScreen}
         options={{
@@ -40,7 +43,7 @@ export const TabRoutes = () => {
 
       {user?.isAdmin ? (
         <>
-          <Tab.Screen
+          <Screen
             name="Games"
             component={GamesScreen}
             options={{
@@ -51,7 +54,7 @@ export const TabRoutes = () => {
             }}
           />
 
-          <Tab.Screen
+          <Screen
             name="Genres"
             component={GenresScreen}
             options={{
@@ -61,7 +64,7 @@ export const TabRoutes = () => {
               ),
             }}
           />
-          <Tab.Screen
+          <Screen
             name="Users"
             component={UsersScreen}
             options={{
@@ -76,19 +79,34 @@ export const TabRoutes = () => {
         <></>
       )}
 
-      <Tab.Screen
+      <Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          title: 'Perfil',
+          title: 'Meu Perfil',
           tabBarIcon: ({ color }) => (
             <Image
               source={{ uri: URL_API.concat(user?.avatar as string) }}
-              style={{ ...tabBarIconStyle, borderColor: color }}
+              style={{
+                width: 30,
+                height: 30,
+                borderWidth: 2,
+                borderRadius: 30,
+                borderColor: color,
+              }}
             />
           ),
+          headerRight: () => (
+            <TouchableOpacity
+              activeOpacity={0.6}
+              onPress={() => navigation.navigate('EditProfile')}
+            >
+              <Icon iconName="pencil" color={colors.text.color} size={24} />
+            </TouchableOpacity>
+          ),
+          headerRightContainerStyle: { paddingHorizontal: 15 },
         }}
       />
-    </Tab.Navigator>
+    </Navigator>
   );
 };

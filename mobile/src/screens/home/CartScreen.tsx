@@ -1,4 +1,4 @@
-import { api } from '@/lib/api';
+import { useNavigation } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, SafeAreaView, ToastAndroid, View } from 'react-native';
@@ -6,16 +6,16 @@ import { Alert, FlatList, SafeAreaView, ToastAndroid, View } from 'react-native'
 import { Button } from '@/components/Button';
 import { CardGameRectangle } from '@/components/Card/CardGameRetangle';
 import { ModalPopupConfirm } from '@/components/Modal/ModalPopupConfirm';
+import { api } from '@/lib/api';
 import { colors } from '@/styles/global';
-import { useNavigation } from '@react-navigation/native';
-import { HomeNavigatorRoutesProps } from '@/routes/interfaces';
+import { type MainNavigatorRoutesProps } from '@/types/routes';
 
 export const CartScreen = () => {
   const [games, setGames] = useState<IGame[]>([]);
   const [modalConfirmVisible, setConfirmModalVisible] = useState(false);
   const [idToRemove, setIdToRemove] = useState('');
 
-  const navigation = useNavigation<HomeNavigatorRoutesProps>();
+  const navigation = useNavigation<MainNavigatorRoutesProps>();
 
   useEffect(() => {
     getGames();

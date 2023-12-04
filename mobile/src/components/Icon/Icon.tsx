@@ -10,10 +10,12 @@ import {
   Lock,
   Mail,
   MapPin,
+  Pencil,
   Search,
   ShoppingCart,
   User,
   Users2,
+  X,
   XCircle,
 } from 'lucide-react-native';
 import React from 'react';
@@ -43,6 +45,8 @@ export const Icon = ({ iconName, size, color, strokeWidth }: IconComponentProps)
       icon: <Check size={size} color={color} strokeWidth={strokeWidth} />,
     },
     { name: 'camera', icon: <Camera size={size} color={color} /> },
+    { name: 'pencil', icon: <Pencil size={size} color={color} /> },
+    { name: 'close', icon: <X size={size} color={color} /> },
   ];
 
   const componentIcon = iconsArray.find((component) => component.name === iconName);

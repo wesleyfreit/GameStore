@@ -16,8 +16,8 @@ import { Texterea } from '@/components/Texterea';
 import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewDefault } from '@/components/ViewDefault';
 import { api } from '@/lib/api';
-import { type HomeNavigatorRoutesProps } from '@/routes/interfaces';
 import { createGameSchema } from '@/schemas/createGameSchema';
+import { type MainNavigatorRoutesProps } from '@/types/routes';
 import { URL_API } from '@env';
 
 export const GameEditorScreen = () => {
@@ -30,7 +30,7 @@ export const GameEditorScreen = () => {
   const [genres, setGenres] = useState<IGenre[]>([]);
   const [error, setError] = useState('');
 
-  const navigation = useNavigation<HomeNavigatorRoutesProps>();
+  const navigation = useNavigation<MainNavigatorRoutesProps>();
 
   const {
     control,

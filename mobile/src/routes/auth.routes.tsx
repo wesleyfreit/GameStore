@@ -1,11 +1,11 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
+import { GoogleMapsProvider } from '@/contexts/GoogleMaps';
 import { SetAdressScreen } from '@/screens/auth/SetAddressScreen';
 import { SignInScreen } from '@/screens/auth/SignInScreen';
 import { SignUpScreen } from '@/screens/auth/SignUpScreen';
-import { AuthRoutesType } from '../interfaces';
-import { GoogleMapsProvider } from '@/contexts/GoogleMaps';
+import { AuthRoutesType } from '@/types/routes';
 
 const { Navigator, Screen } = createNativeStackNavigator<AuthRoutesType>();
 
