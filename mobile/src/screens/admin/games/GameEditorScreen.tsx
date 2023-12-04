@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -31,6 +31,7 @@ export const GameEditorScreen = () => {
   const [error, setError] = useState('');
 
   const navigation = useNavigation<MainNavigatorRoutesProps>();
+  const route = useRoute();
 
   const {
     control,
@@ -40,13 +41,10 @@ export const GameEditorScreen = () => {
   } = useForm({ resolver: yupResolver(createGameSchema(preview, genre, imageUrl)) });
 
   useEffect(() => {
-    const slug = navigation
-      .getState()
-      .routes.filter((item) => item.name === 'GameEditor')[0].params?.slug;
-
-    if (slug) {
-      handleSetProperties(slug);
+    if (route.params && 'slug' in route.params) {
+      handleSetProperties(route.params.slug as string);
     }
+
     getGenres();
   }, [navigation]);
 

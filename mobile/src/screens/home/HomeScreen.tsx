@@ -70,7 +70,7 @@ export const HomeScreen = () => {
         renderItem={({ item }) => (
           <CardGameDefault
             game={item}
-            toGame={() => navigation.navigate('Game', { params: { id: item.id } })}
+            toGame={() => navigation.navigate('Game', { id: item.id })}
             addToCart={() => addToCart(item.id)}
           />
         )}

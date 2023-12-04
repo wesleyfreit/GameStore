@@ -8,6 +8,7 @@ import {
   Gamepad2,
   Home,
   Lock,
+  LogOut,
   Mail,
   MapPin,
   Pencil,
@@ -47,6 +48,7 @@ export const Icon = ({ iconName, size, color, strokeWidth }: IconComponentProps)
     { name: 'camera', icon: <Camera size={size} color={color} /> },
     { name: 'pencil', icon: <Pencil size={size} color={color} /> },
     { name: 'close', icon: <X size={size} color={color} /> },
+    { name: 'signout', icon: <LogOut size={size} color={color} /> },
   ];
 
   const componentIcon = iconsArray.find((component) => component.name === iconName);

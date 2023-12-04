@@ -35,7 +35,6 @@ export const InsertImage = ({
         return image;
       }
       setImagErrorMessage({ didCancel: result.didCancel });
-
     } catch (error) {
       const isAppError = error instanceof AppError;
       if (isAppError) setImagErrorMessage({ errorMessage: error.message });

@@ -49,10 +49,6 @@ export const GamesScreen = () => {
     setRefreshing(false);
   };
 
-  const editGame = (slug: string) => {
-    navigation.navigate('GameEditor', { params: { slug } });
-  };
-
   const removeGame = async (id: string) => {
     if (idToRemove) {
       setModalLoadingVisible(true);
@@ -87,8 +83,8 @@ export const GamesScreen = () => {
         renderItem={({ item }) => (
           <CardGameRectangle
             game={item}
-            toGame={() => navigation.navigate('Game', { params: { id: item.id } })}
-            toEdit={() => editGame(item.slug)}
+            toGame={() => navigation.navigate('Game', { id: item.id })}
+            toEdit={() => navigation.navigate('GameEditor', { slug: item.slug })}
             toRemove={() => {
               setConfirmModalVisible(true);
               setIdToRemove(item.id);

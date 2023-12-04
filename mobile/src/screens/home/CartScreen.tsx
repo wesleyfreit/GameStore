@@ -33,10 +33,6 @@ export const CartScreen = () => {
     }
   };
 
-  const editGame = (id: string) => {
-    navigation.navigate('GameEditor', { id });
-  };
-
   const removeGame = async (id: string) => {
     if (idToRemove) {
       try {
@@ -63,7 +59,7 @@ export const CartScreen = () => {
           <CardGameRectangle
             game={item}
             toGame={() => navigation.navigate('Game', { id: item.id })}
-            toEdit={() => editGame(item.id)}
+            toEdit={() => navigation.navigate('GameEditor', { slug: item.slug })}
             toRemove={() => {
               setConfirmModalVisible(true);
               setIdToRemove(item.id);

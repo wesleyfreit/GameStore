@@ -15,12 +15,12 @@ type MainRoutesType = {
   Profile: undefined;
   Search: undefined;
   Cart: undefined;
-  Game: RouteProp;
-  GameEditor: RouteProp;
-  GenreEditor: RouteProp;
+  Game: { id: string };
+  GameEditor: { slug: string } | undefined;
+  GenreEditor: { id: string } | undefined;
   EditProfile: undefined;
   EditUserAddress: undefined;
 };
 
-export type AuthNavigatorRoutesProps = NativeStackNavigationProp<AuthRoutesType>;
-export type MainNavigatorRoutesProps = NativeStackNavigationProp<MainRoutesType>;
+type AuthNavigatorRoutesProps = NativeStackNavigationProp<AuthRoutesType>;
+type MainNavigatorRoutesProps = NativeStackNavigationProp<MainRoutesType>;
