@@ -7,6 +7,7 @@ import { Button } from '@/components/Button';
 import { CardGameRectangle } from '@/components/Card/CardGameRetangle';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { ModalPopupConfirm } from '@/components/Modal/ModalPopupConfirm';
+import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { colors } from '@/styles/global';
 import { type MainNavigatorRoutesProps } from '@/types/routes';
@@ -19,6 +20,8 @@ export const GamesScreen = () => {
   const [games, setGames] = useState<IGame[]>([]);
 
   const navigation = useNavigation<MainNavigatorRoutesProps>();
+
+  const { removeUserAndToken } = useAuth();
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -38,7 +41,20 @@ export const GamesScreen = () => {
 
       if (isAxiosError(error)) {
         const message = error.response?.data;
-        Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message}`);
+        const status = error.response?.status;
+        switch (status) {
+          case 400:
+            if (message.error === 'Not Authorized')
+              ToastAndroid.show('A sessão atual é inválida', 300);
+            if (message.error == 'Invalid Session')
+              ToastAndroid.show('A sessão atual expirou', 300);
+
+            removeUserAndToken();
+            break;
+          default:
+            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
+            break;
+        }
       }
     }
   };
@@ -63,7 +79,20 @@ export const GamesScreen = () => {
 
         if (isAxiosError(error)) {
           const message = error.response?.data;
-          Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message}`);
+          const status = error.response?.status;
+          switch (status) {
+            case 400:
+              if (message.error === 'Not Authorized')
+                ToastAndroid.show('A sessão atual é inválida', 300);
+              if (message.error == 'Invalid Session')
+                ToastAndroid.show('A sessão atual expirou', 300);
+
+              removeUserAndToken();
+              break;
+            default:
+              Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
+              break;
+          }
         }
       }
 

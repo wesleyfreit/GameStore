@@ -4,20 +4,18 @@ import { Alert, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Icon } from '@/components/Icon';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { useAuth } from '@/hooks/useAuth';
-import { storageUserRemove } from '@/storage/storageUser';
 import { colors } from '@/styles/global';
 import { AppError } from '@/utils/AppError';
 
 export const EditProfileScreen = () => {
   const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
-  const { setUser } = useAuth();
+  const { removeUserAndToken } = useAuth();
 
   const handleSignOut = async () => {
     setModalLoadingVisible(true);
 
     try {
-      setUser({} as IUser);
-      await storageUserRemove();
+      removeUserAndToken();
     } catch (error) {
       const isAppError = error instanceof AppError;
 

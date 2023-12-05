@@ -78,6 +78,7 @@ router.get(
     },
     { messages },
   ),
+  userAuth,
   uAccount.account,
 );
 

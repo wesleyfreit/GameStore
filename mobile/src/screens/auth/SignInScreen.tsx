@@ -16,6 +16,7 @@ import { ViewDefault } from '@/components/ViewDefault';
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { signInSchema } from '@/schemas/signInSchema';
+import { storageAuthTokenSave } from '@/storage/storageAuthToken';
 import { storageUserSave } from '@/storage/storageUser';
 import { colors } from '@/styles/global';
 import { type AuthNavigatorRoutesProps } from '@/types/routes';
@@ -27,7 +28,7 @@ export const SignInScreen = () => {
 
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
-  const { setUser } = useAuth();
+  const { setUserAndToken } = useAuth();
 
   const {
     control,
@@ -44,12 +45,15 @@ export const SignInScreen = () => {
         password: data.password,
       });
       setTimeout(() => {}, 1000);
-      const { token, id, avatar, username, isAdmin } = response.data;
+      const { token, user } = response.data;
 
-      setUser({ id, avatar, username, isAdmin });
-      storageUserSave({ id, avatar, username, isAdmin });
+      if (token && user) {
+        await storageUserSave(user);
+        await storageAuthTokenSave(token);
 
-      console.log(token);
+        setUserAndToken(user, token);
+      }
+
       setModalLoadingVisible(false);
     } catch (error) {
       setModalLoadingVisible(false);

@@ -5,11 +5,12 @@ import { messages } from 'joi-translation-pt-br';
 import { GameController } from '../controllers/GameController';
 import { adminAuth } from '../middlewares/adminAuth';
 import { parserImg } from '../middlewares/parserImg';
+import { userAuth } from '../middlewares/userAuth';
 
 const game = new GameController();
 const router = Router();
 
-router.get('/index', game.index);
+router.get('/index', userAuth, game.index);
 router.get(
   '/games/search',
   celebrate(
@@ -23,6 +24,7 @@ router.get(
       messages: messages,
     },
   ),
+  userAuth,
   game.search,
 );
 router.get('/games', adminAuth, game.read);
@@ -38,6 +40,7 @@ router.get(
       messages: messages,
     },
   ),
+  userAuth,
   game.find,
 );
 router.post(

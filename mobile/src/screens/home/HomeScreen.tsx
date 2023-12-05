@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, SafeAreaView } from 'react-native';
+import { Alert, FlatList, SafeAreaView, ToastAndroid } from 'react-native';
 
 import { CardGameDefault } from '@/components/Card/CardGameDefault';
 import { HomeHeader } from '@/components/Header/HomeHeader';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
+import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { type MainNavigatorRoutesProps } from '@/types/routes';
 
@@ -15,6 +16,7 @@ export const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
 
   const navigation = useNavigation<MainNavigatorRoutesProps>();
+  const { removeUserAndToken } = useAuth();
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -35,7 +37,20 @@ export const HomeScreen = () => {
 
       if (isAxiosError(error)) {
         const message = error.response?.data;
-        Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message}`);
+        const status = error.response?.status;
+        switch (status) {
+          case 400:
+            if (message.error === 'Not Authorized')
+              ToastAndroid.show('A sessão atual é inválida', 300);
+            if (message.error == 'Invalid Session')
+              ToastAndroid.show('A sessão atual expirou', 300);
+
+            removeUserAndToken();
+            break;
+          default:
+            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
+            break;
+        }
       }
     }
   };

@@ -4,17 +4,15 @@ dotenv.config();
 import axios from 'axios';
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
 
 import { testIfNumber } from '../lib/testIfNumber';
 import { User } from '../models/User';
+import { createTokenJwt } from '../utils/jwtFunctions';
 
 export class UserAuthController {
-  private secret;
   private mapKey;
 
   constructor() {
-    this.secret = process.env.JWT_SECRET as string;
     this.mapKey = process.env.MAP_KEY as string;
   }
 
@@ -62,16 +60,16 @@ export class UserAuthController {
         const checkPassword = await bcrypt.compare(password, userCheck.password);
 
         if (checkPassword) {
-          const token = jwt.sign({ id: userCheck.id }, this.secret, {
-            expiresIn: 3600,
-          });
+          const token = createTokenJwt(userCheck.id);
 
           return res.json({
             token,
-            id: userCheck.id,
-            avatar: userCheck.avatarUrl,
-            username: userCheck.username,
-            isAdmin: userCheck.isAdmin,
+            user: {
+              id: userCheck.id,
+              avatar: userCheck.avatarUrl,
+              username: userCheck.username,
+              isAdmin: userCheck.isAdmin,
+            },
           });
         } else return res.status(401).json({ error: 'Invalid password' });
       } else return res.status(404).json({ error: 'Account not found' });

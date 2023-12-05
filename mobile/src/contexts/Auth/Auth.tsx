@@ -1,4 +1,6 @@
-import { storageUserGet } from '@/storage/storageUser';
+import { api } from '@/lib/api';
+import { storageAuthTokenGet, storageAuthTokenRemove } from '@/storage/storageAuthToken';
+import { storageUserGet, storageUserRemove } from '@/storage/storageUser';
 import { AppError } from '@/utils/AppError';
 import React, { createContext, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
@@ -10,13 +12,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<IUser>({} as IUser);
   const [isLoadingUserStorageData, setIsLoadingUserStorageData] = useState(true);
 
+  const setUserAndToken = (userData: IUser, token: string) => {
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    setUser(userData);
+  };
+
+  const removeUserAndToken = async () => {
+    await storageUserRemove();
+    await storageAuthTokenRemove();
+
+    setUser({} as IUser);
+  };
+
   const loadUserData = async () => {
     try {
       const userLogged = await storageUserGet();
+      const token = await storageAuthTokenGet();
 
-      if (userLogged) {
-        setUser(userLogged);
-        setIsLoadingUserStorageData(false);
+      if (userLogged && token) {
+        setUserAndToken(userLogged, token);
       }
     } catch (error) {
       const isAppError = error instanceof AppError;
@@ -34,7 +48,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, isLoadingUserStorageData }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isLoadingUserStorageData,
+        setUserAndToken,
+        removeUserAndToken,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

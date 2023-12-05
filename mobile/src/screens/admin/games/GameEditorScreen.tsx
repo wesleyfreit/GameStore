@@ -15,6 +15,7 @@ import { Select } from '@/components/Select';
 import { Texterea } from '@/components/Texterea';
 import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewDefault } from '@/components/ViewDefault';
+import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { createGameSchema } from '@/schemas/createGameSchema';
 import { type MainNavigatorRoutesProps } from '@/types/routes';
@@ -32,6 +33,8 @@ export const GameEditorScreen = () => {
 
   const navigation = useNavigation<MainNavigatorRoutesProps>();
   const route = useRoute();
+
+  const { removeUserAndToken } = useAuth();
 
   const {
     control,
@@ -73,7 +76,20 @@ export const GameEditorScreen = () => {
 
       if (isAxiosError(error)) {
         const message = error.response?.data;
-        Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message}`);
+        const status = error.response?.status;
+        switch (status) {
+          case 400:
+            if (message.error === 'Not Authorized')
+              ToastAndroid.show('A sessão atual é inválida', 300);
+            if (message.error == 'Invalid Session')
+              ToastAndroid.show('A sessão atual expirou', 300);
+
+            removeUserAndToken();
+            break;
+          default:
+            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
+            break;
+        }
       }
     }
   };
@@ -117,6 +133,14 @@ export const GameEditorScreen = () => {
         const status = error.response?.status;
         const message = error.response?.data;
         switch (status) {
+          case 400:
+            if (message.error === 'Not Authorized')
+              ToastAndroid.show('A sessão atual é inválida', 300);
+            if (message.error == 'Invalid Session')
+              ToastAndroid.show('A sessão atual expirou', 300);
+
+            removeUserAndToken();
+            break;
           case 409:
             setError(message.error);
             break;
@@ -168,6 +192,14 @@ export const GameEditorScreen = () => {
         const status = error.response?.status;
         const message = error.response?.data;
         switch (status) {
+          case 400:
+            if (message.error === 'Not Authorized')
+              ToastAndroid.show('A sessão atual é inválida', 300);
+            if (message.error == 'Invalid Session')
+              ToastAndroid.show('A sessão atual expirou', 300);
+
+            removeUserAndToken();
+            break;
           case 409:
             setError(message.error);
             break;
@@ -192,7 +224,20 @@ export const GameEditorScreen = () => {
 
       if (isAxiosError(error)) {
         const message = error.response?.data;
-        Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message}`);
+        const status = error.response?.status;
+        switch (status) {
+          case 400:
+            if (message.error === 'Not Authorized')
+              ToastAndroid.show('A sessão atual é inválida', 300);
+            if (message.error == 'Invalid Session')
+              ToastAndroid.show('A sessão atual expirou', 300);
+
+            removeUserAndToken();
+            break;
+          default:
+            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
+            break;
+        }
       }
     }
   };

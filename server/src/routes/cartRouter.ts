@@ -21,6 +21,7 @@ router.get(
       messages: messages,
     },
   ),
+  userAuth,
   setCartItems,
   cart.view,
 );
@@ -39,6 +40,7 @@ router.put(
       messages: messages,
     },
   ),
+  userAuth,
   setCartItems,
   cart.add,
 );
@@ -57,6 +59,7 @@ router.delete(
       messages: messages,
     },
   ),
+  userAuth,
   setCartItems,
   cart.remove,
 );
