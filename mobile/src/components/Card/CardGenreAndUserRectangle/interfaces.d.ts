@@ -1,5 +1,6 @@
 interface CardGenreRectangleComponentProps {
-  genre: IGenre;
-  toRemove: () => void;
+  genre?: IGenre;
+  user?: IUser;
+  toRemove?: () => void;
   toEdit: () => void;
 }

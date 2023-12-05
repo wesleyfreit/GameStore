@@ -12,7 +12,7 @@ interface SignInUser {
 
 interface IUser {
   id: string;
-  avatar: string;
+  avatar?: string;
   username: string;
   isAdmin: boolean;
 }

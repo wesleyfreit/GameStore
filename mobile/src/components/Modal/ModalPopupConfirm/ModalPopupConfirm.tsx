@@ -25,10 +25,10 @@ export const ModalPopupConfirm = ({
       }).start();
   }, [visible]);
 
-  const handleSetVisible = () => {
+  const handleSetVisible = async () => {
     setTimeout(() => {
       setVisible(false);
-    }, 50);
+    }, 100);
 
     Animated.spring(scaleValue, {
       toValue: 0,
@@ -61,8 +61,8 @@ export const ModalPopupConfirm = ({
             <View style={{ flex: 1 }}>
               <Button
                 text={'Sim'}
-                onClick={() => {
-                  handleSetVisible();
+                onClick={async () => {
+                  await handleSetVisible();
                   isTrue();
                 }}
               />

@@ -7,25 +7,32 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
     width: '100%',
-    padding: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    justifyContent: 'space-between',
   },
   cardViewTextStyle: {
-    marginLeft: 10,
-    width: 110,
     justifyContent: 'center',
   },
   cardTitleStyle: {
     fontWeight: '500',
     fontSize: 16,
     color: colors.text.color,
-    flexWrap: 'wrap',
+  },
+  cardViewActionsStyle: {
+    flexDirection: 'row',
+    gap: 30,
+    alignItems: 'center',
+  },
+  cardViewUserInfoStyle: {
+    width: 40,
+  },
+  cardUserInfoStyle: {
+    textAlign: 'center',
+    color: colors.success.color,
   },
   cardViewButtonStyle: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-    marginLeft: 'auto',
-    gap: 10,
+    gap: 5,
   },
 });
 
@@ -33,5 +40,8 @@ export const {
   cardContainerStyle,
   cardViewTextStyle,
   cardTitleStyle,
+  cardViewActionsStyle,
+  cardViewUserInfoStyle,
+  cardUserInfoStyle,
   cardViewButtonStyle,
 } = styles;
