@@ -134,7 +134,7 @@ export const GenresScreen = () => {
       <ModalPopupConfirm
         visible={modalConfirmVisible}
         setVisible={setConfirmModalVisible}
-        iconName={'danger'}
+        iconName={'warning'}
         title={'Você realmente deseja deletar este gênero?'}
         isTrue={() => removeGenre(idToRemove)}
       />

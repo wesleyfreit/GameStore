@@ -128,7 +128,7 @@ export const GamesScreen = () => {
       <ModalPopupConfirm
         visible={modalConfirmVisible}
         setVisible={setConfirmModalVisible}
-        iconName={'danger'}
+        iconName={'warning'}
         title={'Você realmente deseja deletar este jogo?'}
         isTrue={() => removeGame(idToRemove)}
       />
