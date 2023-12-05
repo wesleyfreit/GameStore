@@ -26,6 +26,22 @@ router.post(
   genre.create,
 );
 
+router.get(
+  '/genres/:id',
+  celebrate(
+    {
+      [Segments.PARAMS]: {
+        id: Joi.string().required(),
+      },
+    },
+    {
+      messages: messages,
+    },
+  ),
+  adminAuth,
+  genre.find,
+);
+
 router.put(
   '/genres/:id',
   celebrate(

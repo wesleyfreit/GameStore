@@ -11,6 +11,7 @@ const game = new GameController();
 const router = Router();
 
 router.get('/index', userAuth, game.index);
+
 router.get(
   '/games/search',
   celebrate(
@@ -27,7 +28,9 @@ router.get(
   userAuth,
   game.search,
 );
+
 router.get('/games', adminAuth, game.read);
+
 router.get(
   '/games/:slug',
   celebrate(
@@ -43,6 +46,7 @@ router.get(
   userAuth,
   game.find,
 );
+
 router.post(
   '/games',
   parserImg,
@@ -59,6 +63,7 @@ router.post(
   adminAuth,
   game.create,
 );
+
 router.put(
   '/games/:id',
   parserImg,
@@ -79,6 +84,7 @@ router.put(
   adminAuth,
   game.edit,
 );
+
 router.delete(
   '/games/:id',
   celebrate(

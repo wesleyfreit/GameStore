@@ -8,11 +8,11 @@ import { Game } from '../models/Game';
 export class GameController {
   index = async (req: Request, res: Response) => {
     try {
-      const games = await Game.findMany({ where: { disponibility: true } });
+      const games = await Game.findMany();
 
       return res.status(200).json({ games });
     } catch (error) {
-      return res.sendStatus(500);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   };
 
@@ -22,7 +22,7 @@ export class GameController {
 
       return res.status(200).json({ games });
     } catch (error) {
-      return res.sendStatus(500);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   };
 
@@ -37,14 +37,12 @@ export class GameController {
             mode: 'insensitive',
           },
         },
-        include: { genre: true },
       });
 
-      if (game) {
-        return res.status(200).json({ game });
-      } else return res.status(404).send('Content not found');
+      if (game) return res.status(200).json({ game });
+      else return res.status(404).send('Content not found');
     } catch (error) {
-      return res.sendStatus(500);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   };
 
@@ -60,9 +58,9 @@ export class GameController {
       else {
         const imageUrl = (await uploadImg(req, res)) as string | undefined;
 
-        if (!imageUrl) return res.sendStatus(400).json({ error: 'File cannot be empty' });
+        if (!imageUrl) return res.status(400).json({ error: 'File cannot be empty' });
         else if (imageUrl === 'error')
-          return res.sendStatus(400).json({ error: 'Invalid file format' });
+          return res.status(400).json({ error: 'Invalid file format' });
         else {
           const newGame = {
             title,
@@ -81,33 +79,29 @@ export class GameController {
         }
       }
     } catch (error) {
-      res.sendStatus(500);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   };
 
   search = async (req: Request, res: Response) => {
     try {
       const { name, genre } = req.query;
-      if (name && name != '') {
+
+      if (name && name !== '') {
         const games = await Game.findMany({
-          where: {
-            title: {
-              contains: `${name}`,
-            },
-          },
-          include: { genre: true },
+          where: { title: { contains: `${name}`, mode: 'insensitive' } },
         });
+
         return res.status(200).json({
-          games: genre ? games.filter((game) => game.genre.id == genre) : games,
+          games: genre ? games.filter((game) => game.genreId == genre) : games,
         });
-      } else {
-        const games = await Game.findMany({ include: { genre: true } });
-        return res.status(200).json({
-          games: genre ? games.filter((game) => game.genre.id == genre) : games,
-        });
-      }
+      } else if (genre && genre !== '') {
+        const games = await Game.findMany({ where: { genreId: genre as string } });
+
+        return res.status(200).json({ games });
+      } else return res.status(400).json({ error: 'Query cannot be empty' });
     } catch (error) {
-      res.sendStatus(500);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   };
 
@@ -131,59 +125,54 @@ export class GameController {
           ? ((await uploadImg(req, res)) as string | undefined)
           : idCheck.imageUrl;
 
-        if (!imageUrl) return res.sendStatus(400).json({ error: 'File cannot be empty' });
-        else if (imageUrl === 'error')
-          return res.sendStatus(400).json({ error: 'Invalid file format' });
-        else {
-          const updateGame = {
-            title,
-            slug: slugify(title),
-            year,
-            price,
-            imageUrl,
-            description,
-            disponibility,
-            genreId: genre,
-          };
+        if (!imageUrl) return res.status(400).json({ error: 'File cannot be empty' });
 
-          await Game.update({ where: { id }, data: { ...updateGame } });
+        if (imageUrl === 'error')
+          return res.status(400).json({ error: 'Invalid file format' });
 
-          if (req.file) await deleteImg(idCheck.imageUrl);
+        const updateGame = {
+          title,
+          slug: slugify(title),
+          year,
+          price,
+          imageUrl,
+          description,
+          disponibility,
+          genreId: genre,
+        };
 
-          return res.json({ info: 'Game updated' });
-        }
+        await Game.update({ where: { id }, data: { ...updateGame } });
+
+        if (req.file) await deleteImg(idCheck.imageUrl);
+
+        return res.status(200).json({ info: 'Game updated' });
       } else {
         return res.status(404).json({ error: 'Game not found' });
       }
     } catch (error) {
-      return res.sendStatus(500);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   };
 
   remove = async (req: Request, res: Response) => {
-    const { id } = req.params;
     try {
+      const { id } = req.params;
+
       const game = await Game.findUnique({ where: { id } });
 
       if (game) {
         const deletedImg = await deleteImg(game.imageUrl);
 
         if (deletedImg) {
-          return res.sendStatus(500);
+          return res.status(500).json({ error: 'Internal server error' });
         }
 
-        const destroy = await Game.delete({ where: { id } });
+        await Game.delete({ where: { id } });
 
-        if (destroy) {
-          return res.status(204).json({ info: 'O jogo foi deletado.' });
-        } else {
-          return res.status(401).json({ error: 'Ocorreu um erro ao validar os dados.' });
-        }
-      } else {
-        return res.status(404).json({ error: 'O jogo que tentou deletar não existe.' });
-      }
+        return res.status(200).json({ info: 'Game removed' });
+      } else return res.status(404).json({ error: 'Game not found' });
     } catch (error) {
-      return res.sendStatus(500);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   };
 }

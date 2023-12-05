@@ -9,7 +9,6 @@ export const adminAuth = async (req: Request, res: Response, next: NextFunction)
     const response = verifyTokenJwt(authorization);
     const tokenId = response as unknown as string;
 
-    console.log(authorization);
     const admin = await User.findUnique({ where: { id: tokenId } });
 
     if (admin?.isAdmin) {
