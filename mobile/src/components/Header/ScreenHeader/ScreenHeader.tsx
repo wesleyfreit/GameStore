@@ -1,8 +1,9 @@
+import React from 'react';
+import { TouchableOpacity, View } from 'react-native';
+
 import { Icon } from '@/components/Icon';
 import { TitleDefault } from '@/components/Title/TitleDefault';
 import { colors } from '@/styles/global';
-import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
 import { screenHeaderContainerStyle, screenHeaderTextStyle } from './styles';
 
 export const ScreenHeader = ({ title, toBack }: ScreenHeaderComponentProps) => {

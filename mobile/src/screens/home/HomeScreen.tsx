@@ -5,6 +5,7 @@ import { Alert, FlatList, SafeAreaView, ToastAndroid } from 'react-native';
 
 import { CardGameDefault } from '@/components/Card/CardGameDefault';
 import { HomeHeader } from '@/components/Header/HomeHeader';
+import { ListEmpty } from '@/components/ListEmpty';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
@@ -88,6 +89,9 @@ export const HomeScreen = () => {
             toGame={() => navigation.navigate('Game', { id: item.id })}
             addToCart={() => addToCart(item.id)}
           />
+        )}
+        ListEmptyComponent={() => (
+          <ListEmpty text={'Não existe nenhum jogo para exibir'} />
         )}
       />
     </SafeAreaView>

@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export const createGameSchema = (
+export const createAndEditGameSchema = (
   preview: string | null,
   genre: string | null,
   imageUrl: string | null,

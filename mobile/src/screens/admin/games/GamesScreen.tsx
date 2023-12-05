@@ -1,15 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, SafeAreaView, Text, ToastAndroid, View } from 'react-native';
+import { Alert, FlatList, SafeAreaView, ToastAndroid, View } from 'react-native';
 
 import { Button } from '@/components/Button';
 import { CardGameRectangle } from '@/components/Card/CardGameRetangle';
+import { ListEmpty } from '@/components/ListEmpty';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { ModalPopupConfirm } from '@/components/Modal/ModalPopupConfirm';
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
-import { colors } from '@/styles/global';
 import { type MainNavigatorRoutesProps } from '@/types/routes';
 
 export const GamesScreen = () => {
@@ -120,11 +120,7 @@ export const GamesScreen = () => {
             }}
           />
         )}
-        ListEmptyComponent={() => (
-          <View>
-            <Text style={{ color: colors.text.color }}>Nenhum jogo cadastrado</Text>
-          </View>
-        )}
+        ListEmptyComponent={() => <ListEmpty text={'Nenhum jogo cadastrado'} />}
       />
 
       {modalLoadingVisible ? <ModalLoading /> : <></>}

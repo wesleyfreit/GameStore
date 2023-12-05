@@ -1,4 +1,4 @@
-interface CardRectangleComponentProps {
+interface CardGameRectangleComponentProps {
   game: IGame;
   toGame?: () => void;
   toRemove: () => void;

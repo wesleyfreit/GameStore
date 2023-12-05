@@ -17,7 +17,7 @@ import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewDefault } from '@/components/ViewDefault';
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
-import { createGameSchema } from '@/schemas/createGameSchema';
+import { createAndEditGameSchema } from '@/schemas/createAndEditGameSchema';
 import { type MainNavigatorRoutesProps } from '@/types/routes';
 import { URL_API } from '@env';
 
@@ -41,7 +41,9 @@ export const GameEditorScreen = () => {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm({ resolver: yupResolver(createGameSchema(preview, genre, imageUrl)) });
+  } = useForm({
+    resolver: yupResolver(createAndEditGameSchema(preview, genre, imageUrl)),
+  });
 
   useEffect(() => {
     if (route.params && 'slug' in route.params) {
@@ -95,7 +97,6 @@ export const GameEditorScreen = () => {
   };
 
   const handleCreateGame = async (data: IGameCreateAndEdit) => {
-    // const token = await SecureStore.getItemAsync('token');
     setModalLoadingVisible(true);
 
     const formData = new FormData();
@@ -116,7 +117,6 @@ export const GameEditorScreen = () => {
     try {
       await api.post('/games', formData, {
         headers: {
-          // Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
       });
@@ -152,7 +152,6 @@ export const GameEditorScreen = () => {
     }
   };
   const handleEditGame = async (data: IGameCreateAndEdit) => {
-    // const token = await SecureStore.getItemAsync('token');
     setModalLoadingVisible(true);
 
     const formData = new FormData();
@@ -175,7 +174,6 @@ export const GameEditorScreen = () => {
     try {
       await api.put(`/games/${id}`, formData, {
         headers: {
-          // Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
       });
@@ -244,7 +242,7 @@ export const GameEditorScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center', paddingHorizontal: 8.5 }}>
       <ScreenHeader
-        title={id ? 'Editar Jogo' : 'Cadastrar Jogo'}
+        title={id ? 'Editar jogo' : 'Cadastrar jogo'}
         toBack={() => navigation.goBack()}
       />
       <ScrollView
@@ -258,7 +256,7 @@ export const GameEditorScreen = () => {
               alignSelf: 'stretch',
             }}
           >
-            <TitleGuide text={id ? 'Editar Jogo' : 'Novo Jogo'} />
+            <TitleGuide text={id ? 'Editar jogo' : 'Novo jogo'} />
           </View>
 
           <InsertImage
