@@ -1,0 +1,1 @@
+export { CardGenreAndUserRectangle } from './CardGenreAndUserRectangle';

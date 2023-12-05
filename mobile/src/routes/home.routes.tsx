@@ -57,7 +57,13 @@ export const MainRoutes = () => {
               headerShown: false,
             }}
           />
-          <Screen name="GenreEditor" component={GenreEditorScreen} />
+          <Screen
+            name="GenreEditor"
+            component={GenreEditorScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
         </>
       ) : (
         <></>
@@ -76,7 +82,6 @@ export const MainRoutes = () => {
               <Icon iconName="close" color={colors.text.color} size={24} />
             </TouchableOpacity>
           ),
-          // headerRightContainerStyle: { paddingHorizontal: 15 },
         }}
       />
 
