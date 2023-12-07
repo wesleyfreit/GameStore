@@ -1,13 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native';
 import { type Region } from 'react-native-maps';
 
 import { Button } from '@/components/Button';
 import { GoogleMaps } from '@/components/GoogleMaps/GoogleMaps';
 import { ModalPopup } from '@/components/Modal/ModalPopup';
+import { SafeAreaDefault } from '@/components/SafeAreaDefault';
 import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewDefault } from '@/components/ViewDefault';
+
 import { useCoords } from '@/hooks/useCoords';
 import { type AuthNavigatorRoutesProps } from '@/types/routes';
 
@@ -27,7 +28,7 @@ export const SetAdressScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
+    <SafeAreaDefault>
       <ViewDefault>
         <TitleGuide text={'Selecione seu endereço no mapa.'} />
 
@@ -40,8 +41,9 @@ export const SetAdressScreen = () => {
           setVisible={setVisible}
           visible={visible}
         />
+
         <Button text={'Selecionar'} onClick={handleSetSave} />
       </ViewDefault>
-    </SafeAreaView>
+    </SafeAreaDefault>
   );
 };

@@ -1,18 +1,20 @@
+import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
+import { deleteImg } from '../lib/deleteImg';
+import { uploadImg } from '../lib/uploadImg';
 import { User } from '../models/User';
 
 export class UserAccountController {
   account = async (req: Request, res: Response) => {
     try {
       const { username } = req.params;
+
       const user = await User.findFirst({
         where: { username: { equals: username, mode: 'insensitive' } },
         include: { games: true },
       });
-      if (user) {
-        res.json({ userGames: user.games });
-      }
-      res.status(404).json({ error: 'Usuário não encontrado.' });
+
+      return res.json({ userGames: user?.games });
     } catch (error) {
       return res.sendStatus(500);
     }
@@ -21,74 +23,118 @@ export class UserAccountController {
   edit = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      // const avatarUrl = `${req.imgUrl}`;
-      const { username, email, password, oldPassword } = req.body;
-      const usernameCheck = await User.findFirst({
-        where: { username: { equals: username, mode: 'insensitive' } },
-      });
-      if (
-        usernameCheck &&
-        usernameCheck.username === username &&
-        req.id !== usernameCheck.id
-      )
-        return res
-          .status(409)
-          .json({ error: 'Este usuário já foi cadastrado anteriormente.' });
 
-      const emailCheck = await User.findFirst({
-        where: { email: { equals: email, mode: 'insensitive' } },
-      });
-      if (emailCheck && emailCheck.email === email && req.id !== emailCheck.id)
-        return res
-          .status(409)
-          .json({ error: 'Este email já foi cadastrado anteriormente.' });
+      const { username, email, password, address, new_password } = req.body;
+
+      const [existingUserByUsername, existingUserByEmail] = await Promise.all([
+        User.findFirst({
+          where: { username: { equals: username, mode: 'insensitive' } },
+        }),
+        User.findFirst({
+          where: { email: { equals: email, mode: 'insensitive' } },
+        }),
+      ]);
+
+      if (existingUserByUsername && existingUserByUsername.id != id)
+        return res.status(409).json({ error: 'Username in use' });
+
+      if (existingUserByEmail && existingUserByEmail.id != id)
+        return res.status(409).json({ error: 'Email in use' });
 
       const user = await User.findUnique({ where: { id } });
+
       if (user && user.id == req.id) {
-        // const check = await bcrypt.compare(oldPassword, user.password);
-        // if (check) {
-        //   const hash = await bcrypt.hash(password, 10);
-        //   const altUser = { username, email, password: hash };
-        //   await User.update({ where: { username: user.username }, data: { ...altUser } });
-        //   return res.status(204).json({ info: 'Os seus dados foram alterados com sucesso.' });
-        // } else {
-        //   return res.status(401).json({ error: 'A senha antiga está errada, tente novamente.' });
-        // }
+        const check = await bcrypt.compare(password, user.password);
+
+        if (check) {
+          if (new_password) {
+            const hash = await bcrypt.hash(new_password, 10);
+
+            const altUser = {
+              username: username.toLowerCase(),
+              email: email.toLowerCase(),
+              address,
+              password: hash,
+            };
+
+            await User.update({ where: { id }, data: { ...altUser } });
+          } else {
+            const altUser = {
+              username: username.toLowerCase(),
+              email: email.toLowerCase(),
+              address,
+            };
+
+            await User.update({ where: { id }, data: { ...altUser } });
+          }
+
+          const userUpdated = await User.findUnique({ where: { id } });
+
+          return res.json({
+            user: {
+              username: userUpdated?.username,
+              email: userUpdated?.email,
+              address: userUpdated?.address,
+            },
+          });
+        } else {
+          return res.status(401).json({ error: 'Password is wrong' });
+        }
       } else {
-        return res.status(404).send('Content not found');
+        return res.status(404).json({ error: 'Validation error' });
       }
     } catch (error) {
-      return res.sendStatus(500);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   };
 
   delete = async (req: Request, res: Response) => {
     const { id } = req.params;
+
+    const { password } = req.body;
+
     try {
       const user = await User.findUnique({ where: { id } });
-      if (user && user.id == req.id && !user.isAdmin) {
-        const destroy = await User.delete({ where: { username: user.username } });
-        if (destroy) {
-          res.clearCookie('authorization');
-          return res.status(204).json({
-            info: 'Sua conta foi deletada com sucesso, você não conseguirá mais entrar nela.',
-          });
-        } else {
-          return res.status(401).json({
-            error:
-              'Ocorreu um erro ao validar os dados, verifique se estão corretos e tente novamente.',
-          });
-        }
-      } else if (user && user.isAdmin) {
-        return res.status(401).json({
-          error:
-            'Você não pode apagar sua conta pois você é um admin, a operação foi abortada.',
-        });
-      } else {
-        return res.status(404).send('Content not found');
+
+      if (user && user.id === req.id && !user.isAdmin) {
+        const check = await bcrypt.compare(password, user.password);
+
+        if (check) {
+          await User.delete({ where: { username: user.username } });
+
+          return res.status(200).json({ info: 'Account Deleted' });
+        } else return res.status(401).json({ error: 'Password is wrong' });
+      } else if (user && user.isAdmin)
+        return res.status(401).json({ error: `Admin's can't delete your account` });
+      else return res.status(404).send('Content not found');
+    } catch (error) {
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+
+  changeAvatar = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+
+      const user = await User.findUnique({ where: { id } });
+
+      if (user) {
+        const avatarUrl = (await uploadImg(req, res)) as string | undefined;
+
+        if (!avatarUrl) return res.status(400).json({ error: 'File cannot be empty' });
+
+        if (avatarUrl === 'error')
+          return res.status(400).json({ error: 'Invalid file format' });
+
+        await User.update({ where: { id }, data: { avatarUrl } });
+
+        if (!user.avatarUrl.includes('avatar-default-icon'))
+          await deleteImg(user.avatarUrl);
+
+        return res.json({ avatarUrl: avatarUrl });
       }
     } catch (error) {
-      return res.sendStatus(500);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   };
 }

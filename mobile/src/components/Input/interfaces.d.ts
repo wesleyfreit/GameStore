@@ -14,6 +14,7 @@ interface InputComponentProps {
     email: string;
     address: string;
     password: string;
+    new_password: string;
     repeatPassword?: any;
     title: string;
     price: number;

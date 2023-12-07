@@ -9,6 +9,9 @@ export const colors = StyleSheet.create({
   border: {
     color: '#484848',
   },
+  sub: {
+    color: '#919191',
+  },
   card: {
     color: '#263241',
   },

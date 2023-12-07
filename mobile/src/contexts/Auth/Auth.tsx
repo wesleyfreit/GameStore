@@ -54,6 +54,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isLoadingUserStorageData,
         setUserAndToken,
         removeUserAndToken,
+        setUser,
       }}
     >
       {children}

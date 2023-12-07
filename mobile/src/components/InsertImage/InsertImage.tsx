@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 
 import { colors } from '@/styles/global';
+import { AppError } from '@/utils/AppError';
+import { ImageUri } from '../ImageUri';
 import { InsertImageComponentProps, InsertImageErrorProps } from './interfaces';
 import {
   insertImageBackgroundStyle,
   insertImageImageStyle,
   insertImageTextStyle,
 } from './styles';
-import { AppError } from '@/utils/AppError';
 
 export const InsertImage = ({
   control,
@@ -29,6 +30,7 @@ export const InsertImage = ({
       const result = await launchImageLibrary({
         mediaType: 'photo',
       });
+
       if (result.assets) {
         const image = result.assets[0].uri as string;
         setPreview(image);
@@ -77,9 +79,9 @@ export const InsertImage = ({
           >
             <Text style={insertImageTextStyle}>Adicionar foto ou vídeo de capa</Text>
             {preview ? (
-              <Image source={{ uri: preview }} style={insertImageImageStyle} />
+              <ImageUri imageUri={preview} styles={insertImageImageStyle} />
             ) : imageUrl ? (
-              <Image source={{ uri: imageUrl }} style={insertImageImageStyle} />
+              <ImageUri imageUri={imageUrl} styles={insertImageImageStyle} />
             ) : (
               <></>
             )}

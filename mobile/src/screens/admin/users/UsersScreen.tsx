@@ -1,12 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, SafeAreaView, ToastAndroid } from 'react-native';
+import { Alert, FlatList, ToastAndroid } from 'react-native';
 
 import { CardGenreAndUserRectangle } from '@/components/Card/CardGenreAndUserRectangle';
 import { ListEmpty } from '@/components/ListEmpty';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { ModalPopupConfirm } from '@/components/Modal/ModalPopupConfirm';
+import { SafeAreaDefault } from '@/components/SafeAreaDefault';
+
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { type MainNavigatorRoutesProps } from '@/types/routes';
@@ -64,7 +66,7 @@ export const UsersScreen = () => {
     getUsers();
     setRefreshing(false);
   };
-  
+
   const changeUserPermission = async (id: string) => {
     setModalLoadingVisible(true);
 
@@ -105,7 +107,7 @@ export const UsersScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: 'center', paddingHorizontal: 8.5 }}>
+    <SafeAreaDefault>
       <FlatList
         data={users}
         refreshing={refreshing}
@@ -133,6 +135,6 @@ export const UsersScreen = () => {
         title={'Você realmente deseja alterar a permissão deste usuário?'}
         isTrue={() => changeUserPermission(idToChange)}
       />
-    </SafeAreaView>
+    </SafeAreaDefault>
   );
 };

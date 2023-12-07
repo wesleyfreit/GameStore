@@ -24,6 +24,7 @@ export const Input = ({
     { name: 'username', error: errors.username },
     { name: 'email', error: errors.email },
     { name: 'password', error: errors.password },
+    { name: 'new_password', error: errors.new_password },
     { name: 'repeatPassword', error: errors.repeatPassword },
     { name: 'title', error: errors.title },
     { name: 'year', error: errors.year },
@@ -64,7 +65,7 @@ export const Input = ({
               inputMode={type}
               onBlur={() => {
                 setFocus(false);
-                onBlur;
+                onBlur();
               }}
               onChangeText={(value) => {
                 onChange(value);

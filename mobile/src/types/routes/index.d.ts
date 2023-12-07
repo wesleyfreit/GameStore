@@ -20,6 +20,7 @@ type MainRoutesType = {
   GenreEditor: { id: string } | undefined;
   EditProfile: undefined;
   EditUserAddress: undefined;
+  SetAddress: undefined;
 };
 
 type AuthNavigatorRoutesProps = NativeStackNavigationProp<AuthRoutesType>;

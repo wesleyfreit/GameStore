@@ -18,6 +18,7 @@ export class UserAuthController {
 
   signUp = async (req: Request, res: Response) => {
     const { username, email, password, address } = <ISignUp>req.body;
+
     try {
       const [existingUserByUsername, existingUserByEmail] = await Promise.all([
         User.findFirst({
@@ -41,6 +42,7 @@ export class UserAuthController {
         password: hash,
         address,
       };
+
       await User.create({ data: { ...newUser } });
       return res.status(201).json({ info: 'Account created' });
     } catch (error) {
@@ -68,7 +70,9 @@ export class UserAuthController {
               id: userCheck.id,
               avatar: userCheck.avatarUrl,
               username: userCheck.username,
+              email: userCheck.email,
               isAdmin: userCheck.isAdmin,
+              address: userCheck.address,
             },
           });
         } else return res.status(401).json({ error: 'Invalid password' });
@@ -84,6 +88,7 @@ export class UserAuthController {
       const request = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${this.mapKey}`,
       );
+
       const data = request.data;
 
       const address1 = data.results[0].formatted_address;

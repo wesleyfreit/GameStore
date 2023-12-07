@@ -1,13 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, SafeAreaView, ToastAndroid, View } from 'react-native';
+import { Alert, FlatList, ToastAndroid } from 'react-native';
 
 import { Button } from '@/components/Button';
 import { CardGameRectangle } from '@/components/Card/CardGameRetangle';
 import { ListEmpty } from '@/components/ListEmpty';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { ModalPopupConfirm } from '@/components/Modal/ModalPopupConfirm';
+import { SafeAreaDefault } from '@/components/SafeAreaDefault';
+
+import { ViewDefault } from '@/components/ViewDefault';
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { type MainNavigatorRoutesProps } from '@/types/routes';
@@ -102,7 +105,7 @@ export const GamesScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: 'center', paddingHorizontal: 8.5 }}>
+    <SafeAreaDefault>
       <FlatList
         data={games}
         refreshing={refreshing}
@@ -133,18 +136,12 @@ export const GamesScreen = () => {
         isTrue={() => removeGame(idToRemove)}
       />
 
-      <View
-        style={{
-          alignSelf: 'stretch',
-          marginVertical: 15,
-          marginHorizontal: 20,
-        }}
-      >
+      <ViewDefault>
         <Button
           text={'Cadastrar jogo'}
           onClick={() => navigation.navigate('GameEditor')}
         />
-      </View>
-    </SafeAreaView>
+      </ViewDefault>
+    </SafeAreaDefault>
   );
 };

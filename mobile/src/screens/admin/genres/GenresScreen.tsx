@@ -1,13 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, SafeAreaView, ToastAndroid, View } from 'react-native';
+import { Alert, FlatList, ToastAndroid } from 'react-native';
 
 import { Button } from '@/components/Button';
 import { CardGenreAndUserRectangle } from '@/components/Card/CardGenreAndUserRectangle';
 import { ListEmpty } from '@/components/ListEmpty';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { ModalPopupConfirm } from '@/components/Modal/ModalPopupConfirm';
+import { SafeAreaDefault } from '@/components/SafeAreaDefault';
+
+import { ViewDefault } from '@/components/ViewDefault';
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { type MainNavigatorRoutesProps } from '@/types/routes';
@@ -109,7 +112,7 @@ export const GenresScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: 'center', paddingHorizontal: 8.5 }}>
+    <SafeAreaDefault>
       <FlatList
         data={genres}
         refreshing={refreshing}
@@ -139,18 +142,12 @@ export const GenresScreen = () => {
         isTrue={() => removeGenre(idToRemove)}
       />
 
-      <View
-        style={{
-          alignSelf: 'stretch',
-          marginVertical: 15,
-          marginHorizontal: 20,
-        }}
-      >
+      <ViewDefault>
         <Button
           text={'Cadastrar gênero'}
           onClick={() => navigation.navigate('GenreEditor')}
         />
-      </View>
-    </SafeAreaView>
+      </ViewDefault>
+    </SafeAreaDefault>
   );
 };

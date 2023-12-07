@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, SafeAreaView, ScrollView } from 'react-native';
+import { Alert, ScrollView } from 'react-native';
 import { Region } from 'react-native-maps';
 
 import { Button } from '@/components/Button';
@@ -11,16 +11,17 @@ import { ClickableText } from '@/components/ClickableText';
 import { Input } from '@/components/Input';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { ModalPopup } from '@/components/Modal/ModalPopup';
+import { SafeAreaDefault } from '@/components/SafeAreaDefault';
 import { Texterea } from '@/components/Texterea';
 import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewDefault } from '@/components/ViewDefault';
+
 import { useCoords } from '@/hooks/useCoords';
 import { api } from '@/lib/api';
 import { signUpSchema } from '@/schemas/signUpSchema';
 import { type AuthNavigatorRoutesProps } from '@/types/routes';
 
 export const SignUpScreen = () => {
-  const [address, setAddress] = useState('');
   const [authError, setAuthError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
@@ -31,8 +32,10 @@ export const SignUpScreen = () => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
+    clearErrors,
   } = useForm({
-    resolver: yupResolver(signUpSchema(address)),
+    resolver: yupResolver(signUpSchema),
   });
 
   const { coords, setCoords } = useCoords();
@@ -41,7 +44,7 @@ export const SignUpScreen = () => {
     if (coords.latitude) {
       getAddress();
     }
-  }, [coords]);
+  }, [coords, navigation]);
 
   const getAddress = async () => {
     setModalLoadingVisible(true);
@@ -52,7 +55,11 @@ export const SignUpScreen = () => {
         lng: coords?.longitude,
       });
 
-      setAddress(request.data.address);
+      const address = request.data.address;
+
+      setValue('address', address);
+      clearErrors('address');
+
       setCoords({} as Region);
       setModalLoadingVisible(false);
     } catch (error) {
@@ -75,7 +82,7 @@ export const SignUpScreen = () => {
       await api.post('/users/signup', {
         username: data.username,
         email: data.email,
-        address: address,
+        address: data.address,
         password: data.password,
         confirm_password: data.repeatPassword,
       });
@@ -104,7 +111,7 @@ export const SignUpScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
+    <SafeAreaDefault>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ViewDefault>
           <TitleGuide text={'Dados cadastrais'} />
@@ -142,7 +149,6 @@ export const SignUpScreen = () => {
             text={'Endereço*'}
             control={control}
             errors={errors}
-            valueAddress={address}
             onClick={() => navigation.push('SetAddress')}
             error={
               authError === 'Address not found' ? 'Endereço não encontrado.' : undefined
@@ -187,6 +193,6 @@ export const SignUpScreen = () => {
           />
         </ViewDefault>
       </ScrollView>
-    </SafeAreaView>
+    </SafeAreaDefault>
   );
 };

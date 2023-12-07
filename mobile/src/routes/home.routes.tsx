@@ -9,7 +9,6 @@ import { CartScreen } from '@/screens/home/CartScreen';
 import { GameScreen } from '@/screens/home/GameScreen';
 import { SearchScreen } from '@/screens/home/SearchScreen';
 import { EditProfileScreen } from '@/screens/profile/EditProfileScreen';
-import { EditUserAddressScreen } from '@/screens/profile/EditUserAddressScreen';
 
 import { Icon } from '@/components/Icon';
 import { useAuth } from '@/hooks/useAuth';
@@ -44,9 +43,17 @@ export const MainRoutes = () => {
         }}
       />
 
-      <Screen name="Cart" component={CartScreen} />
+      <Screen
+        name="Cart"
+        component={CartScreen}
+        options={{ headerShadowVisible: false, title: 'Carrinho' }}
+      />
 
-      <Screen name="Game" component={GameScreen} />
+      <Screen
+        name="Game"
+        component={GameScreen}
+        options={{ headerShadowVisible: false }}
+      />
 
       {user?.isAdmin ? (
         <>
@@ -77,6 +84,7 @@ export const MainRoutes = () => {
           animation: 'slide_from_bottom',
           animationDuration: 300,
           headerBackVisible: false,
+          headerShadowVisible: false,
           headerRight: () => (
             <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.goBack()}>
               <Icon iconName="close" color={colors.text.color} size={24} />
@@ -84,8 +92,6 @@ export const MainRoutes = () => {
           ),
         }}
       />
-
-      <Screen name="EditUserAddress" component={EditUserAddressScreen} />
     </Navigator>
   );
 };

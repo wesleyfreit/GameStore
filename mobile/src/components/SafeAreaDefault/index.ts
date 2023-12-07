@@ -1,0 +1,1 @@
+export { SafeAreaDefault } from './SafeAreaDefault';

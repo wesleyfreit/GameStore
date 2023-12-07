@@ -3,9 +3,8 @@ import { useNavigation } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { Alert, ScrollView, Text, View } from 'react-native';
 
-import Logo from '@/assets/svgs/logo.svg';
 import { Button } from '@/components/Button';
 import { ClickableText } from '@/components/ClickableText';
 import { Input } from '@/components/Input';
@@ -13,6 +12,9 @@ import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { ModalPopup } from '@/components/Modal/ModalPopup';
 import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewDefault } from '@/components/ViewDefault';
+
+import Logo from '@/assets/svgs/logo.svg';
+import { SafeAreaDefault } from '@/components/SafeAreaDefault';
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { signInSchema } from '@/schemas/signInSchema';
@@ -44,7 +46,7 @@ export const SignInScreen = () => {
         email: data.email,
         password: data.password,
       });
-      setTimeout(() => {}, 1000);
+
       const { token, user } = response.data;
 
       if (token && user) {
@@ -77,7 +79,7 @@ export const SignInScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
+    <SafeAreaDefault>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
         showsVerticalScrollIndicator={false}
@@ -112,6 +114,7 @@ export const SignInScreen = () => {
             }
             changeMessage={setAuthError}
           />
+
           <Input
             iconName={'password'}
             name={'password'}
@@ -150,6 +153,6 @@ export const SignInScreen = () => {
           />
         </ViewDefault>
       </ScrollView>
-    </SafeAreaView>
+    </SafeAreaDefault>
   );
 };

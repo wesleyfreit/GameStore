@@ -27,8 +27,9 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     fontSize: 14,
     color: colors.primary.color,
+    marginBottom: 7,
   },
-  cardViewButtonStyle: { alignItems: 'center', marginTop: 17 },
+  cardViewButtonStyle: { alignItems: 'center', marginTop: 10 },
   cardButtonStyle: {
     backgroundColor: colors.primary.color,
     borderRadius: 8,

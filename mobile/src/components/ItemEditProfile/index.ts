@@ -1,0 +1,1 @@
+export { ItemEditProfile } from './ItemEditProfile';

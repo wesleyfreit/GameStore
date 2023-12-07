@@ -7,6 +7,7 @@ import { UserAdminController } from '../controllers/UserAdminController';
 import { UserAuthController } from '../controllers/UserAuthController';
 
 import { adminAuth } from '../middlewares/adminAuth';
+import { parserImg } from '../middlewares/parserImg';
 import { userAuth } from '../middlewares/userAuth';
 
 const uAuth = new UserAuthController();
@@ -82,6 +83,25 @@ router.get(
   uAccount.account,
 );
 
+router.patch(
+  '/users/account/avatar/:id',
+  parserImg,
+  celebrate(
+    {
+      [Segments.PARAMS]: {
+        id: Joi.string().uuid().required(),
+      },
+      [Segments.BODY]: Joi.object().keys({
+        image: Joi.allow(),
+      }),
+    },
+
+    { messages },
+  ),
+  userAuth,
+  uAccount.changeAvatar,
+);
+
 router.get('/users', adminAuth, uAdmin.read);
 
 router.patch(
@@ -98,34 +118,41 @@ router.patch(
   uAdmin.alter,
 );
 
-// router.put(
-//   '/users/:id/avatar',
-//   celebrate(
-//     {
-//       [Segments.BODY]: Joi.object().keys({
-//         // username: Joi.string()
-//         //   .pattern(/[A-Za-z0-9_]+/)
-//         //   .min(5)
-//         //   .max(40)
-//         //   .required(),
-//         // email: Joi.string().email().required(),
-//         // oldPassword: Joi.string().min(8).required(),
-//         password: Joi.string().min(6).required(),
-//       }),
-//     },
-//     { messages },
-//   ),
-//   userAuth,
-//   uAccount.edit,
-// );
-
-router.delete(
+router.put(
   '/users/:id',
   celebrate(
     {
       [Segments.PARAMS]: {
         id: Joi.string().uuid().required(),
       },
+      [Segments.BODY]: Joi.object().keys({
+        username: Joi.string()
+          .pattern(/[A-Za-z0-9_]+/)
+          .min(5)
+          .max(40)
+          .required(),
+        email: Joi.string().email().required(),
+        address: Joi.string().min(1).required(),
+        password: Joi.string().min(6).required(),
+        new_password: Joi.string().min(6),
+      }),
+    },
+    { messages },
+  ),
+  userAuth,
+  uAccount.edit,
+);
+
+router.post(
+  '/users/:id',
+  celebrate(
+    {
+      [Segments.PARAMS]: {
+        id: Joi.string().uuid().required(),
+      },
+      [Segments.BODY]: Joi.object().keys({
+        password: Joi.string().min(6).required(),
+      }),
     },
     { messages },
   ),

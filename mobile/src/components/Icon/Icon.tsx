@@ -11,9 +11,11 @@ import {
   LogOut,
   Mail,
   MapPin,
+  PenSquare,
   Pencil,
   Search,
   ShoppingCart,
+  Trash,
   User,
   Users2,
   X,
@@ -49,6 +51,8 @@ export const Icon = ({ iconName, size, color, strokeWidth }: IconComponentProps)
     { name: 'pencil', icon: <Pencil size={size} color={color} /> },
     { name: 'close', icon: <X size={size} color={color} /> },
     { name: 'signout', icon: <LogOut size={size} color={color} /> },
+    { name: 'edit', icon: <PenSquare size={size} color={color} /> },
+    { name: 'trash', icon: <Trash size={size} color={color} /> },
   ];
 
   const componentIcon = iconsArray.find((component) => component.name === iconName);

@@ -13,7 +13,6 @@ export const Texterea = ({
   text,
   control,
   errors,
-  valueAddress,
   error,
   height,
   changeMessage,
@@ -45,7 +44,9 @@ export const Texterea = ({
           minHeight: height,
         }}
       >
-        {iconName ? <Icon iconName={iconName} size={24} color={selectColor} /> : <></>}
+        <View style={{ alignSelf: 'stretch', justifyContent: 'center' }}>
+          {iconName ? <Icon iconName={iconName} size={24} color={selectColor} /> : <></>}
+        </View>
 
         <Controller
           control={control}
@@ -63,11 +64,7 @@ export const Texterea = ({
                 onChange(value);
                 changeMessage && changeMessage('');
               }}
-              value={
-                valueAddress && valueAddress != value
-                  ? valueAddress && onChange(valueAddress)
-                  : value
-              }
+              value={value}
               onFocus={() => {
                 setFocus(true);
                 name === 'address' && onClick ? onClick() : undefined;

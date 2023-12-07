@@ -3,14 +3,16 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import React, { Alert, SafeAreaView, ScrollView, ToastAndroid, View } from 'react-native';
+import React, { Alert, ScrollView, ToastAndroid, View } from 'react-native';
 
 import { Button } from '@/components/Button';
 import { ScreenHeader } from '@/components/Header/ScreenHeader';
 import { Input } from '@/components/Input';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
+import { SafeAreaDefault } from '@/components/SafeAreaDefault';
 import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewDefault } from '@/components/ViewDefault';
+
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { createAndEditGenreSchema } from '@/schemas/createAndEditGenreSchema';
@@ -110,6 +112,7 @@ export const GenreEditorScreen = () => {
       }
     }
   };
+
   const handleEditGenre = async (data: IGenreCreateAndEdit) => {
     setModalLoadingVisible(true);
 
@@ -148,7 +151,7 @@ export const GenreEditorScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: 'center', paddingHorizontal: 8.5 }}>
+    <SafeAreaDefault>
       <ScreenHeader
         title={id ? 'Editar gênero' : 'Cadastrar gênero'}
         toBack={() => navigation.goBack()}
@@ -188,6 +191,6 @@ export const GenreEditorScreen = () => {
           />
         </ViewDefault>
       </ScrollView>
-    </SafeAreaView>
+    </SafeAreaDefault>
   );
 };

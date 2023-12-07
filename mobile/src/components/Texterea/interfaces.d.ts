@@ -13,7 +13,6 @@ interface InputComponentProps {
   }>;
   error?: string;
   changeMessage?: (value: string) => void;
-  valueAddress?: string | null;
   onClick?: () => void;
   height?: DimensionValue;
 }

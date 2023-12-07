@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 import { GamesScreen } from '@/screens/admin/games/GamesScreen';
 import { GenresScreen } from '@/screens/admin/genres/GenresScreen';
@@ -10,10 +10,12 @@ import { HomeScreen } from '@/screens/home/HomeScreen';
 import { ProfileScreen } from '@/screens/profile/ProfileScreen';
 
 import { Icon } from '@/components/Icon';
+import { ImageUri } from '@/components/ImageUri';
 import { useAuth } from '@/hooks/useAuth';
 import { colors } from '@/styles/global';
 import { URL_API } from '@env';
 import { type MainNavigatorRoutesProps, type MainRoutesType } from '../types/routes';
+import { tabBarImageStyle, tabBarStyle } from './styles';
 
 const { Navigator, Screen } = createBottomTabNavigator<MainRoutesType>();
 
@@ -26,14 +28,15 @@ export const MenuRoutes = () => {
     <Navigator
       screenOptions={{
         tabBarShowLabel: true,
-        tabBarStyle: { height: 70, paddingBottom: 10 },
+        tabBarStyle: { ...tabBarStyle },
+        headerShadowVisible: false,
       }}
+      sceneContainerStyle={{}}
     >
       <Screen
         name="Home"
         component={HomeScreen}
         options={{
-          headerShadowVisible: false,
           title: 'Início',
           freezeOnBlur: true,
           headerShown: false,
@@ -85,15 +88,9 @@ export const MenuRoutes = () => {
         options={{
           title: 'Meu Perfil',
           tabBarIcon: ({ color }) => (
-            <Image
-              source={{ uri: URL_API.concat(user?.avatar as string) }}
-              style={{
-                width: 30,
-                height: 30,
-                borderWidth: 2,
-                borderRadius: 30,
-                borderColor: color,
-              }}
+            <ImageUri
+              imageUri={URL_API.concat(user?.avatar as string)}
+              styles={{ ...tabBarImageStyle, borderColor: color }}
             />
           ),
           headerRight: () => (

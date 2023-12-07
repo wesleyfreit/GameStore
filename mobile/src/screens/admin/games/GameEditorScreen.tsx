@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { isAxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import React, { Alert, SafeAreaView, ScrollView, ToastAndroid, View } from 'react-native';
+import React, { Alert, ScrollView, ToastAndroid } from 'react-native';
 
 import { Button } from '@/components/Button';
 import { CheckBox } from '@/components/CheckBox';
@@ -11,10 +11,12 @@ import { ScreenHeader } from '@/components/Header/ScreenHeader';
 import { Input } from '@/components/Input';
 import { InsertImage } from '@/components/InsertImage';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
+import { SafeAreaDefault } from '@/components/SafeAreaDefault';
 import { Select } from '@/components/Select';
 import { Texterea } from '@/components/Texterea';
 import { TitleGuide } from '@/components/Title/TitleGuide';
 import { ViewDefault } from '@/components/ViewDefault';
+
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { createAndEditGameSchema } from '@/schemas/createAndEditGameSchema';
@@ -151,6 +153,7 @@ export const GameEditorScreen = () => {
       }
     }
   };
+
   const handleEditGame = async (data: IGameCreateAndEdit) => {
     setModalLoadingVisible(true);
 
@@ -239,25 +242,19 @@ export const GameEditorScreen = () => {
       }
     }
   };
+
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: 'center', paddingHorizontal: 8.5 }}>
+    <SafeAreaDefault>
       <ScreenHeader
         title={id ? 'Editar jogo' : 'Cadastrar jogo'}
         toBack={() => navigation.goBack()}
       />
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1, gap: 15, marginVertical: 15 }}
+        contentContainerStyle={{ flexGrow: 1, gap: 15, paddingVertical: 15 }}
         showsVerticalScrollIndicator={false}
       >
         <ViewDefault>
-          <View
-            style={{
-              display: 'flex',
-              alignSelf: 'stretch',
-            }}
-          >
-            <TitleGuide text={id ? 'Editar jogo' : 'Novo jogo'} />
-          </View>
+          <TitleGuide text={id ? 'Editar jogo' : 'Novo jogo'} />
 
           <InsertImage
             control={control}
@@ -326,6 +323,6 @@ export const GameEditorScreen = () => {
           />
         </ViewDefault>
       </ScrollView>
-    </SafeAreaView>
+    </SafeAreaDefault>
   );
 };

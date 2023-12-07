@@ -3,6 +3,7 @@ interface SignUpUser {
   username: string;
   email: string;
   password: string;
+  address: string;
 }
 
 interface SignInUser {
@@ -15,4 +16,6 @@ interface IUser {
   avatar?: string;
   username: string;
   isAdmin: boolean;
+  email?: string;
+  address?: string;
 }
