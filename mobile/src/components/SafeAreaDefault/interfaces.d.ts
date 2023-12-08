@@ -3,6 +3,7 @@ import { type ReactNode } from 'react';
 interface SafeAreaDefaultComponentProps {
   children: ReactNode;
   paddingHorizontal?: number;
+  paddingBottom?: number
   justifyContent?:
     | 'flex-start'
     | 'flex-end'

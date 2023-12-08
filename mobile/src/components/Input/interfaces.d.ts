@@ -32,4 +32,5 @@ type IconName = {
   password: undefined;
   point: undefined;
   user: undefined;
+  search: undefined;
 };
