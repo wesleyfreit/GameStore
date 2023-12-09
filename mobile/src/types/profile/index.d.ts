@@ -17,4 +17,5 @@ interface ProfileProps {
   email?: string;
   password?: string;
   new_password?: string;
+  point?: string[];
 }

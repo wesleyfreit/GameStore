@@ -8,6 +8,9 @@ interface IGame {
   genreId: string;
   imageUrl: string;
   slug: string;
+  genre?: {
+    name: string;
+  };
 }
 
 interface IGameCreateAndEdit {
@@ -21,4 +24,16 @@ interface IGameCreateAndEdit {
   imageUrl?: boolean;
 }
 
-interface IAdminGame {}
+interface IUserGame {
+  game: {
+    id: string;
+    title: string;
+    year: number;
+    price: number;
+    description: string;
+    disponibility: boolean;
+    genreId: string;
+    imageUrl: string;
+    slug: string;
+  };
+}

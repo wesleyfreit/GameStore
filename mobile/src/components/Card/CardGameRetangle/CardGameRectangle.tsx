@@ -8,6 +8,7 @@ import { screenWidth } from '@/styles/global';
 import {
   cardContainerStyle,
   cardImgStyle,
+  cardPriceStyle,
   cardTitleStyle,
   cardViewButtonStyle,
   cardViewTextStyle,
@@ -15,6 +16,7 @@ import {
 
 export const CardGameRectangle = ({
   game,
+  price,
   toGame,
   toEdit,
   toRemove,
@@ -33,7 +35,11 @@ export const CardGameRectangle = ({
         </View>
 
         <View style={cardViewButtonStyle}>
-          <ClickableText color="warning" textClickable="Editar" onClick={toEdit} />
+          {toEdit && !price ? (
+            <ClickableText color="warning" textClickable="Editar" onClick={toEdit} />
+          ) : (
+            <Text style={cardPriceStyle}>{price}</Text>
+          )}
 
           <ClickableText color="danger" textClickable="Remover" onClick={toRemove} />
         </View>

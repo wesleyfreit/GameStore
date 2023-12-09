@@ -61,11 +61,13 @@ export const EditProfileScreen = () => {
         username: user?.username as string,
         address: user?.address as string,
         email: user?.email as string,
+        point: user?.point as string[],
       };
 
       setValue('username', values.username);
       setValue('address', values.address);
       setValue('email', values.email);
+      setValue('point', values.point);
 
       setProfileProps(values);
     }
@@ -86,9 +88,12 @@ export const EditProfileScreen = () => {
       });
 
       const address = request.data.address;
+      const point = [coords.latitude.toString(), coords.longitude.toString()];
 
       setValue('address', address);
-      setProfileProps({ ...profileProps, address });
+      setValue('point', point);
+
+      setProfileProps({ ...profileProps, address, point });
 
       setCoords({} as Region);
       setModalLoadingVisible(false);
@@ -200,22 +205,25 @@ export const EditProfileScreen = () => {
 
   const handleSave = async (data: ProfileProps) => {
     setModalLoadingVisible(true);
+
     try {
       const response = await api.put(`/users/${user?.id}`, {
         username: data.username,
         address: data.address,
         email: data.email,
         password: data.password,
+        point: data.point,
         new_password: profileProps.new_password ? data.new_password : undefined,
       });
 
-      const { email, username, address } = response.data.user;
+      const { email, username, address, point } = response.data.user;
 
       const userModified = {
         ...(user as IUser),
         email,
         username,
         address,
+        point,
       };
 
       await storageUserSave(userModified);
@@ -305,7 +313,9 @@ export const EditProfileScreen = () => {
           />
 
           <ItemEditProfile
-            onClick={() => navigation.navigate('SetAddress')}
+            onClick={() =>
+              navigation.navigate('SetAddress', { coords: profileProps.point! })
+            }
             title={'Endereço'}
             text={profileProps.address ? profileProps.address : user?.address}
           />

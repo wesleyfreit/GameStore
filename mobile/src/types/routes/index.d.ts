@@ -1,13 +1,14 @@
+import { RouteProp } from '@react-navigation/native';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type AuthRoutesType = {
   SignIn: undefined;
   SignUp: undefined;
-  SetAddress: undefined;
+  SetAddress: { coords: string[] } | undefined;
 };
 
 type MainRoutesType = {
-  Menu: undefined;
+  Menu: RouteProp | undefined;
   Home: undefined;
   Games: undefined;
   Genres: undefined;
@@ -15,12 +16,12 @@ type MainRoutesType = {
   Profile: undefined;
   Search: undefined;
   Cart: undefined;
-  Game: { id: string };
+  Game: { slug: string };
   GameEditor: { slug: string } | undefined;
   GenreEditor: { id: string } | undefined;
   EditProfile: undefined;
   EditUserAddress: undefined;
-  SetAddress: undefined;
+  SetAddress: { coords: string[] } | undefined;
 };
 
 type AuthNavigatorRoutesProps = NativeStackNavigationProp<AuthRoutesType>;

@@ -4,12 +4,13 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   containerStyle: {
     alignSelf: 'flex-start',
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
     paddingBottom: 5,
   },
   textStyle: {
     color: colors.text.color,
     fontSize: 16,
+    fontWeight: '700',
   },
 });
 

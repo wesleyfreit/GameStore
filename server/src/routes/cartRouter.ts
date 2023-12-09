@@ -9,29 +9,12 @@ import { userAuth } from '../middlewares/userAuth';
 const cart = new CartController();
 const router = Router();
 
-router.get(
-  '/cart',
-  celebrate(
-    {
-      [Segments.HEADERS]: Joi.object({
-        cart_items: Joi.string(),
-      }).options({ allowUnknown: true }),
-    },
-    {
-      messages: messages,
-    },
-  ),
-  userAuth,
-  setCartItems,
-  cart.view,
-);
+router.get('/cart', userAuth, setCartItems, cart.view);
+
 router.put(
   '/cart/:id',
   celebrate(
     {
-      [Segments.HEADERS]: Joi.object({
-        cart_items: Joi.string(),
-      }).options({ allowUnknown: true }),
       [Segments.PARAMS]: {
         id: Joi.string().uuid({ version: 'uuidv4' }).required(),
       },
@@ -44,6 +27,7 @@ router.put(
   setCartItems,
   cart.add,
 );
+
 router.delete(
   '/cart/:id',
   celebrate(
@@ -63,6 +47,7 @@ router.delete(
   setCartItems,
   cart.remove,
 );
+
 router.get(
   '/cart/buy',
   celebrate(
@@ -80,6 +65,21 @@ router.get(
   setCartItems,
   cart.buy,
 );
-router.get('/cart/clean', cart.clean);
+
+router.get(
+  '/cart/clean',
+  celebrate(
+    {
+      [Segments.HEADERS]: Joi.object({
+        cart_items: Joi.string().required(),
+      }).options({ allowUnknown: true }),
+    },
+    {
+      messages: messages,
+    },
+  ),
+  userAuth,
+  cart.clean,
+);
 
 export { router };

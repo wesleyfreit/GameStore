@@ -19,6 +19,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { signInSchema } from '@/schemas/signInSchema';
 import { storageAuthTokenSave } from '@/storage/storageAuthToken';
+import { storageCartTokenSave } from '@/storage/storageCartToken';
 import { storageUserSave } from '@/storage/storageUser';
 import { colors } from '@/styles/global';
 import { type AuthNavigatorRoutesProps } from '@/types/routes';
@@ -47,7 +48,7 @@ export const SignInScreen = () => {
         password: data.password,
       });
 
-      const { token, user } = response.data;
+      const { token, user, cartItems } = response.data;
 
       if (token && user) {
         await storageUserSave(user);
@@ -55,6 +56,8 @@ export const SignInScreen = () => {
 
         setUserAndToken(user, token);
       }
+
+      if (cartItems) await storageCartTokenSave(cartItems);
 
       setModalLoadingVisible(false);
     } catch (error) {

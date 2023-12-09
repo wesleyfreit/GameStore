@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import { type Region } from 'react-native-maps';
 
 import { Button } from '@/components/Button';
@@ -18,7 +18,21 @@ export const SetAdressScreen = () => {
 
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
+  const route = useRoute();
   const { setCoords } = useCoords();
+
+  useEffect(() => {
+    if (route.params && 'coords' in route.params) {
+      const coords = route.params.coords as string[];
+
+      setPoint({
+        latitude: parseFloat(coords[0]),
+        longitude: parseFloat(coords[1]),
+        latitudeDelta: 0.000949,
+        longitudeDelta: 0.000952,
+      });
+    }
+  }, [navigation]);
 
   const handleSetSave = () => {
     if (point) {

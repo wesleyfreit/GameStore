@@ -46,13 +46,13 @@ export const MainRoutes = () => {
       <Screen
         name="Cart"
         component={CartScreen}
-        options={{ headerShadowVisible: false, title: 'Carrinho' }}
+        options={{ headerShadowVisible: false, title: 'Meu Carrinho' }}
       />
 
       <Screen
         name="Game"
         component={GameScreen}
-        options={{ headerShadowVisible: false }}
+        options={{ headerShadowVisible: false, headerTitle: '' }}
       />
 
       {user?.isAdmin ? (

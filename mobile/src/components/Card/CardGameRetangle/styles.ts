@@ -33,6 +33,10 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     gap: 10,
   },
+  cardPriceStyle: {
+    color: colors.text.color,
+    fontWeight: '700',
+  },
 });
 
 export const {
@@ -41,4 +45,5 @@ export const {
   cardViewTextStyle,
   cardTitleStyle,
   cardViewButtonStyle,
+  cardPriceStyle,
 } = styles;

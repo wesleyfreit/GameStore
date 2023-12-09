@@ -14,14 +14,16 @@ model User {
   email     String      @unique @db.Citext
   password  String
   address   String
+  point     String[]
   isAdmin   Boolean     @default(false)
   createdAt DateTime    @default(now())
+  cartItems String?
   games     UserGames[]
 }
 
 model Game {
   id            String      @id @default(uuid())
-  title         String      @unique
+  title         String      @unique @db.Citext
   slug          String      @unique
   year          Int
   price         Float
@@ -36,7 +38,7 @@ model Game {
 
 model Genre {
   id        String   @id @default(uuid())
-  name      String   @unique
+  name      String   @unique @db.Citext
   createdAt DateTime @default(now())
   Game      Game[]
 }

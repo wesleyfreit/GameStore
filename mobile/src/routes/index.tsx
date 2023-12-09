@@ -8,7 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { SetAdressScreen } from '@/screens/profile/SetAddressScreen';
 import { colors } from '@/styles/global';
 import { AuthRoutes } from './auth.routes';
-import { MainRoutes } from './home.routes';
+import { MainRoutes } from './main.routes';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 

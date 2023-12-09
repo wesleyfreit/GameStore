@@ -58,7 +58,10 @@ export const SignUpScreen = () => {
       const address = request.data.address;
 
       setValue('address', address);
+      setValue('point', [coords.latitude.toString(), coords.longitude.toString()]);
+
       clearErrors('address');
+      clearErrors('point');
 
       setCoords({} as Region);
       setModalLoadingVisible(false);
@@ -85,6 +88,7 @@ export const SignUpScreen = () => {
         address: data.address,
         password: data.password,
         confirm_password: data.repeatPassword,
+        point: data.point,
       });
 
       setModalVisible(true);

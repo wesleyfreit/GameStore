@@ -2,7 +2,7 @@ import { CardGameDefault } from '@/components/Card/CardGameDefault';
 import { SearchHeader } from '@/components/Header/SearchHeader';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { SafeAreaDefault } from '@/components/SafeAreaDefault';
-import { TitleSearch } from '@/components/Title/TitleSearch/TitleSearch';
+import { TitleSub } from '@/components/Title/TitleSub/TitleSub';
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { type MainNavigatorRoutesProps } from '@/types/routes';
@@ -21,7 +21,7 @@ export const SearchScreen = () => {
   const { removeUserAndToken } = useAuth();
 
   const handleSearch = async () => {
-    if (searchValue === '') ToastAndroid.show('Não existe valor para pesquisar', 300);
+    if (searchValue === '') ToastAndroid.show('Não há nada na barra de buscar', 300);
     else {
       setModalLoadingVisible(true);
 
@@ -68,7 +68,7 @@ export const SearchScreen = () => {
         value={searchValue}
         setValue={setSearchValue}
       />
-      {results.length > 0 && <TitleSearch value={searchValue} />}
+      {results.length > 0 && <TitleSub value={`Resultados para "${searchValue}".`} />}
 
       {modalLoadingVisible ? <ModalLoading /> : <></>}
 
@@ -81,7 +81,7 @@ export const SearchScreen = () => {
         renderItem={({ item }) => (
           <CardGameDefault
             game={item}
-            toGame={() => navigation.navigate('Game', { id: item.id })}
+            toGame={() => navigation.navigate('Game', { slug: item.slug })}
             addToCart={() => addToCart(item.id)}
           />
         )}

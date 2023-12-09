@@ -7,10 +7,12 @@ export const SafeAreaDefault = ({
   children,
   paddingHorizontal,
   justifyContent,
-  paddingBottom
+  paddingBottom,
 }: SafeAreaDefaultComponentProps) => {
   return (
-    <SafeAreaView style={{ ...containerStyle, paddingHorizontal, justifyContent, paddingBottom }}>
+    <SafeAreaView
+      style={{ ...containerStyle, paddingHorizontal, justifyContent, paddingBottom }}
+    >
       {children}
     </SafeAreaView>
   );

@@ -1,13 +1,17 @@
+CREATE EXTENSION citext;
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "avatarUrl" TEXT NOT NULL,
-    "username" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
+    "username" CITEXT NOT NULL,
+    "email" CITEXT NOT NULL,
     "password" TEXT NOT NULL,
     "address" TEXT NOT NULL,
+    "point" TEXT[],
     "isAdmin" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "cartItems" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -15,7 +19,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Game" (
     "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
+    "title" CITEXT NOT NULL,
     "slug" TEXT NOT NULL,
     "year" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
@@ -31,7 +35,7 @@ CREATE TABLE "Game" (
 -- CreateTable
 CREATE TABLE "Genre" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" CITEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Genre_pkey" PRIMARY KEY ("id")

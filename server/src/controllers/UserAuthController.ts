@@ -17,7 +17,9 @@ export class UserAuthController {
   }
 
   signUp = async (req: Request, res: Response) => {
-    const { username, email, password, address } = <ISignUp>req.body;
+    const { username, email, password, address, point } = <ISignUp>req.body;
+
+    console.log(point);
 
     try {
       const [existingUserByUsername, existingUserByEmail] = await Promise.all([
@@ -37,16 +39,18 @@ export class UserAuthController {
       const hash = await bcrypt.hash(password, 10);
       const newUser = {
         avatarUrl: '/assets/avatar-default-icon.png',
-        username: username.toLowerCase(),
-        email: email.toLowerCase(),
+        username,
+        email,
         password: hash,
         address,
+        point,
       };
 
       await User.create({ data: { ...newUser } });
       return res.status(201).json({ info: 'Account created' });
     } catch (error) {
-      return res.sendStatus(500);
+      console.log(error);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   };
 
@@ -73,12 +77,14 @@ export class UserAuthController {
               email: userCheck.email,
               isAdmin: userCheck.isAdmin,
               address: userCheck.address,
+              point: userCheck.point,
             },
+            cartItems: userCheck.cartItems,
           });
         } else return res.status(401).json({ error: 'Invalid password' });
       } else return res.status(404).json({ error: 'Account not found' });
     } catch (error) {
-      return res.sendStatus(500);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   };
 
@@ -99,7 +105,7 @@ export class UserAuthController {
       if (address) return res.json({ address });
       else return res.status(400).json({ error: 'Address not found' });
     } catch (error) {
-      return res.sendStatus(500);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   };
 }

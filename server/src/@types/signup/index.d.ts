@@ -3,4 +3,5 @@ interface ISignUp {
   email: string;
   password: string;
   address: string;
+  point: string[];
 }

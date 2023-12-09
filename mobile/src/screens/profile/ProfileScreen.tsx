@@ -27,7 +27,7 @@ import {
 } from './styles';
 
 export const ProfileScreen = () => {
-  const [userGames, setUserGames] = useState<IGame[]>([]);
+  const [userGames, setUserGames] = useState<IUserGame[]>([]);
   const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -180,8 +180,8 @@ export const ProfileScreen = () => {
         contentContainerStyle={{ gap: 8, paddingVertical: 10 }}
         renderItem={({ item }) => (
           <CardGameDefault
-            game={item}
-            toGame={() => navigation.navigate('Game', { id: item.id })}
+            game={item.game}
+            toGame={() => navigation.navigate('Game', { slug: item.game.slug })}
             disableBuy
           />
         )}

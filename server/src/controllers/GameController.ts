@@ -37,6 +37,7 @@ export class GameController {
             mode: 'insensitive',
           },
         },
+        include: { genre: true },
       });
 
       if (game) return res.status(200).json({ game });
@@ -72,7 +73,6 @@ export class GameController {
             disponibility,
             genreId: genre,
           };
-
           const game = await Game.create({ data: newGame });
 
           res.status(201).json({ gameId: game.id });
@@ -158,18 +158,20 @@ export class GameController {
     try {
       const { id } = req.params;
 
-      const game = await Game.findUnique({ where: { id } });
+      const game = await Game.findUnique({ where: { id }, include: { users: true } });
 
       if (game) {
-        const deletedImg = await deleteImg(game.imageUrl);
+        if (game.users.length === 0) {
+          const deletedImg = await deleteImg(game.imageUrl);
 
-        if (deletedImg) {
-          return res.status(500).json({ error: 'Internal server error' });
-        }
+          if (deletedImg) {
+            return res.status(500).json({ error: 'Internal server error' });
+          }
 
-        await Game.delete({ where: { id } });
+          await Game.delete({ where: { id } });
 
-        return res.status(200).json({ info: 'Game removed' });
+          return res.status(200).json({ info: 'Game removed' });
+        } else return res.status(401).json({ error: 'Game bought by an user' });
       } else return res.status(404).json({ error: 'Game not found' });
     } catch (error) {
       return res.status(500).json({ error: 'Internal server error' });

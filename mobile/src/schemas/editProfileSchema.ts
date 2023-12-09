@@ -27,4 +27,5 @@ export const editProfileSchema = yup.object({
     )
     .min(6, 'A senha deve conter pelo menos 6 caracteres.')
     .required('Este campo deve ser preenchido.'),
+  point: yup.array().required(),
 });

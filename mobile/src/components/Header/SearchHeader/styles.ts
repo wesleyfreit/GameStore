@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 8,
     marginTop: 7,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   searchHeaderTextStyle: {
     flexDirection: 'row',
@@ -16,8 +16,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   searchBarInputStyle: {
-    width: screenWidth / 1.4
-  }
+    width: screenWidth / 1.4,
+  },
 });
 
-export const { searchHeaderContainerStyle, searchHeaderTextStyle, searchBarInputStyle } = styles;
+export const { searchHeaderContainerStyle, searchHeaderTextStyle, searchBarInputStyle } =
+  styles;

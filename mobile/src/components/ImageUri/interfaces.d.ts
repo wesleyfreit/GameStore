@@ -1,8 +1,10 @@
+import { DimensionValue } from 'react-native';
+
 interface ImageUriComponentProps {
   imageUri: string;
   styles: {
-    width: number;
-    height: number;
+    width: number | DimensionValue;
+    height: number | DimensionValue;
     borderRadius?: number;
     position?: 'absolute' | 'relative' | undefined;
     borderTopLeftRadius?: number;

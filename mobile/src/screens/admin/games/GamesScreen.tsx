@@ -92,6 +92,13 @@ export const GamesScreen = () => {
 
               removeUserAndToken();
               break;
+            case 401:
+              if (message.error === 'Game bought by an user')
+                ToastAndroid.show(
+                  'O jogo não pode ser deletado porquê ele já foi comprado por algum usuário',
+                  300,
+                );
+              break;
             default:
               Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
               break;
@@ -115,7 +122,7 @@ export const GamesScreen = () => {
         renderItem={({ item }) => (
           <CardGameRectangle
             game={item}
-            toGame={() => navigation.navigate('Game', { id: item.id })}
+            toGame={() => navigation.navigate('Game', { slug: item.slug })}
             toEdit={() => navigation.navigate('GameEditor', { slug: item.slug })}
             toRemove={() => {
               setConfirmModalVisible(true);

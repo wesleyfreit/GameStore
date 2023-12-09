@@ -11,7 +11,13 @@ export class UserAccountController {
 
       const user = await User.findFirst({
         where: { username: { equals: username, mode: 'insensitive' } },
-        include: { games: true },
+        select: {
+          games: {
+            select: {
+              game: true,
+            },
+          },
+        },
       });
 
       return res.json({ userGames: user?.games });
@@ -24,7 +30,7 @@ export class UserAccountController {
     try {
       const { id } = req.params;
 
-      const { username, email, password, address, new_password } = req.body;
+      const { username, email, password, address, new_password, point } = req.body;
 
       const [existingUserByUsername, existingUserByEmail] = await Promise.all([
         User.findFirst({
@@ -54,6 +60,7 @@ export class UserAccountController {
               username: username.toLowerCase(),
               email: email.toLowerCase(),
               address,
+              point,
               password: hash,
             };
 
@@ -63,6 +70,7 @@ export class UserAccountController {
               username: username.toLowerCase(),
               email: email.toLowerCase(),
               address,
+              point,
             };
 
             await User.update({ where: { id }, data: { ...altUser } });
@@ -75,6 +83,7 @@ export class UserAccountController {
               username: userUpdated?.username,
               email: userUpdated?.email,
               address: userUpdated?.address,
+              point: userUpdated?.point,
             },
           });
         } else {

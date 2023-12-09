@@ -3,7 +3,11 @@ import { TextInput, TouchableOpacity, View } from 'react-native';
 
 import { Icon } from '@/components/Icon';
 import { colors } from '@/styles/global';
-import { searchBarInputStyle, searchHeaderContainerStyle, searchHeaderTextStyle } from './styles';
+import {
+  searchBarInputStyle,
+  searchHeaderContainerStyle,
+  searchHeaderTextStyle,
+} from './styles';
 
 export const SearchHeader = ({
   toBack,
@@ -28,7 +32,7 @@ export const SearchHeader = ({
         />
       </View>
 
-      <TouchableOpacity activeOpacity={0.6} onPress={toSearch}>
+      <TouchableOpacity activeOpacity={0.4} onPress={toSearch}>
         <Icon iconName={'search'} color={colors.text.color} size={24} />
       </TouchableOpacity>
     </View>

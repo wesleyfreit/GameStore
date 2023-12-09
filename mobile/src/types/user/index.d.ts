@@ -4,6 +4,7 @@ interface SignUpUser {
   email: string;
   password: string;
   address: string;
+  point?: string[];
 }
 
 interface SignInUser {
@@ -18,4 +19,5 @@ interface IUser {
   isAdmin: boolean;
   email?: string;
   address?: string;
+  point?: string[];
 }

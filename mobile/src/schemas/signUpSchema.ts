@@ -27,4 +27,5 @@ export const signUpSchema = yup.object({
     .string()
     .equals([yup.ref('password')], 'As senhas não coincidem')
     .required('Este campo deve ser preenchido.'),
+  point: yup.array().required(),
 });

@@ -5,6 +5,7 @@ import { AppError } from '@/utils/AppError';
 import React, { createContext, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { AuthContextProps, AuthProviderProps } from './interfaces';
+import { storageCartTokenRemove } from '@/storage/storageCartToken';
 
 export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
@@ -20,6 +21,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const removeUserAndToken = async () => {
     await storageUserRemove();
     await storageAuthTokenRemove();
+
+    await storageCartTokenRemove();
+    api.defaults.headers.common['cart_items'] = '';
 
     setUser({} as IUser);
   };

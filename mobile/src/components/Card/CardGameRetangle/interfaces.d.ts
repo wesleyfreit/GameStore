@@ -2,5 +2,6 @@ interface CardGameRectangleComponentProps {
   game: IGame;
   toGame?: () => void;
   toRemove: () => void;
-  toEdit: () => void;
+  toEdit?: () => void;
+  price?: string;
 }
