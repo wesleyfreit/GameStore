@@ -21,14 +21,16 @@ export const GamesScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [idToRemove, setIdToRemove] = useState('');
   const [games, setGames] = useState<IGame[]>([]);
+  const [userGames, setUserGames] = useState<IUserGame[]>([]);
 
   const navigation = useNavigation<MainNavigatorRoutesProps>();
 
-  const { removeUserAndToken } = useAuth();
+  const { user, removeUserAndToken } = useAuth();
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       getGames();
+      getUserGames();
     });
   }, [navigation]);
 
@@ -111,6 +113,41 @@ export const GamesScreen = () => {
     }
   };
 
+  const getUserGames = async () => {
+    setModalLoadingVisible(true);
+
+    try {
+      const request = await api.get(`/users/account/${user?.username}`);
+
+      setUserGames(request.data.userGames);
+      setModalLoadingVisible(false);
+    } catch (error) {
+      setModalLoadingVisible(false);
+
+      if (isAxiosError(error)) {
+        const message = error.response?.data;
+        const status = error.response?.status;
+        switch (status) {
+          case 400:
+            if (message.error === 'Not Authorized')
+              ToastAndroid.show('A sessão atual é inválida', 300);
+            if (message.error == 'Invalid Session')
+              ToastAndroid.show('A sessão atual expirou', 300);
+
+            removeUserAndToken();
+            break;
+          default:
+            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
+            break;
+        }
+      }
+    }
+  };
+
+  const checkBought = (id: string): boolean => {
+    return userGames.some((userGame) => userGame.game.id === id);
+  };
+
   return (
     <SafeAreaDefault>
       <FlatList
@@ -122,7 +159,12 @@ export const GamesScreen = () => {
         renderItem={({ item }) => (
           <CardGameRectangle
             game={item}
-            toGame={() => navigation.navigate('Game', { slug: item.slug })}
+            toGame={() =>
+              navigation.navigate('Game', {
+                slug: item.slug,
+                bought: checkBought(item.id),
+              })
+            }
             toEdit={() => navigation.navigate('GameEditor', { slug: item.slug })}
             toRemove={() => {
               setConfirmModalVisible(true);

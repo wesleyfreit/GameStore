@@ -8,17 +8,23 @@ import { Game } from '../models/Game';
 export class GameController {
   index = async (req: Request, res: Response) => {
     try {
-      const games = await Game.findMany();
+      const games = await Game.findMany({
+        orderBy: [{ disponibility: 'desc' }, { price: 'asc' }],
+      });
 
       return res.status(200).json({ games });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({ error: 'Internal server error' });
     }
   };
 
   read = async (req: Request, res: Response) => {
     try {
-      const games = await Game.findMany({ include: { genre: true } });
+      const games = await Game.findMany({
+        include: { genre: true },
+        orderBy: [{ title: 'asc' }],
+      });
 
       return res.status(200).json({ games });
     } catch (error) {
@@ -90,6 +96,7 @@ export class GameController {
       if (name && name !== '') {
         const games = await Game.findMany({
           where: { title: { contains: `${name}`, mode: 'insensitive' } },
+          orderBy: [{ disponibility: 'desc' }, { price: 'asc' }],
         });
 
         return res.status(200).json({

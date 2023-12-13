@@ -1,5 +1,3 @@
-CREATE EXTENSION citext;
-
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,

@@ -16,6 +16,7 @@ export class UserAccountController {
             select: {
               game: true,
             },
+            orderBy: { purchaseDate: 'desc' },
           },
         },
       });

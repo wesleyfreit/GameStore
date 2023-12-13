@@ -24,14 +24,10 @@ const styles = StyleSheet.create({
     color: colors.text.color,
     fontWeight: '600',
     fontSize: 16,
-    textShadowColor: '#000',
-    textShadowRadius: 5,
   },
   aboutDescriptionStyle: {
     color: colors.text.color,
     fontWeight: '500',
-    textShadowColor: '#000',
-    textShadowRadius: 4,
   },
 });
 

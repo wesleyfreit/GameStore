@@ -19,14 +19,16 @@ export const HomeScreen = () => {
   const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [cartLength, setCartLength] = useState(0);
+  const [userGames, setUserGames] = useState<IUserGame[]>([]);
 
   const navigation = useNavigation<MainNavigatorRoutesProps>();
-  const { removeUserAndToken } = useAuth();
+  const { user, removeUserAndToken } = useAuth();
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       getGames();
       getCartLength();
+      getUserGames();
     });
   }, [navigation]);
 
@@ -63,6 +65,7 @@ export const HomeScreen = () => {
 
   const getCartLength = async () => {
     setModalLoadingVisible(true);
+
     try {
       const cartToken = await storageCartTokenGet();
 
@@ -72,7 +75,7 @@ export const HomeScreen = () => {
 
       if (data.cartItems) {
         setCartLength(data.cartItems.length);
-      }
+      } else setCartLength(0);
     } catch (error) {
       const isAppError = error instanceof AppError;
 
@@ -99,6 +102,37 @@ export const HomeScreen = () => {
       }
     } finally {
       setModalLoadingVisible(false);
+    }
+  };
+
+  const getUserGames = async () => {
+    setModalLoadingVisible(true);
+
+    try {
+      const request = await api.get(`/users/account/${user?.username}`);
+
+      setUserGames(request.data.userGames);
+      setModalLoadingVisible(false);
+    } catch (error) {
+      setModalLoadingVisible(false);
+
+      if (isAxiosError(error)) {
+        const message = error.response?.data;
+        const status = error.response?.status;
+        switch (status) {
+          case 400:
+            if (message.error === 'Not Authorized')
+              ToastAndroid.show('A sessão atual é inválida', 300);
+            if (message.error == 'Invalid Session')
+              ToastAndroid.show('A sessão atual expirou', 300);
+
+            removeUserAndToken();
+            break;
+          default:
+            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
+            break;
+        }
+      }
     }
   };
 
@@ -149,6 +183,10 @@ export const HomeScreen = () => {
     }
   };
 
+  const checkBought = (id: string): boolean => {
+    return userGames.some((userGame) => userGame.game.id === id);
+  };
+
   return (
     <SafeAreaDefault>
       <HomeHeader
@@ -175,8 +213,18 @@ export const HomeScreen = () => {
         renderItem={({ item }) => (
           <CardGameDefault
             game={item}
-            toGame={() => navigation.navigate('Game', { slug: item.slug })}
+            toGame={() =>
+              navigation.navigate('Game', {
+                slug: item.slug,
+                bought: checkBought(item.id),
+              })
+            }
             addToCart={() => addToCart(item.id)}
+            disponible={item.disponibility}
+            bought={checkBought(item.id)}
+            bgColor={
+              checkBought(item.id) ? 'success' : item.disponibility ? '' : 'disable'
+            }
           />
         )}
         ListEmptyComponent={() => (

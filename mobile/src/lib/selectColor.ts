@@ -8,6 +8,8 @@ export const selectColor = (type?: string) => {
       return colors.warning.color;
     case 'danger':
       return colors.danger.color;
+    case 'disable':
+      return colors.sub.color;
     default:
       return colors.primary.color;
   }

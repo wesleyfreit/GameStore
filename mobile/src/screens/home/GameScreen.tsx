@@ -1,5 +1,6 @@
 import { Button } from '@/components/Button';
 import { GameDescribe } from '@/components/GameDescribe';
+import { Icon } from '@/components/Icon';
 import { ImageUri } from '@/components/ImageUri';
 import { ModalLoading } from '@/components/Modal/ModalLoading';
 import { SafeAreaDefault } from '@/components/SafeAreaDefault';
@@ -8,6 +9,7 @@ import { ViewDefault } from '@/components/ViewDefault';
 import { useAuth } from '@/hooks/useAuth';
 import { api } from '@/lib/api';
 import { storageCartTokenGet, storageCartTokenSave } from '@/storage/storageCartToken';
+import { colors } from '@/styles/global';
 import { MainNavigatorRoutesProps } from '@/types/routes';
 import { URL_API } from '@env';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -32,6 +34,7 @@ import {
 export const GameScreen = () => {
   const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
   const [game, setGame] = useState<IGame>();
+  const [bought, setBought] = useState(false);
 
   const navigation = useNavigation<MainNavigatorRoutesProps>();
   const route = useRoute();
@@ -40,6 +43,10 @@ export const GameScreen = () => {
   useEffect(() => {
     if (route.params && 'slug' in route.params) {
       handleSetGame(route.params.slug as string);
+    }
+
+    if (route.params && 'bought' in route.params) {
+      setBought(route.params.bought as boolean);
     }
   }, [navigation]);
 
@@ -155,12 +162,33 @@ export const GameScreen = () => {
             </ViewDefault>
           </ScrollView>
 
-          <ViewDefault>
-            <Button
-              onClick={() => addToCart(game?.id as string)}
-              text="Adicionar ao carrinho"
-            />
-          </ViewDefault>
+          {!bought && game?.disponibility ? (
+            <ViewDefault>
+              <Button
+                onClick={() => addToCart(game?.id as string)}
+                text={
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      gap: 5,
+                    }}
+                  >
+                    <Icon
+                      iconName={'cart'}
+                      size={20}
+                      color={colors.text.color}
+                      strokeWidth={'2.8'}
+                    />
+                    <Text style={{ fontWeight: 'bold', color: colors.text.color }}>
+                      {formatCurrency(game?.price as number)}
+                    </Text>
+                  </View>
+                }
+              />
+            </ViewDefault>
+          ) : (
+            <></>
+          )}
         </SafeAreaDefault>
       </ImageBackground>
     </>

@@ -24,7 +24,9 @@ export class CartController {
           const games = await Game.findMany();
 
           const cartItems = decoded.cartItems
-            .filter((dec: ICart) => games.some((item) => item.id === dec.id))
+            .filter((dec: ICart) =>
+              games.some((item) => item.id === dec.id && item.disponibility),
+            )
             .map((dec: ICart) => {
               const game = games.find((item) => item.id === dec.id);
 
@@ -135,7 +137,9 @@ export class CartController {
 
         await Promise.all(
           decoded.cartItems.map(async (item: ICart) => {
-            const game = await Game.findUnique({ where: { id: item.id } });
+            const game = await Game.findUnique({
+              where: { id: item.id, disponibility: true },
+            });
 
             if (game) {
               const check = userGames.some((find) => find.gameId === game.id);

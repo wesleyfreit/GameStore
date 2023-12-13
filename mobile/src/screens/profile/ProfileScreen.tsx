@@ -181,7 +181,9 @@ export const ProfileScreen = () => {
         renderItem={({ item }) => (
           <CardGameDefault
             game={item.game}
-            toGame={() => navigation.navigate('Game', { slug: item.game.slug })}
+            toGame={() =>
+              navigation.navigate('Game', { slug: item.game.slug, bought: true })
+            }
             disableBuy
           />
         )}

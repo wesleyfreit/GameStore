@@ -16,7 +16,7 @@ type MainRoutesType = {
   Profile: undefined;
   Search: undefined;
   Cart: undefined;
-  Game: { slug: string };
+  Game: { slug: string; bought?: boolean };
   GameEditor: { slug: string } | undefined;
   GenreEditor: { id: string } | undefined;
   EditProfile: undefined;

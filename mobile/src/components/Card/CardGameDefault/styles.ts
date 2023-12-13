@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
   },
   cardViewButtonStyle: { alignItems: 'center', marginTop: 10 },
   cardButtonStyle: {
-    backgroundColor: colors.primary.color,
     borderRadius: 8,
     paddingHorizontal: 15,
     paddingVertical: 4,

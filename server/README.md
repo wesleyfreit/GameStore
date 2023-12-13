@@ -1,6 +1,6 @@
-## Get-Started
+## Getting Started
 
-#### Requisitos: Node, NPM.
+#### Requisitos: Node, NPM, PostgreeSQL.
 
 ---
 
@@ -10,16 +10,17 @@
 npm i
 ```
 
----
+**2.** Criar uma database no PostgreeSQL com um nome de sua preferência e instalar a extensão citext na database criada.
 
-**2.** Criar um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+**3.** Criar um arquivo `.env` na pasta raiz da API com as seguintes variáveis:
 
 ```bash
 JWT_SECRET = 'digitos_aleatorios'
 DATABASE_URL = 'postgresql://user:password@localhost:5432/mydatabasename'
+MAP_KEY = 'google_maps_key'
 USER = 'user_admin'
 EMAIL = 'email@do.admin'
-PASSWORD = 'password_admin'
+PASSWORD = '@adminP4ssword'
 MAP_KEY = 'google_maps_key'
 ```
 
@@ -27,26 +28,20 @@ MAP_KEY = 'google_maps_key'
 
 - **_OBS: a variável DATABASE_URL serve para fazer a conexão com o banco de dados PostgresSQL._**
 
-- **_OBS: as variáveis USER, EMAIL e PASSWORD servem para definir um admin ao gerar as tabelas do banco de dados pela primeira vez._**
+- **_OBS: as variáveis USER, EMAIL e PASSWORD servem para definir um admin no banco de dados depois de gerar as tabelas._**
 
-- **_OBS: a variável MAP_KEY é a api do google maps que no back-end serve para consultar coordenadas recebidas do usuário e retornar o endereço dele._**
+- **_OBS: a variável MAP_KEY é a chave da api do google maps que no back-end serve para consultar coordenadas recebidas do usuário e retornar o endereço dele._**
 
----
-
-**3.** Gerar o banco de dados e setar o admin através do terminal com o comando:
+**4.** Gerar o banco de dados e setar o admin através do terminal com o comando:
 
 ```bash
 npm run db
 ```
 
----
-
-**4.** Rodar o servidor em ambiente de desenvolvimento pelo do terminal com o comando:
+**5.** Rodar o servidor em ambiente de desenvolvimento pelo do terminal com o comando:
 
 ```bash
 npm run dev
 ```
 
----
-
-**5.** Utilize o link [http://localhost:8080](http://localhost:8080) no frontend para integrar a API.
+**6.** Utilizar o link [http://localhost:8080](http://localhost:8080) no frontend para integrar a API.

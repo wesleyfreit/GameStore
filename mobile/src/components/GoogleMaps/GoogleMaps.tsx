@@ -1,7 +1,12 @@
 import Geolocation from '@react-native-community/geolocation';
 import React, { useEffect, useState } from 'react';
 import { PermissionsAndroid, Platform, View } from 'react-native';
-import MapView, { MapPressEvent, Marker, type Region } from 'react-native-maps';
+import MapView, {
+  MapPressEvent,
+  Marker,
+  PROVIDER_DEFAULT,
+  type Region,
+} from 'react-native-maps';
 
 import { colors } from '@/styles/global';
 import { GoogleMapsComponentProps } from './interfaces';
@@ -54,11 +59,14 @@ export const GoogleMaps = ({ point, setPoint }: GoogleMapsComponentProps) => {
             : null
         }
         style={mapStyle}
-        zoomEnabled={true}
+        provider={PROVIDER_DEFAULT}
+        zoomEnabled
         minZoomLevel={3}
-        zoomControlEnabled={true}
-        loadingEnabled={true}
-        showsUserLocation={true}
+        zoomControlEnabled
+        loadingEnabled
+        showsUserLocation
+        liteMode
+        
         region={userLocation}
         onPress={handleSetPoint}
       >

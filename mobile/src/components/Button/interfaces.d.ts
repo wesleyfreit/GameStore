@@ -1,5 +1,5 @@
 interface ButtonComponentProps {
-  text: string;
+  text: string | Element;
   bgColor?: string;
   onClick: () => void;
 }

@@ -3,6 +3,7 @@ import React from 'react';
 import { Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 import { ImageUri } from '@/components/ImageUri';
+import { selectColor } from '@/lib/selectColor';
 import { colors, screenWidth } from '@/styles/global';
 import { Icon } from '../../Icon';
 import {
@@ -21,6 +22,9 @@ export const CardGameDefault = ({
   toGame,
   addToCart,
   disableBuy,
+  disponible,
+  bgColor,
+  bought,
 }: CardDefaultComponentProps) => {
   const formatCurrency = (value: number) => {
     const formattedValue = new Intl.NumberFormat('pt-BR', {
@@ -49,17 +53,27 @@ export const CardGameDefault = ({
           <View style={cardViewButtonStyle}>
             <TouchableOpacity
               activeOpacity={0.7}
-              style={cardButtonStyle}
+              style={{
+                ...cardButtonStyle,
+                backgroundColor: selectColor(bgColor),
+              }}
               onPress={addToCart}
+              disabled={!disponible || bought}
             >
               <Icon
-                iconName="cart"
+                iconName={bought ? 'check' : disponible ? 'cart' : 'close'}
                 size={15}
                 color={colors.text.color}
                 strokeWidth={'2.8'}
               />
 
-              <Text style={cardButtonTextStyle}>{formatCurrency(game.price)}</Text>
+              <Text style={cardButtonTextStyle}>
+                {bought
+                  ? 'Comprado'
+                  : disponible
+                    ? formatCurrency(game.price)
+                    : 'Indisponível'}
+              </Text>
             </TouchableOpacity>
           </View>
         ) : (

@@ -8,6 +8,9 @@ import { User } from '../models/User';
   const USER = process.env.USER as string;
   const EMAIL = process.env.EMAIL as string;
   const PASSWORD = process.env.PASSWORD as string;
+  const ADDRESS = process.env.LNG as string;
+  const LAT = process.env.LNG as string;
+  const LNG = process.env.LNG as string;
 
   try {
     const user = await User.findFirst({
@@ -38,7 +41,8 @@ import { User } from '../models/User';
         username: USER,
         email: EMAIL,
         password: hash,
-        address: 'R. Cinco de Novembro, Bom Jesus - PB, 58930-000',
+        address: ADDRESS,
+        point: [LAT, LNG],
         isAdmin: true,
       };
 
