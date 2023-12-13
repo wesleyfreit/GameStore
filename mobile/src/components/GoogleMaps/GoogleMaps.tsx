@@ -60,13 +60,11 @@ export const GoogleMaps = ({ point, setPoint }: GoogleMapsComponentProps) => {
         }
         style={mapStyle}
         provider={PROVIDER_DEFAULT}
-        zoomEnabled
+        zoomEnabled={true}
         minZoomLevel={3}
-        zoomControlEnabled
-        loadingEnabled
-        showsUserLocation
-        liteMode
-        
+        zoomControlEnabled={true}
+        loadingEnabled={true}
+        showsUserLocation={true}
         region={userLocation}
         onPress={handleSetPoint}
       >
