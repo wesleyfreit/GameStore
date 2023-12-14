@@ -37,16 +37,18 @@ LNG = 'longitude do local do seu endereço'
 
 **4.** Criar a pasta `uploads` dentro da pasta `public` que está localizada na raiz do projeto da API.
 
-**5.** Gerar o banco de dados e setar o admin através do terminal com o comando:
+**5.** Criar duas pastas chamadas `avatars` e `covers` dentro da pasta `uploads` criada anteriormente.
+
+**6.** Gerar o banco de dados e setar o admin através do terminal com o comando:
 
 ```bash
 npm run db
 ```
 
-**6.** Rodar o servidor em ambiente de desenvolvimento pelo do terminal com o comando:
+**7.** Rodar o servidor em ambiente de desenvolvimento pelo do terminal com o comando:
 
 ```bash
 npm run dev
 ```
 
-**7.** Utilizar o link [http://localhost:8080](http://localhost:8080) no frontend para integrar a API.
+**8.** Utilizar o link [http://localhost:8080](http://localhost:8080) no frontend para integrar a API.
