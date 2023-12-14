@@ -19,8 +19,6 @@ export class UserAuthController {
   signUp = async (req: Request, res: Response) => {
     const { username, email, password, address, point } = <ISignUp>req.body;
 
-    console.log(point);
-
     try {
       const [existingUserByUsername, existingUserByEmail] = await Promise.all([
         User.findFirst({
@@ -49,7 +47,6 @@ export class UserAuthController {
       await User.create({ data: { ...newUser } });
       return res.status(201).json({ info: 'Account created' });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({ error: 'Internal server error' });
     }
   };

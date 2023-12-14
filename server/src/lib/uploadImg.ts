@@ -32,7 +32,6 @@ const uploadImg = async (req: Request, res: Response) => {
 
         return `/uploads/${directory}${fileName}`;
       } catch (error) {
-        console.log(error);
         return 'error';
       }
     } else return 'error';

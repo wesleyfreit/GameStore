@@ -58,7 +58,8 @@ export const GameScreen = () => {
       setGame(response.data.game);
     } catch (error) {
       if (isAxiosError(error)) {
-        console.log(error);
+        const message = error.response?.data;
+        Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
       }
     } finally {
       setModalLoadingVisible(false);

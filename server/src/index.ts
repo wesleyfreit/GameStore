@@ -21,8 +21,6 @@ app.use((req, res, next) => {
 });
 
 app.use((err: Errback, req: Request, res: Response, next: NextFunction) => {
-  console.log(err);
-
   if (isCelebrateError(err)) {
     let message = err.message;
     if (Object.fromEntries(err.details).body) {

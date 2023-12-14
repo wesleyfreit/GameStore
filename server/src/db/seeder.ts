@@ -8,8 +8,8 @@ import { User } from '../models/User';
   const USER = process.env.USER as string;
   const EMAIL = process.env.EMAIL as string;
   const PASSWORD = process.env.PASSWORD as string;
-  const ADDRESS = process.env.LNG as string;
-  const LAT = process.env.LNG as string;
+  const ADDRESS = process.env.ADDRESS as string;
+  const LAT = process.env.LAT as string;
   const LNG = process.env.LNG as string;
 
   try {

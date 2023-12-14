@@ -157,7 +157,6 @@ export class CartController {
       await User.update({ where: { id: req.id }, data: { cartItems: null } });
 
       if (errorTitles.length > 0) {
-        console.log(errorTitles);
         return res.json({ info: 'Titles added with exception', notAdded: errorTitles });
       } else {
         return res.status(201).json({ info: 'Titles added' });
