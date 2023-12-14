@@ -34,6 +34,7 @@ export const SignUpScreen = () => {
     formState: { errors },
     setValue,
     clearErrors,
+    getValues,
   } = useForm({
     resolver: yupResolver(signUpSchema),
   });
@@ -57,8 +58,10 @@ export const SignUpScreen = () => {
 
       const address = request.data.address;
 
+      const point = [coords.latitude.toString(), coords.longitude.toString()];
+
       setValue('address', address);
-      setValue('point', [coords.latitude.toString(), coords.longitude.toString()]);
+      setValue('point', point);
 
       clearErrors('address');
       clearErrors('point');
@@ -153,7 +156,12 @@ export const SignUpScreen = () => {
             text={'Endereço*'}
             control={control}
             errors={errors}
-            onClick={() => navigation.push('SetAddress')}
+            onClick={() =>
+              navigation.navigate(
+                'SetAddress',
+                getValues('point') ? { coords: getValues('point') } : undefined,
+              )
+            }
             error={
               authError === 'Address not found' ? 'Endereço não encontrado.' : undefined
             }
