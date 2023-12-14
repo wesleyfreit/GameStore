@@ -22,6 +22,7 @@ interface InputComponentProps {
     description: string;
     genre: string;
     disponibility: string;
+    name: string;
   }>;
   error?: string;
   changeMessage?: (value: string) => void;

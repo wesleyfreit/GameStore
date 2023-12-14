@@ -31,6 +31,7 @@ export const Input = ({
     { name: 'price', error: errors.price },
     { name: 'genre', error: errors.genre },
     { name: 'disponibility', error: errors.disponibility },
+    { name: 'name', error: errors.name },
   ];
 
   const errorMessage = errorsArray.find((error) => error.name === name);
