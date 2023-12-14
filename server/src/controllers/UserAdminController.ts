@@ -4,7 +4,7 @@ import { User } from '../models/User';
 export class UserAdminController {
   read = async (req: Request, res: Response) => {
     try {
-      const array = await User.findMany();
+      const array = await User.findMany({ orderBy: { username: 'asc' } });
 
       const users = array.map((user) => {
         return { id: user.id, username: user.username, isAdmin: user.isAdmin };
