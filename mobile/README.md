@@ -33,3 +33,11 @@ npm start
 ```
 
 - **_OBS: Depois de executar o comando, pressionar a tecla A para abrir no ambiente android e selecionar o emulador correto._**
+
+---
+
+**OBS: Se a API não funcionar como esperado, é recomendado utilizar este comando no terminal para limpar o cache:**
+
+```bash
+npx react-native start --reset-cache
+```
