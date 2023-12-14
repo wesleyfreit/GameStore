@@ -7,6 +7,7 @@ interface InsertImageComponentProps {
     image: string;
   }>;
   setPreview: (value: string | null) => void;
+  setImageType: (value: string | null) => void;
   preview: string | null;
   imageUrl: string | null;
 }

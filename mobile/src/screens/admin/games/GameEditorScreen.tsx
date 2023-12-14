@@ -27,6 +27,7 @@ export const GameEditorScreen = () => {
   const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [type, setImageType] = useState<string | null>(null);
   const [genre, setGenre] = useState<string | null>('');
   const [disponible, setDisponible] = useState(false);
   const [id, setId] = useState<string | undefined>();
@@ -105,8 +106,8 @@ export const GameEditorScreen = () => {
 
     formData.append('image', {
       uri: preview,
-      name: 'image.jpg',
-      type: 'image/jpeg',
+      name: preview?.split('/').pop()?.split('_').pop(),
+      type: type,
     } as unknown);
 
     formData.append('title', data.title);
@@ -162,8 +163,8 @@ export const GameEditorScreen = () => {
     if (preview) {
       formData.append('image', {
         uri: preview,
-        name: 'image.jpg',
-        type: 'image/jpeg',
+        name: preview?.split('/').pop()?.split('_').pop(),
+        type: type,
       } as unknown);
     }
 
@@ -260,6 +261,7 @@ export const GameEditorScreen = () => {
             control={control}
             errors={errors}
             setPreview={setPreview}
+            setImageType={setImageType}
             preview={preview}
             imageUrl={imageUrl}
           />

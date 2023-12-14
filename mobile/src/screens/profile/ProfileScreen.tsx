@@ -142,7 +142,7 @@ export const ProfileScreen = () => {
   };
 
   return (
-    <SafeAreaDefault>
+    <SafeAreaDefault paddingBottom={0}>
       <ViewDefault>
         <View style={imageProfileContainer}>
           <ImageUri
@@ -168,7 +168,9 @@ export const ProfileScreen = () => {
         </View>
       </ViewDefault>
 
-      <TitleGuide text="Meus Jogos" />
+      <View style={{ padding: 5 }}>
+        <TitleGuide text="Meus Jogos" />
+      </View>
 
       <FlatList
         data={userGames}

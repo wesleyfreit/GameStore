@@ -128,7 +128,7 @@ export const GameScreen = () => {
         style={backgroundImageStyle}
         imageStyle={{ position: 'absolute', opacity: 0.1 }}
       >
-        <SafeAreaDefault>
+        <SafeAreaDefault paddingVertical={0}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <ViewDefault>
               <TitleDefault text={game?.title.toUpperCase() as string} align={'left'} />

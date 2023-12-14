@@ -188,7 +188,7 @@ export const HomeScreen = () => {
   };
 
   return (
-    <SafeAreaDefault>
+    <SafeAreaDefault paddingBottom={0}>
       <HomeHeader
         toSearch={() => navigation.navigate('Search')}
         toCart={() => navigation.navigate('Cart')}
