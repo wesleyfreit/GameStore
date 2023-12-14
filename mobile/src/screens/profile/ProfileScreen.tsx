@@ -119,23 +119,23 @@ export const ProfileScreen = () => {
 
       if (isAxiosError(error)) {
         if (error.code === 'ERR_NETWORK')
-          Alert.alert('Erro de conexão', 'Ocorreu um erro de conexão, tente novamente.');
+          ToastAndroid.show('Ocorreu um erro de conexão, tente novamente.', 400);
+        else {
+          const message = error.response?.data;
+          const status = error.response?.status;
+          switch (status) {
+            case 400:
+              if (message.error === 'Not Authorized')
+                ToastAndroid.show('A sessão atual é inválida', 300);
+              if (message.error == 'Invalid Session')
+                ToastAndroid.show('A sessão atual expirou', 300);
 
-        const message = error.response?.data;
-        const status = error.response?.status;
-        console.log(message.error);
-        switch (status) {
-          case 400:
-            if (message.error === 'Not Authorized')
-              ToastAndroid.show('A sessão atual é inválida', 300);
-            if (message.error == 'Invalid Session')
-              ToastAndroid.show('A sessão atual expirou', 300);
-
-            removeUserAndToken();
-            break;
-          default:
-            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
-            break;
+              removeUserAndToken();
+              break;
+            default:
+              Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
+              break;
+          }
         }
       }
     } finally {

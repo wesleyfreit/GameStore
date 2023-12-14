@@ -133,25 +133,26 @@ export const GameEditorScreen = () => {
 
       if (isAxiosError(error)) {
         if (error.code === 'ERR_NETWORK')
-          Alert.alert('Erro de conexão', 'Ocorreu um erro de conexão, tente novamente.');
+          ToastAndroid.show('Ocorreu um erro de conexão, tente novamente.', 400);
+        else {
+          const status = error.response?.status;
+          const message = error.response?.data;
+          switch (status) {
+            case 400:
+              if (message.error === 'Not Authorized')
+                ToastAndroid.show('A sessão atual é inválida', 300);
+              if (message.error == 'Invalid Session')
+                ToastAndroid.show('A sessão atual expirou', 300);
 
-        const status = error.response?.status;
-        const message = error.response?.data;
-        switch (status) {
-          case 400:
-            if (message.error === 'Not Authorized')
-              ToastAndroid.show('A sessão atual é inválida', 300);
-            if (message.error == 'Invalid Session')
-              ToastAndroid.show('A sessão atual expirou', 300);
-
-            removeUserAndToken();
-            break;
-          case 409:
-            setError(message.error);
-            break;
-          default:
-            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
-            break;
+              removeUserAndToken();
+              break;
+            case 409:
+              setError(message.error);
+              break;
+            default:
+              Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
+              break;
+          }
         }
       }
     }
@@ -169,7 +170,7 @@ export const GameEditorScreen = () => {
         type: 'image/jpeg',
       } as unknown);
     }
-
+    
     formData.append('title', data.title);
     formData.append('year', data.year);
     formData.append('price', data.price);
@@ -194,25 +195,26 @@ export const GameEditorScreen = () => {
 
       if (isAxiosError(error)) {
         if (error.code === 'ERR_NETWORK')
-          Alert.alert('Erro de conexão', 'Ocorreu um erro de conexão, tente novamente.');
+          ToastAndroid.show('Ocorreu um erro de conexão, tente novamente.', 400);
+        else {
+          const status = error.response?.status;
+          const message = error.response?.data;
+          switch (status) {
+            case 400:
+              if (message.error === 'Not Authorized')
+                ToastAndroid.show('A sessão atual é inválida', 300);
+              if (message.error == 'Invalid Session')
+                ToastAndroid.show('A sessão atual expirou', 300);
 
-        const status = error.response?.status;
-        const message = error.response?.data;
-        switch (status) {
-          case 400:
-            if (message.error === 'Not Authorized')
-              ToastAndroid.show('A sessão atual é inválida', 300);
-            if (message.error == 'Invalid Session')
-              ToastAndroid.show('A sessão atual expirou', 300);
-
-            removeUserAndToken();
-            break;
-          case 409:
-            setError(message.error);
-            break;
-          default:
-            Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
-            break;
+              removeUserAndToken();
+              break;
+            case 409:
+              setError(message.error);
+              break;
+            default:
+              Alert.alert('Erro', `A tentativa gerou o seguinte erro: ${message.error}`);
+              break;
+          }
         }
       }
     }
