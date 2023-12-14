@@ -203,13 +203,9 @@ export const HomeScreen = () => {
         numColumns={2}
         refreshing={refreshing}
         onRefresh={handleSetRefreshing}
-        columnWrapperStyle={{
-          gap: 8,
-        }}
-        contentContainerStyle={{
-          gap: 8,
-          paddingVertical: 10,
-        }}
+        columnWrapperStyle={{ gap: 8 }}
+        contentContainerStyle={{ gap: 8, paddingVertical: 10 }}
+        style={{ alignSelf: games.length == 1 ? 'flex-start' : 'center' }}
         renderItem={({ item }) => (
           <CardGameDefault
             game={item}

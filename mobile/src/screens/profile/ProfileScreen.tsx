@@ -178,6 +178,7 @@ export const ProfileScreen = () => {
         onRefresh={handleSetRefreshing}
         columnWrapperStyle={{ gap: 8 }}
         contentContainerStyle={{ gap: 8, paddingVertical: 10 }}
+        style={{ alignSelf: userGames.length == 1 ? 'flex-start' : 'center' }}
         renderItem={({ item }) => (
           <CardGameDefault
             game={item.game}
