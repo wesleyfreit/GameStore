@@ -19,7 +19,7 @@ const uploadImg = async (req: Request, res: Response) => {
     if (isValidFileFormat) {
       try {
         const fileId = randomUUID();
-        const fileName = fileId.concat(`-${originalname}`);
+        const fileName = fileId.concat(`.${originalname.split('.').pop()}`);
 
         const directory = req.path.includes('games') ? 'covers/' : 'avatars/';
 

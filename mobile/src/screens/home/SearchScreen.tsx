@@ -137,7 +137,7 @@ export const SearchScreen = () => {
   };
 
   return (
-    <SafeAreaDefault paddingBottom={0}>
+    <SafeAreaDefault paddingVertical={4} paddingBottom={0}>
       <SearchHeader
         toBack={() => navigation.goBack()}
         toSearch={handleSearch}

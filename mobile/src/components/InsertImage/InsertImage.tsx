@@ -17,7 +17,6 @@ export const InsertImage = ({
   control,
   errors,
   setPreview,
-  setImageType,
   preview,
   imageUrl,
 }: InsertImageComponentProps) => {
@@ -34,10 +33,8 @@ export const InsertImage = ({
 
       if (result.assets) {
         const image = result.assets[0].uri as string;
-        const type = result.assets[0].type as string;
 
         setPreview(image);
-        setImageType(type);
         return image;
       }
       setImagErrorMessage({ didCancel: result.didCancel });

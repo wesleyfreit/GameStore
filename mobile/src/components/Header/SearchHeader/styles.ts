@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 8,
-    marginTop: 7,
     justifyContent: 'space-between',
   },
   searchHeaderTextStyle: {

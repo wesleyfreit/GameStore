@@ -86,8 +86,6 @@ export const ProfileScreen = () => {
 
       if (result.assets) {
         const imageUri = result.assets[0].uri as string;
-        const fileName = result.assets[0].uri?.split('/').pop()?.split('_').pop();
-        const fileType = result.assets[0].type;
 
         setModalLoadingVisible(true);
 
@@ -95,8 +93,8 @@ export const ProfileScreen = () => {
 
         formData.append('image', {
           uri: imageUri,
-          name: fileName,
-          type: fileType,
+          name: 'image.jpg',
+          type: 'image/jpeg',
         } as unknown);
 
         const response = await api.patch(`/users/account/avatar/${user?.id}`, formData, {
@@ -120,8 +118,12 @@ export const ProfileScreen = () => {
       if (isAppError) Alert.alert('Error', error.message);
 
       if (isAxiosError(error)) {
+        if (error.code === 'ERR_NETWORK')
+          Alert.alert('Erro de conexão', 'Ocorreu um erro de conexão, tente novamente.');
+
         const message = error.response?.data;
         const status = error.response?.status;
+        console.log(message.error);
         switch (status) {
           case 400:
             if (message.error === 'Not Authorized')
